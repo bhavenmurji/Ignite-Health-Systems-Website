@@ -61,64 +61,71 @@ const testimonials = [
 
 const TestimonialCard = ({ quote, name, company, avatar, type }) => {
   const isLargeCard = type.startsWith("large")
-  const avatarSize = isLargeCard ? 48 : 36
-  const avatarBorderRadius = isLargeCard ? "rounded-[41px]" : "rounded-[30.75px]"
-  const padding = isLargeCard ? "p-6" : "p-[30px]"
+  const avatarSize = isLargeCard ? 48 : 40
+  const avatarBorderRadius = isLargeCard ? "rounded-full" : "rounded-full"
+  const padding = isLargeCard ? "p-8" : "p-6"
 
-  let cardClasses = `flex flex-col justify-between items-start overflow-hidden rounded-[10px] shadow-[0px_2px_4px_rgba(0,0,0,0.08)] relative ${padding}`
+  let cardClasses = `card-testimonial flex flex-col justify-between items-start overflow-hidden relative ${padding} group hover:shadow-xl transition-all duration-300`
   let quoteClasses = ""
   let nameClasses = ""
   let companyClasses = ""
   let backgroundElements = null
   let cardHeight = ""
-  const cardWidth = "w-full md:w-[384px]"
+  const cardWidth = "w-full"
 
   if (type === "large-teal") {
-    cardClasses += " bg-primary"
-    quoteClasses += " text-primary-foreground text-2xl font-medium leading-8"
-    nameClasses += " text-primary-foreground text-base font-normal leading-6"
-    companyClasses += " text-primary-foreground/60 text-base font-normal leading-6"
-    cardHeight = "h-[502px]"
+    cardClasses += " bg-primary group-hover:bg-primary/95"
+    quoteClasses = "heading-4 text-primary-foreground !leading-relaxed mb-6"
+    nameClasses = "body-base text-primary-foreground font-medium"
+    companyClasses = "body-small text-primary-foreground/70"
+    cardHeight = "min-h-[520px]"
     backgroundElements = (
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-30 group-hover:opacity-40 transition-opacity duration-300"
         style={{ backgroundImage: "url('/images/large-card-background.svg')", zIndex: 0 }}
       />
     )
   } else if (type === "large-light") {
-    cardClasses += " bg-[rgba(231,236,235,0.12)]"
-    quoteClasses += " text-foreground text-2xl font-medium leading-8"
-    nameClasses += " text-foreground text-base font-normal leading-6"
-    companyClasses += " text-muted-foreground text-base font-normal leading-6"
-    cardHeight = "h-[502px]"
+    cardClasses += " bg-[rgba(231,236,235,0.12)] group-hover:bg-[rgba(231,236,235,0.16)]"
+    quoteClasses = "heading-4 text-foreground !leading-relaxed mb-6"
+    nameClasses = "body-base text-foreground font-medium"
+    companyClasses = "body-small text-muted-foreground"
+    cardHeight = "min-h-[520px]"
     backgroundElements = (
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-20"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-15 group-hover:opacity-25 transition-opacity duration-300"
         style={{ backgroundImage: "url('/images/large-card-background.svg')", zIndex: 0 }}
       />
     )
   } else {
-    cardClasses += " bg-card outline outline-1 outline-border outline-offset-[-1px]"
-    quoteClasses += " text-foreground/80 text-[17px] font-normal leading-6"
-    nameClasses += " text-foreground text-sm font-normal leading-[22px]"
-    companyClasses += " text-muted-foreground text-sm font-normal leading-[22px]"
-    cardHeight = "h-[244px]"
+    cardClasses += " bg-card/50 group-hover:bg-card/80 border border-card-border"
+    quoteClasses = "body-base text-foreground-muted !leading-relaxed mb-4"
+    nameClasses = "body-small text-foreground font-medium"
+    companyClasses = "body-xs text-muted-foreground"
+    cardHeight = "min-h-[280px]"
   }
 
   return (
-    <div className={`${cardClasses} ${cardWidth} ${cardHeight}`}>
+    <div className={`${cardClasses} ${cardWidth} ${cardHeight} flex flex-col justify-between`}>
       {backgroundElements}
-      <div className={`relative z-10 font-normal break-words ${quoteClasses}`}>{quote}</div>
-      <div className="relative z-10 flex justify-start items-center gap-3">
+      
+      {/* Quote Section with Better Typography */}
+      <div className="relative z-10 flex-1">
+        <blockquote className={`${quoteClasses} break-words`}>
+          "{quote}"
+        </blockquote>
+      </div>
+      
+      {/* Author Section with Enhanced Layout */}
+      <div className="relative z-10 flex items-center gap-4 mt-auto">
         <Image
           src={avatar || "/placeholder.svg"}
           alt={`${name} avatar`}
           width={avatarSize}
           height={avatarSize}
-          className={`w-${avatarSize / 4} h-${avatarSize / 4} ${avatarBorderRadius}`}
-          style={{ border: "1px solid rgba(255, 255, 255, 0.08)" }}
+          className={`${avatarBorderRadius} ring-1 ring-white/10 transition-transform duration-300 group-hover:scale-105`}
         />
-        <div className="flex flex-col justify-start items-start gap-0.5">
+        <div className="flex flex-col gap-1">
           <div className={nameClasses}>{name}</div>
           <div className={companyClasses}>{company}</div>
         </div>
@@ -130,30 +137,43 @@ const TestimonialCard = ({ quote, name, company, avatar, type }) => {
 export function TestimonialGridSection() {
   return (
     <section className="w-full px-5 overflow-hidden flex flex-col justify-start py-6 md:py-8 lg:py-14">
-      <div className="self-stretch py-6 md:py-8 lg:py-14 flex flex-col justify-center items-center gap-2">
-        <div className="flex flex-col justify-start items-center gap-4">
-          <h2 className="text-center text-foreground text-3xl md:text-4xl lg:text-[40px] font-semibold leading-tight md:leading-tight lg:leading-[40px]">
+      {/* Enhanced Section Header */}
+      <div className="self-stretch section-spacing flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center gap-6 max-w-4xl mx-auto">
+          <h2 className="heading-2 text-center">
             Coding made effortless
           </h2>
-          <p className="self-stretch text-center text-muted-foreground text-sm md:text-sm lg:text-base font-medium leading-[18.20px] md:leading-relaxed lg:leading-relaxed">
-            {"Hear how developers ship products faster, collaborate seamlessly,"} <br />{" "}
-            {"and build with confidence using Pointer's powerful AI tools"}
-          </p>
+          <div className="max-w-2xl">
+            <p className="body-large text-center">
+              Hear how developers ship products faster, collaborate seamlessly, and build with confidence using Pointer's powerful AI tools
+            </p>
+          </div>
         </div>
+        
+        {/* Visual Separator */}
+        <div className="divider max-w-xs mx-auto mt-8" />
       </div>
-      <div className="w-full pt-0.5 pb-4 md:pb-6 lg:pb-10 flex flex-col md:flex-row justify-center items-start gap-4 md:gap-4 lg:gap-6 max-w-[1100px] mx-auto">
-        <div className="flex-1 flex flex-col justify-start items-start gap-4 md:gap-4 lg:gap-6">
-          <TestimonialCard {...testimonials[0]} />
-          <TestimonialCard {...testimonials[1]} />
-        </div>
-        <div className="flex-1 flex flex-col justify-start items-start gap-4 md:gap-4 lg:gap-6">
-          <TestimonialCard {...testimonials[2]} />
-          <TestimonialCard {...testimonials[3]} />
-          <TestimonialCard {...testimonials[4]} />
-        </div>
-        <div className="flex-1 flex flex-col justify-start items-start gap-4 md:gap-4 lg:gap-6">
-          <TestimonialCard {...testimonials[5]} />
-          <TestimonialCard {...testimonials[6]} />
+      {/* Enhanced Grid Layout */}
+      <div className="w-full pb-8 md:pb-12 lg:pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+          {/* Column 1 */}
+          <div className="flex flex-col gap-6 md:gap-8">
+            <TestimonialCard {...testimonials[0]} />
+            <TestimonialCard {...testimonials[1]} />
+          </div>
+          
+          {/* Column 2 */}
+          <div className="flex flex-col gap-6 md:gap-8">
+            <TestimonialCard {...testimonials[2]} />
+            <TestimonialCard {...testimonials[3]} />
+            <TestimonialCard {...testimonials[4]} />
+          </div>
+          
+          {/* Column 3 */}
+          <div className="flex flex-col gap-6 md:gap-8">
+            <TestimonialCard {...testimonials[5]} />
+            <TestimonialCard {...testimonials[6]} />
+          </div>
         </div>
       </div>
     </section>
