@@ -51,17 +51,24 @@ const FAQItem = ({ question, answer, isOpen, onToggle }: FAQItemProps) => {
   }
   return (
     <div
-      className={`w-full bg-[rgba(231,236,235,0.08)] shadow-[0px_2px_4px_rgba(0,0,0,0.16)] overflow-hidden rounded-[10px] outline outline-1 outline-border outline-offset-[-1px] transition-all duration-500 ease-out cursor-pointer`}
+      className={`w-full card-enhanced hover:shadow-lg transition-all duration-500 ease-out cursor-pointer group ${isOpen ? 'ring-1 ring-primary/20' : ''}`}
       onClick={handleClick}
     >
-      <div className="w-full px-5 py-[18px] pr-4 flex justify-between items-center gap-5 text-left transition-all duration-300 ease-out">
-        <div className="flex-1 text-foreground text-base font-medium leading-6 break-words">{question}</div>
+      {/* Enhanced Question Header */}
+      <div className="w-full px-6 py-5 flex justify-between items-center gap-6 text-left transition-all duration-300 ease-out">
+        <div className="flex-1">
+          <h3 className="heading-5 text-foreground group-hover:text-foreground transition-colors duration-300">
+            {question}
+          </h3>
+        </div>
         <div className="flex justify-center items-center">
           <ChevronDown
-            className={`w-6 h-6 text-muted-foreground-dark transition-all duration-500 ease-out ${isOpen ? "rotate-180 scale-110" : "rotate-0 scale-100"}`}
+            className={`w-6 h-6 text-muted-foreground group-hover:text-foreground-muted transition-all duration-500 ease-out ${isOpen ? "rotate-180 scale-110 text-primary" : "rotate-0 scale-100"}`}
           />
         </div>
       </div>
+      
+      {/* Enhanced Answer Section */}
       <div
         className={`overflow-hidden transition-all duration-500 ease-out ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}
         style={{
@@ -70,9 +77,11 @@ const FAQItem = ({ question, answer, isOpen, onToggle }: FAQItemProps) => {
         }}
       >
         <div
-          className={`px-5 transition-all duration-500 ease-out ${isOpen ? "pb-[18px] pt-2 translate-y-0" : "pb-0 pt-0 -translate-y-2"}`}
+          className={`px-6 transition-all duration-500 ease-out ${isOpen ? "pb-6 pt-2 translate-y-0" : "pb-0 pt-0 -translate-y-2"}`}
         >
-          <div className="text-foreground/80 text-sm font-normal leading-6 break-words">{answer}</div>
+          <div className="body-base text-foreground-muted leading-relaxed">
+            {answer}
+          </div>
         </div>
       </div>
     </div>
@@ -93,17 +102,24 @@ export function FAQSection() {
   return (
     <section className="w-full pt-[66px] pb-20 md:pb-40 px-5 relative flex flex-col justify-center items-center">
       <div className="w-[300px] h-[500px] absolute top-[150px] left-1/2 -translate-x-1/2 origin-top-left rotate-[-33.39deg] bg-primary/10 blur-[100px] z-0" />
-      <div className="self-stretch pt-8 pb-8 md:pt-14 md:pb-14 flex flex-col justify-center items-center gap-2 relative z-10">
-        <div className="flex flex-col justify-start items-center gap-4">
-          <h2 className="w-full max-w-[435px] text-center text-foreground text-4xl font-semibold leading-10 break-words">
+      {/* Enhanced Section Header */}
+      <div className="self-stretch section-spacing flex flex-col justify-center items-center relative z-10">
+        <div className="flex flex-col items-center gap-6 max-w-4xl mx-auto">
+          <h2 className="heading-2 text-center max-w-[435px]">
             Frequently Asked Questions
           </h2>
-          <p className="self-stretch text-center text-muted-foreground text-sm font-medium leading-[18.20px] break-words">
-            Everything you need to know about Pointer and how it can transform your development workflow
-          </p>
+          <div className="max-w-2xl">
+            <p className="body-large text-center">
+              Everything you need to know about Pointer and how it can transform your development workflow
+            </p>
+          </div>
         </div>
+        
+        {/* Visual Separator */}
+        <div className="divider max-w-xs mx-auto mt-8" />
       </div>
-      <div className="w-full max-w-[600px] pt-0.5 pb-10 flex flex-col justify-start items-start gap-4 relative z-10">
+      {/* Enhanced FAQ List */}
+      <div className="w-full max-w-4xl pt-0.5 pb-12 md:pb-16 flex flex-col gap-6 relative z-10">
         {faqData.map((faq, index) => (
           <FAQItem key={index} {...faq} isOpen={openItems.has(index)} onToggle={() => toggleItem(index)} />
         ))}
