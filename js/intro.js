@@ -153,11 +153,24 @@
             const message = this.messages[Math.floor(Math.random() * this.messages.length)];
             let index = 0;
             
+            // Apply hardware acceleration for smooth text updates
+            this.typewriter.style.willChange = 'contents';
+            this.typewriter.style.transform = 'translateZ(0)';
+            
             const type = () => {
                 if (index < message.length) {
-                    this.typewriter.textContent = message.substring(0, index + 1);
-                    index++;
-                    setTimeout(type, 50);
+                    // Use RAF for smoother animation, especially on mobile
+                    requestAnimationFrame(() => {
+                        this.typewriter.textContent = message.substring(0, index + 1);
+                        index++;
+                        
+                        // Adaptive timing based on device performance
+                        const delay = navigator.hardwareConcurrency <= 2 ? 80 : 50;
+                        setTimeout(type, delay);
+                    });
+                } else {
+                    // Clean up will-change after animation
+                    this.typewriter.style.willChange = 'auto';
                 }
             };
             
