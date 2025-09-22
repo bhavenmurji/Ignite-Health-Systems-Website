@@ -53,12 +53,12 @@
             // Start typewriter effect after logo and title animations
             setTimeout(() => {
                 this.typewriterEffect();
-            }, 2000);
+            }, 1800);
             
-            // End intro after animation completes (extended for better pacing)
+            // End intro after animation completes (optimized timing)
             setTimeout(() => {
                 this.endIntro();
-            }, 4500);
+            }, 4000);
         },
         
         playIntroSound() {
@@ -108,17 +108,21 @@
         },
         
         createParticles() {
-            const particleCount = 20;
+            // Reduce particles on mobile for performance
+            const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 8 : 16;
             const colors = ['#ff6b35', '#ff4500', '#ff8c00'];
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 4 + 's';
-                particle.style.animationDuration = (4 + Math.random() * 2) + 's';
+                particle.style.animationDelay = (Math.random() * 2 + 0.5) + 's';
+                particle.style.animationDuration = (3 + Math.random() * 1.5) + 's';
                 particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.width = particle.style.height = (2 + Math.random() * 4) + 'px';
+                particle.style.width = particle.style.height = (2 + Math.random() * 3) + 'px';
+                particle.style.willChange = 'transform, opacity';
+                particle.style.transform = 'translateZ(0)';
                 
                 this.overlay.appendChild(particle);
             }
@@ -142,6 +146,9 @@
         },
         
         endIntro() {
+            // Prevent multiple calls
+            if (this.overlay.classList.contains('fade-out')) return;
+            
             // Fade out the overlay
             this.overlay.classList.add('fade-out');
             
@@ -157,10 +164,12 @@
                 // Clean up particles
                 const particles = this.overlay.querySelectorAll('.particle');
                 particles.forEach(p => p.remove());
-            }, 1000);
+            }, 600);
             
             // Trigger any page animations
-            this.triggerPageAnimations();
+            setTimeout(() => {
+                this.triggerPageAnimations();
+            }, 300);
         },
         
         triggerPageAnimations() {
@@ -180,6 +189,12 @@
         // Skip intro on click/tap
         skipIntro() {
             if (this.overlay && !this.overlay.classList.contains('fade-out')) {
+                // Clear all timeouts
+                const highestTimeoutId = setTimeout(() => {}, 0);
+                for (let i = 0; i < highestTimeoutId; i++) {
+                    clearTimeout(i);
+                }
+                
                 this.endIntro();
             }
         }
