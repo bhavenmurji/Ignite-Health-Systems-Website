@@ -51,6 +51,8 @@
     <link rel="stylesheet" href="src/styles/mobile-navigation.css" data-critical>
     <link rel="stylesheet" href="css/animation-performance.css" data-critical>
     <link rel="stylesheet" href="css/mobile-fixes.css" data-critical>
+    <!-- Mobile Responsiveness Fixes - Complete mobile optimization (Load before architectural fixes) -->
+    <link rel="stylesheet" href="css/mobile-responsiveness-fixes.css" data-critical>
     <!-- Architectural Fixes - Comprehensive UI overhaul (Load LAST to override conflicts) -->
     <link rel="stylesheet" href="css/architectural-fixes.css" data-critical>
     <!-- Boxicons for icon replacements -->
@@ -58,6 +60,9 @@
     <!-- Performance and Core Web Vitals Optimization -->
     <link rel="preload" href="assets/images/Ignite Logo.png" as="image">
     <link rel="preload" href="assets/images/NeuralNetwork.png" as="image">
+    <link rel="preload" href="src/performance/performance-integration.js" as="script">
+    <link rel="preload" href="src/performance/animation-engine.js" as="script">
+    <link rel="preload" href="src/performance/lazy-loader.js" as="script">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- Structured Data -->
@@ -571,6 +576,10 @@
         </div>
     </footer>
 
+    <!-- Advanced Performance Integration System -->
+    <script type="module" src="src/performance/script-loader-config.js"></script>
+    <script type="module" src="src/performance/performance-integration.js"></script>
+    
     <!-- Scripts with proper loading order -->
     <script>
         // Performance monitoring for Core Web Vitals
@@ -603,6 +612,10 @@
     <script src="js/mobile-optimizations.js" defer></script>
     <!-- Critical mobile fixes -->
     <script src="js/mobile-fixes.js" defer></script>
+    <!-- Enhanced mobile navigation controller -->
+    <script src="js/mobile-navigation.js" defer></script>
+    <!-- Advanced mobile performance optimization -->
+    <script src="js/mobile-performance.js" defer></script>
     <!-- Progressive Web App functionality -->
     <script src="js/pwa-installer.js" defer></script>
     <!-- Performance optimizer loaded first for immediate optimizations -->
@@ -844,6 +857,18 @@
                         }
                     }, 250);
                 }, { passive: true });
+            }
+            
+            // Initialize enhanced mobile navigation system
+            if (typeof MobileNavigationController !== 'undefined') {
+                window.mobileNav = new MobileNavigationController();
+                window.mobileNav.init();
+            }
+            
+            // Initialize mobile performance optimization
+            if (typeof MobilePerformanceOptimizer !== 'undefined') {
+                window.mobilePerformance = new MobilePerformanceOptimizer();
+                window.mobilePerformance.init();
             }
         });
     </script>
