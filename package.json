@@ -1,27 +1,30 @@
 {
-  "name": "ignite-health-systems-root",
+  "name": "ignite-health-systems-website",
   "version": "1.0.0",
-  "private": true,
+  "description": "Ignite Health Systems - Healthcare technology platform website",
+  "main": "index.html",
   "scripts": {
-    "dev": "cd ignite-health-systems && npm run dev",
-    "build": "cd ignite-health-systems && npm run build",
-    "start": "cd ignite-health-systems && npm run start",
-    "deploy": "./scripts/deploy.sh",
-    "deploy:prod": "./scripts/deploy.sh production",
-    "cache:invalidate": "./scripts/cache-invalidate.sh",
-    "monitor": "./scripts/monitor-deployment.sh",
-    "vercel:login": "vercel login",
-    "vercel:deploy": "vercel --prod",
-    "vercel:preview": "vercel",
-    "health:check": "curl -f https://ignite-health-systems.vercel.app || exit 1",
-    "performance:check": "cd ignite-health-systems && npm run build && lighthouse https://ignite-health-systems.vercel.app --output=json --output-path=../lighthouse-report.json",
-    "precommit:check": "cd ignite-health-systems && npm run build"
+    "build": "mkdir -p dist && cp -r *.html css js assets favicon.ico dist/",
+    "serve": "python3 -m http.server 8000",
+    "deploy": "npm run build && git add . && git commit -m 'Deploy website updates' && git push origin main",
+    "clean": "rm -rf dist",
+    "test": "echo 'Testing static site structure' && test -f index.html && test -d css && test -d js && echo 'All tests passed!'",
+    "health:check": "curl -f https://ignitehealthsystems.com || exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bhavenmurji/Ignite-Health-Systems-Website.git"
+  },
+  "keywords": [
+    "healthcare",
+    "technology",
+    "platform",
+    "ignite-health-systems"
+  ],
+  "author": "Bhaven Murji",
+  "license": "MIT",
   "devDependencies": {
-    "lighthouse": "^11.4.0"
+    "live-server": "^1.2.2"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  }
+  "homepage": "https://ignitehealthsystems.com"
 }
