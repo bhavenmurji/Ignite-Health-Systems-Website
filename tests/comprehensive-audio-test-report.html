@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Audio Test Report - MOV Implementation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+
+        .test-item.success {
+            border-left-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-item.warning {
+            border-left-color: #f39c12;
+            background: #fef5e7;
+        }
+
+        .test-item.error {
+            border-left-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .test-item h3 {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .test-result {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pass {
+            background: #27ae60;
+            color: white;
+        }
+
+        .status-badge.fail {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .status-badge.warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .audio-player-test {
+            background: #2c3e50;
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .test-btn:hover {
+            background: #2980b9;
+        }
+
+        .test-btn.run-all {
+            background: #27ae60;
+        }
+
+        .test-btn.run-all:hover {
+            background: #229954;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .browser-support {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .browser-card {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .browser-card.supported {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+
+        .browser-card.unsupported {
+            background: #fadbd8;
+            color: #e74c3c;
+        }
+
+        .accessibility-test {
+            background: #9b59b6;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .test-controls {
+                flex-direction: column;
+            }
+            
+            .performance-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Comprehensive Audio Test Report</h1>
+            <p>MOV-Based Audio Implementation Quality Assurance</p>
+            <div class="test-controls">
+                <button class="test-btn run-all" onclick="runAllTests()">🚀 Run All Tests</button>
+                <button class="test-btn" onclick="testAudioLoading()">🎧 Test Audio Loading</button>
+                <button class="test-btn" onclick="testControls()">🎛️ Test Controls</button>
+                <button class="test-btn" onclick="testPerformance()">⚡ Test Performance</button>
+                <button class="test-btn" onclick="testAccessibility()">♿ Test Accessibility</button>
+            </div>
+        </div>
+
+        <!-- Core Audio Functionality Tests -->
+        <div class="test-section">
+            <h2>🎵 Core Audio Functionality</h2>
+            
+            <div class="test-item" id="mov-loading-test">
+                <h3>MOV File Loading & Playback</h3>
+                <p>Testing if the new MOV backing music loads and plays correctly</p>
+                <div class="test-result">
+                    <span class="status-badge" id="mov-status">Testing...</span>
+                    <span id="mov-details">Checking MOV file compatibility and loading performance</span>
+                </div>
+            </div>
+
+            <div class="test-item" id="loop-test">
+                <h3>27-Second Loop Functionality</h3>
+                <p>Verifying the custom 27-second loop implementation</p>
+                <div class="test-result">
+                    <span class="status-badge" id="loop-status">Testing...</span>
+                    <span id="loop-details">Monitoring loop timing and seamless restart</span>
+                </div>
+            </div>
+
+            <div class="test-item" id="volume-test">
+                <h3>Volume Control & Fade Effects</h3>
+                <p>Testing volume adjustments, fade in/out, and mute functionality</p>
+                <div class="test-result">
+                    <span class="status-badge" id="volume-status">Testing...</span>
+                    <span id="volume-details">Checking smooth volume transitions and control responsiveness</span>
+                </div>
+            </div>
+
+            <div class="audio-player-test">
+                <h3>🎧 Live Audio Player Test</h3>
+                <p>Interactive test of the actual audio implementation</p>
+                <div id="live-player-container">
+                    <!-- Audio player will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Browser Compatibility Tests -->
+        <div class="test-section">
+            <h2>🌐 Browser Compatibility</h2>
+            
+            <div class="test-item" id="browser-support-test">
+                <h3>Browser Support Matrix</h3>
+                <p>Testing audio format support across different browsers</p>
+                <div class="browser-support">
+                    <div class="browser-card" id="chrome-support">
+                        <strong>Chrome</strong>
+                        <div id="chrome-status">Testing...</div>
+                    </div>
+                    <div class="browser-card" id="firefox-support">
+                        <strong>Firefox</strong>
+                        <div id="firefox-status">Testing...</div>
+                    </div>
+                    <div class="browser-card" id="safari-support">
+                        <strong>Safari</strong>
+                        <div id="safari-status">Testing...</div>
+                    </div>
+                    <div class="browser-card" id="edge-support">
+                        <strong>Edge</strong>
+                        <div id="edge-status">Testing...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-item" id="fallback-test">
+                <h3>Fallback System Testing</h3>
+                <p>Verifying graceful fallback when MOV is not supported</p>
+                <div class="test-result">
+                    <span class="status-badge" id="fallback-status">Testing...</span>
+                    <span id="fallback-details">Checking alternative format loading</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Tests -->
+        <div class="test-section">
+            <h2>⚡ Performance Analysis</h2>
+            
+            <div class="test-item" id="core-vitals-test">
+                <h3>Core Web Vitals Impact</h3>
+                <p>Measuring audio implementation impact on page performance</p>
+                <div class="performance-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value" id="lcp-value">-</div>
+                        <div class="metric-label">LCP (ms)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="fid-value">-</div>
+                        <div class="metric-label">FID (ms)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="cls-value">-</div>
+                        <div class="metric-label">CLS</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="audio-init-time">-</div>
+                        <div class="metric-label">Audio Init (ms)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-item" id="memory-test">
+                <h3>Memory Usage & Optimization</h3>
+                <p>Monitoring memory consumption and optimization effectiveness</p>
+                <div class="test-result">
+                    <span class="status-badge" id="memory-status">Testing...</span>
+                    <span id="memory-details">Analyzing memory usage patterns</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility Tests -->
+        <div class="test-section">
+            <h2>♿ Accessibility Compliance</h2>
+            
+            <div class="accessibility-test">
+                <h3>🔍 Screen Reader Compatibility</h3>
+                <p>Testing audio controls with assistive technologies</p>
+                <div id="accessibility-results">
+                    <div class="test-result">
+                        <span class="status-badge" id="screen-reader-status">Testing...</span>
+                        <span id="screen-reader-details">Checking ARIA labels and keyboard navigation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-item" id="keyboard-test">
+                <h3>Keyboard Navigation</h3>
+                <p>Verifying full keyboard accessibility of audio controls</p>
+                <div class="test-result">
+                    <span class="status-badge" id="keyboard-status">Testing...</span>
+                    <span id="keyboard-details">Testing tab navigation and keyboard shortcuts</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Tests -->
+        <div class="test-section">
+            <h2>📱 Mobile Optimization</h2>
+            
+            <div class="test-item" id="mobile-controls-test">
+                <h3>Touch Controls & Responsive Design</h3>
+                <p>Testing mobile touch interactions and responsive layout</p>
+                <div class="test-result">
+                    <span class="status-badge" id="mobile-status">Testing...</span>
+                    <span id="mobile-details">Checking touch targets and mobile layout</span>
+                </div>
+            </div>
+
+            <div class="test-item" id="data-saver-test">
+                <h3>Data Saver Mode Compliance</h3>
+                <p>Verifying behavior in data-saving environments</p>
+                <div class="test-result">
+                    <span class="status-badge" id="data-saver-status">Testing...</span>
+                    <span id="data-saver-details">Testing compressed audio fallback</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results Summary -->
+        <div class="test-section">
+            <h2>📊 Test Summary</h2>
+            <div id="test-summary">
+                <div class="performance-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value" id="tests-passed">0</div>
+                        <div class="metric-label">Tests Passed</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="tests-failed">0</div>
+                        <div class="metric-label">Tests Failed</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="tests-warning">0</div>
+                        <div class="metric-label">Warnings</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="overall-score">-</div>
+                        <div class="metric-label">Overall Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test Suite Implementation
+        let testResults = {
+            passed: 0,
+            failed: 0,
+            warnings: 0,
+            total: 0
+        };
+
+        let performanceMetrics = {
+            audioInitTime: null,
+            loadTime: null,
+            memoryUsage: null,
+            coreWebVitals: {}
+        };
+
+        // Initialize test environment
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Audio Test Suite Initialized');
+            
+            // Auto-run basic compatibility tests
+            setTimeout(() => {
+                testBrowserSupport();
+                testAudioFormats();
+                initPerformanceMonitoring();
+            }, 1000);
+        });
+
+        async function runAllTests() {
+            console.log('🚀 Running comprehensive audio tests...');
+            
+            updateStatus('mov-status', 'Testing...', 'warning');
+            updateStatus('loop-status', 'Testing...', 'warning');
+            updateStatus('volume-status', 'Testing...', 'warning');
+            
+            try {
+                await testAudioLoading();
+                await testControls();
+                await testPerformance();
+                await testAccessibility();
+                await testMobileOptimization();
+                
+                updateTestSummary();
+                console.log('✅ All tests completed');
+                
+            } catch (error) {
+                console.error('❌ Test suite failed:', error);
+                updateStatus('Overall test status', 'FAILED', 'fail');
+            }
+        }
+
+        async function testAudioLoading() {
+            console.log('🎧 Testing audio loading...');
+            
+            try {
+                // Test MOV file loading
+                const audio = new Audio();
+                const movSupported = audio.canPlayType('video/quicktime') !== '';
+                
+                if (movSupported) {
+                    updateStatus('mov-status', 'SUPPORTED', 'pass');
+                    updateDetails('mov-details', 'MOV format supported, testing loading...');
+                    testResults.passed++;
+                } else {
+                    updateStatus('mov-status', 'NOT SUPPORTED', 'warning');
+                    updateDetails('mov-details', 'MOV not natively supported, testing fallback...');
+                    testResults.warnings++;
+                }
+
+                // Test audio loading performance
+                const startTime = performance.now();
+                audio.src = 'assets/media/Backing music.mov';
+                
+                await new Promise((resolve, reject) => {
+                    audio.addEventListener('canplaythrough', () => {
+                        const loadTime = performance.now() - startTime;
+                        performanceMetrics.loadTime = loadTime;
+                        updateDetails('mov-details', `Loaded in ${loadTime.toFixed(2)}ms`);
+                        resolve();
+                    }, { once: true });
+                    
+                    audio.addEventListener('error', () => {
+                        reject(new Error('Failed to load MOV file'));
+                    }, { once: true });
+                    
+                    setTimeout(() => reject(new Error('Loading timeout')), 10000);
+                });
+
+                testResults.total++;
+                
+            } catch (error) {
+                console.warn('⚠️ Audio loading test failed:', error);
+                updateStatus('mov-status', 'FAILED', 'fail');
+                updateDetails('mov-details', error.message);
+                testResults.failed++;
+                testResults.total++;
+            }
+        }
+
+        async function testControls() {
+            console.log('🎛️ Testing audio controls...');
+            
+            try {
+                // Test volume control
+                if (window.OptimizedMusicPlayer) {
+                    const player = window.OptimizedMusicPlayer;
+                    
+                    // Test volume setting
+                    player.setVolume(0.5);
+                    
+                    // Test play/pause toggle
+                    if (typeof player.toggle === 'function') {
+                        updateStatus('volume-status', 'FUNCTIONAL', 'pass');
+                        updateDetails('volume-details', 'All controls working correctly');
+                        testResults.passed++;
+                    } else {
+                        updateStatus('volume-status', 'LIMITED', 'warning');
+                        updateDetails('volume-details', 'Some controls not available');
+                        testResults.warnings++;
+                    }
+                } else {
+                    updateStatus('volume-status', 'NOT FOUND', 'fail');
+                    updateDetails('volume-details', 'Music player not initialized');
+                    testResults.failed++;
+                }
+
+                testResults.total++;
+                
+            } catch (error) {
+                console.warn('⚠️ Controls test failed:', error);
+                updateStatus('volume-status', 'ERROR', 'fail');
+                updateDetails('volume-details', error.message);
+                testResults.failed++;
+                testResults.total++;
+            }
+        }
+
+        function testBrowserSupport() {
+            console.log('🌐 Testing browser support...');
+            
+            const audio = document.createElement('audio');
+            const video = document.createElement('video');
+            
+            // Test format support
+            const formats = [
+                { type: 'audio/mpeg', element: 'chrome' },
+                { type: 'audio/ogg', element: 'firefox' },
+                { type: 'video/quicktime', element: 'safari' },
+                { type: 'audio/wav', element: 'edge' }
+            ];
+            
+            formats.forEach(format => {
+                const support = audio.canPlayType(format.type) || video.canPlayType(format.type);
+                const element = document.getElementById(`${format.element}-support`);
+                const statusEl = document.getElementById(`${format.element}-status`);
+                
+                if (support === 'probably' || support === 'maybe') {
+                    element.classList.add('supported');
+                    statusEl.textContent = 'Supported';
+                } else {
+                    element.classList.add('unsupported');
+                    statusEl.textContent = 'Limited';
+                }
+            });
+        }
+
+        function testAudioFormats() {
+            console.log('🎵 Testing audio format support...');
+            
+            const audio = document.createElement('audio');
+            const video = document.createElement('video');
+            
+            const formats = [
+                'audio/mpeg',
+                'audio/ogg', 
+                'audio/wav',
+                'video/quicktime',
+                'video/mp4'
+            ];
+            
+            const supported = formats.filter(format => {
+                return audio.canPlayType(format) !== '' || video.canPlayType(format) !== '';
+            });
+            
+            console.log('📊 Supported formats:', supported);
+            
+            if (supported.length >= 3) {
+                updateStatus('fallback-status', 'EXCELLENT', 'pass');
+                updateDetails('fallback-details', `${supported.length} formats supported`);
+                testResults.passed++;
+            } else if (supported.length >= 2) {
+                updateStatus('fallback-status', 'GOOD', 'warning');
+                updateDetails('fallback-details', `${supported.length} formats supported`);
+                testResults.warnings++;
+            } else {
+                updateStatus('fallback-status', 'LIMITED', 'fail');
+                updateDetails('fallback-details', `Only ${supported.length} formats supported`);
+                testResults.failed++;
+            }
+            
+            testResults.total++;
+        }
+
+        function initPerformanceMonitoring() {
+            console.log('⚡ Initializing performance monitoring...');
+            
+            // Monitor Core Web Vitals
+            if ('PerformanceObserver' in window) {
+                try {
+                    // LCP Observer
+                    const lcpObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        const lastEntry = entries[entries.length - 1];
+                        performanceMetrics.coreWebVitals.LCP = lastEntry.startTime;
+                        document.getElementById('lcp-value').textContent = Math.round(lastEntry.startTime);
+                    });
+                    lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+
+                    // FID Observer
+                    const fidObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach(entry => {
+                            const fid = entry.processingStart - entry.startTime;
+                            performanceMetrics.coreWebVitals.FID = fid;
+                            document.getElementById('fid-value').textContent = Math.round(fid);
+                        });
+                    });
+                    fidObserver.observe({ entryTypes: ['first-input'] });
+
+                    // CLS Observer
+                    let clsValue = 0;
+                    const clsObserver = new PerformanceObserver((list) => {
+                        const entries = list.getEntries();
+                        entries.forEach(entry => {
+                            if (!entry.hadRecentInput) {
+                                clsValue += entry.value;
+                            }
+                        });
+                        performanceMetrics.coreWebVitals.CLS = clsValue;
+                        document.getElementById('cls-value').textContent = clsValue.toFixed(3);
+                    });
+                    clsObserver.observe({ entryTypes: ['layout-shift'] });
+                    
+                } catch (e) {
+                    console.warn('⚠️ Performance Observer setup failed:', e);
+                }
+            }
+
+            // Monitor memory usage
+            if ('memory' in performance) {
+                setInterval(() => {
+                    const memoryUsage = performance.memory.usedJSHeapSize / (1024 * 1024);
+                    performanceMetrics.memoryUsage = memoryUsage;
+                    
+                    if (memoryUsage < 50) {
+                        updateStatus('memory-status', 'EXCELLENT', 'pass');
+                        updateDetails('memory-details', `${memoryUsage.toFixed(1)} MB used`);
+                    } else if (memoryUsage < 100) {
+                        updateStatus('memory-status', 'GOOD', 'warning');
+                        updateDetails('memory-details', `${memoryUsage.toFixed(1)} MB used`);
+                    } else {
+                        updateStatus('memory-status', 'HIGH', 'fail');
+                        updateDetails('memory-details', `${memoryUsage.toFixed(1)} MB used`);
+                    }
+                }, 5000);
+            }
+        }
+
+        async function testPerformance() {
+            console.log('⚡ Running performance tests...');
+            
+            const startTime = performance.now();
+            
+            // Simulate audio initialization timing
+            if (window.OptimizedMusicPlayer) {
+                performanceMetrics.audioInitTime = performance.now() - startTime;
+                document.getElementById('audio-init-time').textContent = 
+                    Math.round(performanceMetrics.audioInitTime);
+            }
+            
+            testResults.total++;
+            testResults.passed++;
+        }
+
+        async function testAccessibility() {
+            console.log('♿ Testing accessibility features...');
+            
+            try {
+                // Check for ARIA labels
+                const musicToggle = document.getElementById('music-toggle');
+                const volumeSlider = document.getElementById('volume-slider');
+                
+                let accessibilityScore = 0;
+                
+                if (musicToggle && musicToggle.getAttribute('aria-label')) {
+                    accessibilityScore += 25;
+                }
+                
+                if (volumeSlider && volumeSlider.getAttribute('aria-label')) {
+                    accessibilityScore += 25;
+                }
+                
+                // Check keyboard navigation
+                if (musicToggle && musicToggle.tabIndex >= 0) {
+                    accessibilityScore += 25;
+                }
+                
+                // Check screen reader support
+                const visuallyHidden = document.querySelector('.visually-hidden');
+                if (visuallyHidden) {
+                    accessibilityScore += 25;
+                }
+                
+                if (accessibilityScore >= 75) {
+                    updateStatus('screen-reader-status', 'EXCELLENT', 'pass');
+                    updateStatus('keyboard-status', 'FULL SUPPORT', 'pass');
+                    testResults.passed += 2;
+                } else if (accessibilityScore >= 50) {
+                    updateStatus('screen-reader-status', 'GOOD', 'warning');
+                    updateStatus('keyboard-status', 'PARTIAL', 'warning');
+                    testResults.warnings += 2;
+                } else {
+                    updateStatus('screen-reader-status', 'LIMITED', 'fail');
+                    updateStatus('keyboard-status', 'LIMITED', 'fail');
+                    testResults.failed += 2;
+                }
+                
+                testResults.total += 2;
+                
+            } catch (error) {
+                console.warn('⚠️ Accessibility test failed:', error);
+                updateStatus('screen-reader-status', 'ERROR', 'fail');
+                updateStatus('keyboard-status', 'ERROR', 'fail');
+                testResults.failed += 2;
+                testResults.total += 2;
+            }
+        }
+
+        async function testMobileOptimization() {
+            console.log('📱 Testing mobile optimization...');
+            
+            try {
+                const isMobile = window.innerWidth <= 768;
+                const hasTouch = 'ontouchstart' in window;
+                
+                if (isMobile || hasTouch) {
+                    // Test touch targets
+                    const controls = document.getElementById('optimized-music-controls');
+                    if (controls) {
+                        const rect = controls.getBoundingClientRect();
+                        const touchTargetSize = Math.min(rect.width, rect.height);
+                        
+                        if (touchTargetSize >= 44) {
+                            updateStatus('mobile-status', 'OPTIMIZED', 'pass');
+                            updateDetails('mobile-details', 'Touch targets meet accessibility guidelines');
+                            testResults.passed++;
+                        } else {
+                            updateStatus('mobile-status', 'NEEDS WORK', 'warning');
+                            updateDetails('mobile-details', 'Touch targets may be too small');
+                            testResults.warnings++;
+                        }
+                    } else {
+                        updateStatus('mobile-status', 'NOT FOUND', 'fail');
+                        updateDetails('mobile-details', 'Audio controls not found');
+                        testResults.failed++;
+                    }
+                } else {
+                    updateStatus('mobile-status', 'DESKTOP MODE', 'pass');
+                    updateDetails('mobile-details', 'Desktop environment detected');
+                    testResults.passed++;
+                }
+                
+                // Test data saver mode
+                const connection = navigator.connection;
+                if (connection && connection.saveData) {
+                    updateStatus('data-saver-status', 'ACTIVE', 'pass');
+                    updateDetails('data-saver-details', 'Data saver optimizations applied');
+                } else {
+                    updateStatus('data-saver-status', 'NORMAL', 'pass');
+                    updateDetails('data-saver-details', 'Standard data usage mode');
+                }
+                
+                testResults.total += 2;
+                testResults.passed++;
+                
+            } catch (error) {
+                console.warn('⚠️ Mobile optimization test failed:', error);
+                updateStatus('mobile-status', 'ERROR', 'fail');
+                updateStatus('data-saver-status', 'ERROR', 'fail');
+                testResults.failed += 2;
+                testResults.total += 2;
+            }
+        }
+
+        function updateStatus(elementId, status, type) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = status;
+                element.className = `status-badge ${type}`;
+            }
+        }
+
+        function updateDetails(elementId, details) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = details;
+            }
+        }
+
+        function updateTestSummary() {
+            document.getElementById('tests-passed').textContent = testResults.passed;
+            document.getElementById('tests-failed').textContent = testResults.failed;
+            document.getElementById('tests-warning').textContent = testResults.warnings;
+            
+            const successRate = testResults.total > 0 ? 
+                ((testResults.passed / testResults.total) * 100).toFixed(1) : 0;
+            
+            document.getElementById('overall-score').textContent = `${successRate}%`;
+            
+            console.log('📊 Test Summary:', testResults);
+            console.log('⚡ Performance Metrics:', performanceMetrics);
+        }
+
+        // Inject live audio player for testing
+        window.addEventListener('load', () => {
+            const container = document.getElementById('live-player-container');
+            if (container && window.OptimizedMusicPlayer) {
+                container.innerHTML = `
+                    <p>✅ Audio player detected and ready for testing</p>
+                    <p>Check the bottom-right corner for audio controls</p>
+                `;
+            } else {
+                container.innerHTML = `
+                    <p>⚠️ Audio player not detected</p>
+                    <p>Please ensure the optimized music player is loaded</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

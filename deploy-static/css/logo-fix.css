@@ -1,0 +1,62 @@
+/* Logo Fix - Prevent stretching and ensure proper animations */
+
+/* Fix logo stretching */
+.intro-logo-img,
+.logo-img,
+img[src*="Ignite Logo"] {
+    width: auto !important;
+    height: 80px !important;
+    max-width: 80px !important;
+    object-fit: contain !important;
+}
+
+/* Ensure intro animation works */
+.intro-overlay {
+    animation: none !important;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease-out, visibility 1s ease-out;
+}
+
+.intro-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Logo pulse animation */
+.intro-logo {
+    animation: logoPulse 2s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+}
+
+/* Fix navigation logo */
+.navbar .logo-img {
+    height: 40px !important;
+    width: auto !important;
+}
+
+/* Ensure proper fade animation */
+.intro-content {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

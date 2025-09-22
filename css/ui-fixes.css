@@ -1,0 +1,180 @@
+/* UI Fixes for Overlapping Elements */
+
+/* Z-Index Hierarchy System
+   1-10: Base content layers
+   11-50: Cards and overlays
+   51-100: Navigation and dropdowns
+   101-500: Modals and popups
+   501-1000: Critical overlays
+   9000+: System critical (loading screens, etc)
+*/
+
+/* Fix overlapping navigation issues */
+.navbar {
+    position: sticky !important;
+    top: 0;
+    z-index: 100 !important;
+    background: var(--background) !important;
+}
+
+/* Ensure proper stacking context */
+.hero {
+    position: relative;
+    z-index: 1;
+}
+
+.intro-overlay {
+    position: fixed;
+    isolation: isolate;
+}
+
+/* Fix mobile menu overlaps */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        z-index: 101;
+    }
+    
+    .nav-menu {
+        z-index: 99 !important;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Prevent body scroll when mobile menu is open */
+    body.menu-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+    }
+}
+
+/* Fix card and content overlaps */
+.feature-card,
+.solution-card,
+.approach-card,
+.calculator-card {
+    position: relative;
+    z-index: 10;
+    transition: z-index 0.3s ease;
+}
+
+.feature-card:hover,
+.solution-card:hover,
+.approach-card:hover,
+.calculator-card:hover {
+    z-index: 20;
+}
+
+/* Fix button overlaps */
+.btn,
+.btn-primary,
+.btn-outline {
+    position: relative;
+    z-index: 5;
+}
+
+/* Fix footer positioning */
+.footer {
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix any absolute positioned elements */
+[style*="position: absolute"] {
+    z-index: inherit !important;
+}
+
+/* Clear floats and contain layouts */
+.container::after,
+.hero-container::after,
+.nav-container::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Improve layout containment */
+section {
+    contain: layout style;
+    overflow: visible;
+}
+
+/* Fix specific positioning conflicts */
+.hero-visual {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Ensure forms don't overlap */
+form {
+    position: relative;
+    z-index: 15;
+}
+
+/* Fix any transform-related overlaps */
+.card-optimized {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Prevent text selection overlaps */
+::selection {
+    background: rgba(255, 107, 53, 0.3);
+}
+
+/* Fix loading indicators */
+.loading-indicator,
+.progress-bar {
+    position: relative;
+    z-index: 30;
+}
+
+/* Ensure modals are always on top */
+.modal,
+.dialog,
+.popup {
+    z-index: 500 !important;
+}
+
+.modal-backdrop {
+    z-index: 499 !important;
+}
+
+/* Fix any overflow issues causing overlaps */
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
+.overflow-visible {
+    overflow: visible !important;
+}
+
+/* Responsive overflow handling */
+@media (max-width: 480px) {
+    body {
+        overflow-x: hidden;
+    }
+    
+    .container {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+}
+
+/* Performance optimizations to prevent reflow/repaint issues */
+.no-overlap {
+    contain: layout;
+    will-change: auto;
+}
+
+/* Debug helper (remove in production) */
+.debug-overlap {
+    outline: 2px solid red !important;
+    outline-offset: -1px;
+}
