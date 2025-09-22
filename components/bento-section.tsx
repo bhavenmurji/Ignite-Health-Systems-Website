@@ -6,28 +6,33 @@ import EasyDeployment from "./bento/easy-deployment"
 import ParallelCodingAgents from "./bento/parallel-agents" // Updated import
 
 const BentoCard = ({ title, description, Component }) => (
-  <div className="overflow-hidden rounded-2xl border border-white/20 flex flex-col justify-start items-start relative">
-    {/* Background with blur effect */}
+  <div className="card-enhanced overflow-hidden flex flex-col justify-start items-start relative group hover:shadow-lg transition-all duration-300">
+    {/* Enhanced Background with improved blur */}
     <div
-      className="absolute inset-0 rounded-2xl"
+      className="absolute inset-0 rounded-2xl transition-all duration-300 group-hover:backdrop-blur-[12px]"
       style={{
         background: "rgba(231, 236, 235, 0.08)",
-        backdropFilter: "blur(4px)",
-        WebkitBackdropFilter: "blur(4px)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
       }}
     />
-    {/* Additional subtle gradient overlay */}
-    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl" />
+    {/* Enhanced gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-br from-white/8 to-transparent rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
 
-    <div className="self-stretch p-6 flex flex-col justify-start items-start gap-2 relative z-10">
-      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
-        <p className="self-stretch text-foreground text-lg font-normal leading-7">
-          {title} <br />
-          <span className="text-muted-foreground">{description}</span>
+    {/* Enhanced Content Area */}
+    <div className="self-stretch p-6 md:p-8 flex flex-col justify-start items-start relative z-10">
+      <div className="self-stretch flex flex-col justify-start items-start gap-3">
+        <h3 className="heading-5 text-foreground leading-tight">
+          {title}
+        </h3>
+        <p className="body-base text-muted-foreground">
+          {description}
         </p>
       </div>
     </div>
-    <div className="self-stretch h-72 relative -mt-0.5 z-10">
+    
+    {/* Component Area with better spacing */}
+    <div className="self-stretch h-72 relative z-10 -mt-2">
       <Component />
     </div>
   </div>
@@ -71,18 +76,21 @@ export function BentoSection() {
     <section className="w-full px-5 flex flex-col justify-center items-center overflow-visible bg-transparent">
       <div className="w-full py-8 md:py-16 relative flex flex-col justify-start items-start gap-6">
         <div className="w-[547px] h-[938px] absolute top-[614px] left-[80px] origin-top-left rotate-[-33.39deg] bg-primary/10 blur-[130px] z-0" />
-        <div className="self-stretch py-8 md:py-14 flex flex-col justify-center items-center gap-2 z-10">
-          <div className="flex flex-col justify-start items-center gap-4">
-            <h2 className="w-full max-w-[655px] text-center text-foreground text-4xl md:text-6xl font-semibold leading-tight md:leading-[66px]">
+        {/* Enhanced Section Header */}
+        <div className="self-stretch section-spacing flex flex-col justify-center items-center z-10">
+          <div className="flex flex-col justify-start items-center gap-6">
+            <h2 className="heading-1 text-center max-w-[655px]">
               Empower Your Workflow with AI
             </h2>
-            <p className="w-full max-w-[600px] text-center text-muted-foreground text-lg md:text-xl font-medium leading-relaxed">
-              Ask your AI Agent for real-time collaboration, seamless integrations, and actionable insights to
-              streamline your operations.
-            </p>
+            <div className="max-w-[600px]">
+              <p className="body-large text-center">
+                Ask your AI Agent for real-time collaboration, seamless integrations, and actionable insights to streamline your operations.
+              </p>
+            </div>
           </div>
         </div>
-        <div className="self-stretch grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 z-10">
+        {/* Enhanced Grid with Better Spacing */}
+        <div className="self-stretch grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 z-10">
           {cards.map((card) => (
             <BentoCard key={card.title} {...card} />
           ))}
