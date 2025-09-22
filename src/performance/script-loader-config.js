@@ -87,7 +87,8 @@ class IgniteScriptLoader {
         // Medium priority - Load after DOM content loaded
         this.loadQueue.medium = [
             {
-                src: 'js/intro.js',
+                src: 'src/performance/intro-animation-enhanced.js',
+                module: true,
                 async: true,
                 defer: true,
                 condition: () => document.getElementById('intro-overlay') !== null
