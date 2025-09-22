@@ -1,0 +1,27 @@
+{
+  "name": "ignite-health-systems-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd ignite-health-systems && npm run dev",
+    "build": "cd ignite-health-systems && npm run build",
+    "start": "cd ignite-health-systems && npm run start",
+    "deploy": "./scripts/deploy.sh",
+    "deploy:prod": "./scripts/deploy.sh production",
+    "cache:invalidate": "./scripts/cache-invalidate.sh",
+    "monitor": "./scripts/monitor-deployment.sh",
+    "vercel:login": "vercel login",
+    "vercel:deploy": "vercel --prod",
+    "vercel:preview": "vercel",
+    "health:check": "curl -f https://ignite-health-systems.vercel.app || exit 1",
+    "performance:check": "cd ignite-health-systems && npm run build && lighthouse https://ignite-health-systems.vercel.app --output=json --output-path=../lighthouse-report.json",
+    "precommit:check": "cd ignite-health-systems && npm run build"
+  },
+  "devDependencies": {
+    "lighthouse": "^11.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
