@@ -23,36 +23,58 @@ export default function LandingPage() {
             </AnimatedSection>
           </div>
         </main>
+        {/* Enhanced Section Layout with Better Spacing and Visual Separation */}
         <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto px-6 mt-[411px] md:mt-[400px]" delay={0.1}>
           <SocialProof />
         </AnimatedSection>
-        <AnimatedSection id="features-section" className="relative z-10 max-w-[1320px] mx-auto mt-16" delay={0.2}>
+        
+        {/* Features Section with Enhanced Spacing */}
+        <AnimatedSection id="features-section" className="relative z-10 max-w-[1320px] mx-auto" delay={0.2}>
+          <div className="section-divider" />
           <BentoSection />
         </AnimatedSection>
-        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16" delay={0.2}>
+        
+        {/* Large Testimonial with Visual Separation */}
+        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto" delay={0.2}>
+          <div className="section-divider" />
           <LargeTestimonial />
         </AnimatedSection>
+        
+        {/* Pricing Section */}
         <AnimatedSection
           id="pricing-section"
-          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          className="relative z-10 max-w-[1320px] mx-auto"
           delay={0.2}
         >
+          <div className="section-divider" />
           <PricingSection />
         </AnimatedSection>
+        
+        {/* Testimonials Grid with Enhanced Separation */}
         <AnimatedSection
           id="testimonials-section"
-          className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16"
+          className="relative z-10 max-w-[1320px] mx-auto"
           delay={0.2}
         >
+          <div className="section-divider" />
           <TestimonialGridSection />
         </AnimatedSection>
-        <AnimatedSection id="faq-section" className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16" delay={0.2}>
+        
+        {/* FAQ Section */}
+        <AnimatedSection id="faq-section" className="relative z-10 max-w-[1320px] mx-auto" delay={0.2}>
+          <div className="section-divider" />
           <FAQSection />
         </AnimatedSection>
-        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16" delay={0.2}>
+        
+        {/* CTA Section */}
+        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto" delay={0.2}>
+          <div className="section-divider" />
           <CTASection />
         </AnimatedSection>
-        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto mt-8 md:mt-16" delay={0.2}>
+        
+        {/* Footer Section */}
+        <AnimatedSection className="relative z-10 max-w-[1320px] mx-auto" delay={0.2}>
+          <div className="section-divider" />
           <FooterSection />
         </AnimatedSection>
       </div>
