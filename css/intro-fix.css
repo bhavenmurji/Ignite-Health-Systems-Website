@@ -1,0 +1,285 @@
+/**
+ * Ignite Health Systems - Intro Overlay Fixes
+ * Resolves clunky animations and timing issues
+ */
+
+/* Reset intro overlay for clean animation */
+.intro-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: radial-gradient(ellipse at center, #1a0f0a 0%, #0d0d0d 100%) !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1;
+    transition: opacity 0.8s ease-out !important;
+    overflow: hidden !important;
+    /* Remove conflicting properties */
+    contain: none !important;
+    will-change: opacity !important;
+    isolation: auto !important;
+}
+
+/* Ensure content is centered and visible */
+.intro-content {
+    position: relative;
+    z-index: 100000;
+    text-align: center;
+    animation: introFadeIn 0.6s ease-out;
+}
+
+/* Logo animation - faster and smoother */
+.intro-logo {
+    margin-bottom: 2rem;
+    animation: logoSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-logo-img {
+    width: 120px;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.5));
+    animation: logoPulse 2s ease-in-out infinite;
+}
+
+/* Title animation - staggered word appearance */
+.intro-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin: 1rem 0;
+    color: #ffffff;
+    text-shadow: 0 0 40px rgba(255, 107, 53, 0.8);
+    overflow: hidden;
+}
+
+.intro-title .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: wordAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.intro-title .word:nth-child(1) { animation-delay: 0.3s; }
+.intro-title .word:nth-child(2) { animation-delay: 0.5s; }
+.intro-title .word:nth-child(3) { animation-delay: 0.7s; }
+
+/* Typewriter text - smoother appearance */
+.intro-tagline {
+    font-size: 1.2rem;
+    color: #ffb347;
+    margin-top: 1rem;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.typewriter {
+    font-family: 'Inter', monospace;
+    color: #ffb347;
+    text-shadow: 0 0 20px rgba(255, 179, 71, 0.5);
+    animation: typewriterGlow 1s ease-in-out infinite alternate;
+}
+
+.typewriter::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: #ff6b35;
+    margin-left: 2px;
+}
+
+/* Progress bar - visual feedback */
+.intro-progress {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.intro-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #ff6b35, #ffb347);
+    animation: progressFill 4s ease-out forwards;
+}
+
+/* Particles - optimized performance */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: floatUp 4s ease-out forwards;
+    box-shadow: 0 0 10px currentColor;
+}
+
+/* Smooth fade out */
+.intro-overlay.fade-out {
+    opacity: 0 !important;
+    transition: opacity 0.6s ease-out !important;
+}
+
+.intro-overlay.hidden {
+    display: none !important;
+}
+
+/* Animations */
+@keyframes introFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes logoSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes wordAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typewriterGlow {
+    from {
+        text-shadow: 0 0 20px rgba(255, 179, 71, 0.5);
+    }
+    to {
+        text-shadow: 0 0 30px rgba(255, 179, 71, 0.8);
+    }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@keyframes progressFill {
+    to { width: 100%; }
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0);
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) scale(1);
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .intro-title {
+        font-size: 2rem;
+    }
+    
+    .intro-logo-img {
+        width: 80px;
+    }
+    
+    .intro-tagline {
+        font-size: 1rem;
+    }
+    
+    .particle {
+        display: none; /* Disable particles on mobile */
+    }
+    
+    .intro-progress {
+        bottom: 30px;
+        width: 150px;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .intro-overlay {
+        animation: none !important;
+        transition: opacity 0.3s !important;
+    }
+    
+    .intro-logo,
+    .intro-title .word,
+    .typewriter,
+    .particle,
+    .intro-progress::before {
+        animation: none !important;
+    }
+    
+    .intro-title .word {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Skip button for better UX */
+.intro-skip {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: rgba(255, 107, 53, 0.2);
+    border: 1px solid rgba(255, 107, 53, 0.5);
+    color: #ffb347;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    animation: skipAppear 1s ease-out 2s both;
+}
+
+.intro-skip:hover {
+    background: rgba(255, 107, 53, 0.4);
+    transform: translateX(-50%) scale(1.05);
+}
+
+@keyframes skipAppear {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
