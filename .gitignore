@@ -32,9 +32,9 @@ yarn-error.log*
 .env*
 ignite-health-systems/.env*
 
-# vercel
-.vercel
-ignite-health-systems/.vercel
+# vercel (removed - no longer using)
+# .vercel
+# ignite-health-systems/.vercel
 
 # typescript
 *.tsbuildinfo
