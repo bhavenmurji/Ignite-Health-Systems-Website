@@ -1180,10 +1180,8 @@
                     formData.append('cv', cvFile);
                 }
 
-                // Submit to API (configure URL based on environment)
-                const apiUrl = window.location.hostname === 'localhost' 
-                    ? 'http://localhost:3001/api/submit'
-                    : 'https://api.ignitehealthsystems.com/api/submit'; // Update with your production API URL
+                // Submit to n8n webhook for automated email processing
+                const apiUrl = 'https://bhavenmurji.app.n8n.cloud/webhook/ignite-contact-form';
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
