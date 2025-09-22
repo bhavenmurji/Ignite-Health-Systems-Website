@@ -67,6 +67,7 @@ body {
     color: var(--text-primary);
     background: var(--background);
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Container */
@@ -81,15 +82,17 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background: radial-gradient(ellipse at center, rgba(255, 107, 53, 0.1) 0%, rgba(10, 10, 10, 1) 100%);
-    z-index: 100000;
+    z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 1;
-    transition: opacity 1s ease-out;
+    transition: opacity 0.8s ease-out;
+    overflow: hidden;
+    will-change: opacity;
 }
 
 .intro-overlay.fade-out {
@@ -223,6 +226,8 @@ body {
     border-bottom: 1px solid var(--border-light);
     z-index: 1000;
     transition: var(--transition-base);
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .nav-container {
@@ -1035,10 +1040,16 @@ body {
         justify-content: flex-start;
         padding-top: var(--spacing-2xl);
         transition: var(--transition-base);
+        z-index: 999;
+        overflow-y: auto;
+        overflow-x: hidden;
+        transform: translateZ(0);
+        will-change: transform;
     }
     
     .nav-menu.active {
         left: 0;
+        transform: translateX(0) translateZ(0);
     }
     
     .hero-container {
