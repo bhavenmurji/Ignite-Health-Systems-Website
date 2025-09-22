@@ -1,44 +1,94 @@
-/* UI Fixes for Overlapping Elements */
+/* UI Fixes for Overlapping Elements - Comprehensive Z-Index System */
 
-/* Z-Index Hierarchy System
-   1-10: Base content layers
-   11-50: Cards and overlays
-   51-100: Navigation and dropdowns
-   101-500: Modals and popups
-   501-1000: Critical overlays
-   9000+: System critical (loading screens, etc)
+/* STANDARDIZED Z-INDEX HIERARCHY:
+   0: Default/Base layer
+   1-10: Page content and sections
+   11-50: Cards, hover states, and interactive elements
+   51-100: Sticky elements and notifications
+   101-500: Navigation and dropdowns
+   501-999: Modals, dialogs, and popups
+   1000-1999: Navigation bars and headers
+   2000-8999: Reserved for application layers
+   9000-9999: System critical overlays (intro, loading)
+   10000+: Debug and development tools
 */
 
-/* Fix overlapping navigation issues */
+/* Navigation Z-Index Fixes */
 .navbar {
-    position: sticky !important;
+    position: fixed !important;
     top: 0;
-    z-index: 100 !important;
-    background: var(--background) !important;
+    z-index: 1000 !important;
+    isolation: isolate;
+    contain: layout style;
 }
 
-/* Ensure proper stacking context */
+.nav-container {
+    position: relative;
+    z-index: 1001;
+}
+
+.nav-logo {
+    z-index: 1002;
+}
+
+.nav-menu {
+    z-index: 999;
+}
+
+/* Page Content Z-Index Structure */
 .hero {
     position: relative;
-    z-index: 1;
-}
-
-.intro-overlay {
-    position: fixed;
+    z-index: 5;
     isolation: isolate;
 }
 
-/* Fix mobile menu overlaps */
+.hero-content {
+    position: relative;
+    z-index: 6;
+}
+
+.hero-visual {
+    position: relative;
+    z-index: 5;
+}
+
+/* System Critical Overlays */
+.intro-overlay {
+    position: fixed;
+    z-index: 9999 !important;
+    isolation: isolate;
+    contain: layout style paint;
+}
+
+.intro-content {
+    z-index: 10000;
+    position: relative;
+}
+
+.intro-skip {
+    z-index: 10001;
+    position: absolute;
+}
+
+/* Mobile Navigation Z-Index Fixes */
 @media (max-width: 768px) {
     .mobile-menu-toggle {
-        z-index: 101;
+        z-index: 1001;
+        position: relative;
     }
     
     .nav-menu {
-        z-index: 99 !important;
+        z-index: 999 !important;
         max-height: calc(100vh - 70px);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        backdrop-filter: blur(20px);
+        isolation: isolate;
+        contain: layout style;
+    }
+    
+    .nav-menu.active {
+        z-index: 999;
     }
     
     /* Prevent body scroll when mobile menu is open */
@@ -46,32 +96,100 @@
         overflow: hidden;
         position: fixed;
         width: 100%;
+        height: 100%;
+        touch-action: none;
+    }
+    
+    /* Mobile menu backdrop */
+    .nav-menu::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .nav-menu.active::before {
+        opacity: 1;
     }
 }
 
-/* Fix card and content overlaps */
+/* Interactive Cards Z-Index Management */
 .feature-card,
-.solution-card,
-.approach-card,
-.calculator-card {
+.problem-card,
+.testimonial-card,
+.result-card,
+.stat-item {
     position: relative;
-    z-index: 10;
-    transition: z-index 0.3s ease;
+    z-index: 15;
+    isolation: isolate;
+    transition: transform 0.3s ease, z-index 0.1s ease;
 }
 
 .feature-card:hover,
-.solution-card:hover,
-.approach-card:hover,
-.calculator-card:hover {
-    z-index: 20;
+.problem-card:hover,
+.testimonial-card:hover {
+    z-index: 25;
+    transform: translateY(-5px) translateZ(0);
 }
 
-/* Fix button overlaps */
+/* Calculator specific fixes */
+.calculator-container {
+    position: relative;
+    z-index: 20;
+    isolation: isolate;
+}
+
+.calculator-inputs,
+.calculator-results {
+    position: relative;
+    z-index: 21;
+}
+
+.input-group {
+    position: relative;
+    z-index: 22;
+}
+
+/* Button and Interactive Elements */
 .btn,
 .btn-primary,
-.btn-outline {
+.btn-secondary,
+.cta-button {
     position: relative;
-    z-index: 5;
+    z-index: 30;
+    isolation: isolate;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+    z-index: 35;
+}
+
+/* Form elements */
+form {
+    position: relative;
+    z-index: 25;
+    isolation: isolate;
+}
+
+input,
+select,
+textarea {
+    position: relative;
+    z-index: 26;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    z-index: 31;
 }
 
 /* Fix footer positioning */
@@ -135,15 +253,35 @@ form {
     z-index: 30;
 }
 
-/* Ensure modals are always on top */
+/* Modal and Dialog Z-Index */
 .modal,
 .dialog,
 .popup {
-    z-index: 500 !important;
+    z-index: 800 !important;
+    isolation: isolate;
 }
 
 .modal-backdrop {
-    z-index: 499 !important;
+    z-index: 799 !important;
+}
+
+/* Notification Systems */
+.notification,
+.toast,
+.alert {
+    z-index: 700;
+    isolation: isolate;
+}
+
+/* Loading Indicators */
+.loading-overlay {
+    z-index: 900;
+    isolation: isolate;
+}
+
+.progress-bar,
+.spinner {
+    z-index: 901;
 }
 
 /* Fix any overflow issues causing overlaps */
@@ -155,26 +293,128 @@ form {
     overflow: visible !important;
 }
 
-/* Responsive overflow handling */
+/* Mobile Container Overflow Fixes */
+@media (max-width: 768px) {
+    .container,
+    .nav-container,
+    .hero-container,
+    .footer-container {
+        padding-left: clamp(1rem, 4vw, 2rem);
+        padding-right: clamp(1rem, 4vw, 2rem);
+        overflow-x: hidden;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Prevent horizontal scroll on mobile */
+    .hero {
+        overflow-x: hidden;
+        width: 100%;
+    }
+    
+    .hero-stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: visible;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
+
 @media (max-width: 480px) {
     body {
         overflow-x: hidden;
+        width: 100%;
     }
     
     .container {
         max-width: 100%;
         overflow-x: hidden;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Mobile typography scaling */
+    .hero-title {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        line-height: 1.2;
+    }
+    
+    .section-header h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
     }
 }
 
-/* Performance optimizations to prevent reflow/repaint issues */
-.no-overlap {
-    contain: layout;
-    will-change: auto;
+/* Stacking Context Management */
+.create-stacking-context {
+    isolation: isolate;
+    position: relative;
+    z-index: 0;
 }
 
-/* Debug helper (remove in production) */
+/* Footer and bottom elements */
+.footer {
+    position: relative;
+    z-index: 50;
+    isolation: isolate;
+}
+
+/* Proof band and special sections */
+.proof-band,
+.social-proof,
+.final-cta {
+    position: relative;
+    z-index: 10;
+    isolation: isolate;
+}
+
+/* Performance Optimizations */
+.performance-optimized {
+    contain: layout style;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Scroll Performance */
+.navbar,
+.intro-overlay,
+.mobile-menu-toggle {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Reduce Paint Operations */
+section {
+    contain: layout;
+    isolation: isolate;
+}
+
+/* Debug helpers (remove in production) */
 .debug-overlap {
     outline: 2px solid red !important;
     outline-offset: -1px;
+}
+
+.debug-zindex::before {
+    content: attr(data-z-index);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    color: white;
+    padding: 2px 4px;
+    font-size: 10px;
+    z-index: 99999;
+}
+
+/* Print Styles Z-Index Reset */
+@media print {
+    * {
+        z-index: auto !important;
+        position: static !important;
+    }
 }
