@@ -647,24 +647,93 @@
         });
     </script>
     <script>
-        // ROI Calculator
+        // Optimized ROI Calculator with performance enhancements
+        let calculatorUpdateTimeout;
+        const calculatorCache = new Map();
+        
         function updateCalculator() {
-            const patientsPerDay = parseInt(document.getElementById('patients-per-day').value) || 20;
-            const minutesPerNote = parseInt(document.getElementById('minutes-per-note').value) || 15;
-            const workingDays = parseInt(document.getElementById('working-days').value) || 5;
+            // Clear previous timeout for debouncing
+            clearTimeout(calculatorUpdateTimeout);
             
-            const currentMinutesPerWeek = patientsPerDay * minutesPerNote * workingDays;
-            const currentHoursPerWeek = Math.round(currentMinutesPerWeek / 60 * 10) / 10;
+            calculatorUpdateTimeout = setTimeout(() => {
+                const patientsPerDay = parseInt(document.getElementById('patients-per-day').value) || 20;
+                const minutesPerNote = parseInt(document.getElementById('minutes-per-note').value) || 15;
+                const workingDays = parseInt(document.getElementById('working-days').value) || 5;
+                
+                // Check cache first
+                const cacheKey = `${patientsPerDay}-${minutesPerNote}-${workingDays}`;
+                let result = calculatorCache.get(cacheKey);
+                
+                if (!result) {
+                    // Calculate new values
+                    const currentMinutesPerWeek = patientsPerDay * minutesPerNote * workingDays;
+                    const currentHoursPerWeek = Math.round(currentMinutesPerWeek / 60 * 10) / 10;
+                    
+                    const timeReduction = 0.4; // 40% reduction
+                    const timesSavedHours = Math.round(currentHoursPerWeek * timeReduction * 10) / 10;
+                    
+                    const hourlyValue = 200; // Assumed physician hourly value
+                    const monthlySavings = Math.round(timesSavedHours * 4 * hourlyValue);
+                    
+                    result = {
+                        currentHours: currentHoursPerWeek,
+                        savedHours: timesSavedHours,
+                        monthlySavings: monthlySavings
+                    };
+                    
+                    // Cache the result
+                    calculatorCache.set(cacheKey, result);
+                }
+                
+                // Use RAF for smooth UI updates
+                requestAnimationFrame(() => {
+                    animateCalculatorUpdate('current-time', result.currentHours, 'hours/week');
+                    animateCalculatorUpdate('time-saved', result.savedHours, 'hours/week');
+                    animateCalculatorUpdate('monthly-value', result.monthlySavings, 'saved', true);
+                });
+            }, 150); // Debounce updates
+        }
+        
+        function animateCalculatorUpdate(elementId, targetValue, suffix, isDollar = false) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
             
-            const timeReduction = 0.4; // 40% reduction
-            const timesSavedHours = Math.round(currentHoursPerWeek * timeReduction * 10) / 10;
+            const currentValue = parseFloat(element.textContent.replace(/[^\d.]/g, '')) || 0;
+            const difference = Math.abs(targetValue - currentValue);
             
-            const hourlyValue = 200; // Assumed physician hourly value
-            const monthlySavings = Math.round(timesSavedHours * 4 * hourlyValue);
+            // Skip animation for small changes to improve performance
+            if (difference < 0.1) {
+                const displayValue = isDollar 
+                    ? `$${targetValue.toLocaleString()} ${suffix}`
+                    : `${targetValue} ${suffix}`;
+                element.textContent = displayValue;
+                return;
+            }
             
-            document.getElementById('current-time').textContent = `${currentHoursPerWeek} hours/week`;
-            document.getElementById('time-saved').textContent = `${timesSavedHours} hours/week`;
-            document.getElementById('monthly-value').textContent = `$${monthlySavings.toLocaleString()} saved`;
+            // Smooth animation for larger changes
+            const steps = Math.min(20, Math.ceil(difference / 2)); // Adaptive steps
+            const stepValue = (targetValue - currentValue) / steps;
+            let step = 0;
+            
+            function animate() {
+                if (step < steps) {
+                    const value = currentValue + (stepValue * step);
+                    const displayValue = isDollar 
+                        ? `$${Math.round(value).toLocaleString()} ${suffix}`
+                        : `${Math.round(value * 10) / 10} ${suffix}`;
+                    
+                    element.textContent = displayValue;
+                    step++;
+                    requestAnimationFrame(animate);
+                } else {
+                    const finalValue = isDollar 
+                        ? `$${targetValue.toLocaleString()} ${suffix}`
+                        : `${targetValue} ${suffix}`;
+                    element.textContent = finalValue;
+                }
+            }
+            
+            animate();
         }
         
         // Add event listeners
