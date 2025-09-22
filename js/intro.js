@@ -62,45 +62,64 @@
         },
         
         playIntroSound() {
+            // Skip audio on mobile/low-end devices for performance
+            const isMobile = window.innerWidth <= 768;
+            const isLowEnd = navigator.hardwareConcurrency <= 2;
+            
+            if (isMobile || isLowEnd) return;
+            
             // Create a subtle whoosh sound using Web Audio API
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const duration = 2;
+                const duration = 1.5; // Reduced duration for performance
                 
-                // Create white noise
+                // Create white noise with smaller buffer
                 const bufferSize = audioContext.sampleRate * duration;
                 const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
                 const data = buffer.getChannelData(0);
                 
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = (Math.random() * 2 - 1) * 0.05; // Very quiet white noise
-                }
+                // Use RAF for non-blocking noise generation
+                let i = 0;
+                const generateNoise = () => {
+                    const batchSize = 1024; // Process in smaller batches
+                    const end = Math.min(i + batchSize, bufferSize);
+                    
+                    for (; i < end; i++) {
+                        data[i] = (Math.random() * 2 - 1) * 0.03; // Quieter
+                    }
+                    
+                    if (i < bufferSize) {
+                        requestAnimationFrame(generateNoise);
+                    } else {
+                        playGeneratedSound();
+                    }
+                };
                 
-                const whiteNoise = audioContext.createBufferSource();
-                whiteNoise.buffer = buffer;
+                const playGeneratedSound = () => {
+                    const whiteNoise = audioContext.createBufferSource();
+                    whiteNoise.buffer = buffer;
+                    
+                    // Optimized filter chain
+                    const filter = audioContext.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(300, audioContext.currentTime);
+                    filter.frequency.exponentialRampToValueAtTime(1500, audioContext.currentTime + 0.3);
+                    filter.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + duration);
+                    
+                    const gainNode = audioContext.createGain();
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.1);
+                    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration - 0.2);
+                    
+                    whiteNoise.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    whiteNoise.start(audioContext.currentTime);
+                    whiteNoise.stop(audioContext.currentTime + duration);
+                };
                 
-                // Create filter for whoosh effect
-                const filter = audioContext.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(200, audioContext.currentTime);
-                filter.frequency.exponentialRampToValueAtTime(2000, audioContext.currentTime + 0.5);
-                filter.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + duration);
-                
-                // Create gain for fade in/out
-                const gainNode = audioContext.createGain();
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
-                gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + duration - 0.5);
-                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
-                
-                // Connect nodes
-                whiteNoise.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Play sound
-                whiteNoise.start(audioContext.currentTime);
-                whiteNoise.stop(audioContext.currentTime + duration);
+                generateNoise();
             } catch (e) {
                 // Silently fail if audio is not supported
                 console.log('Intro sound not available');
