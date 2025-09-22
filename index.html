@@ -746,57 +746,99 @@
             document.getElementById('minutes-per-note').addEventListener('input', updateCalculator);
             document.getElementById('working-days').addEventListener('input', updateCalculator);
             
-            // Mobile menu toggle with improved handling
+            // Optimized mobile menu toggle with performance improvements
             const mobileToggle = document.querySelector('.mobile-menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
             const body = document.body;
             
             if (mobileToggle && navMenu) {
-                mobileToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const isActive = navMenu.classList.contains('active');
-                    
-                    if (isActive) {
-                        // Close menu
-                        navMenu.classList.remove('active');
-                        mobileToggle.classList.remove('active');
-                        body.style.overflow = '';
-                    } else {
-                        // Open menu
-                        navMenu.classList.add('active');
-                        mobileToggle.classList.add('active');
-                        body.style.overflow = 'hidden';
-                    }
-                });
+                let isAnimating = false;
+                let menuState = false;
                 
-                // Close menu when clicking outside
+                // Apply hardware acceleration immediately
+                if (window.IgnitePerformance && window.IgnitePerformance.applyHardwareAcceleration) {
+                    window.IgnitePerformance.applyHardwareAcceleration(navMenu);
+                    window.IgnitePerformance.applyHardwareAcceleration(mobileToggle);
+                }
+                
+                // Debounced toggle function for performance
+                const toggleMenu = (function() {
+                    let timeout;
+                    return function(e) {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(() => {
+                            if (isAnimating) return;
+                            
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            isAnimating = true;
+                            menuState = !menuState;
+                            
+                            // Use RAF for smooth animations
+                            requestAnimationFrame(() => {
+                                if (menuState) {
+                                    navMenu.classList.add('active');
+                                    mobileToggle.classList.add('active');
+                                    body.style.overflow = 'hidden';
+                                } else {
+                                    navMenu.classList.remove('active');
+                                    mobileToggle.classList.remove('active');
+                                    body.style.overflow = '';
+                                }
+                                
+                                // Reset animation flag
+                                setTimeout(() => {
+                                    isAnimating = false;
+                                }, 300);
+                            });
+                        }, 50); // Debounce delay
+                    };
+                })();
+                
+                mobileToggle.addEventListener('click', toggleMenu, { passive: false });
+                
+                // Optimized close function
+                const closeMenu = function() {
+                    if (menuState && !isAnimating) {
+                        isAnimating = true;
+                        menuState = false;
+                        
+                        requestAnimationFrame(() => {
+                            navMenu.classList.remove('active');
+                            mobileToggle.classList.remove('active');
+                            body.style.overflow = '';
+                            
+                            setTimeout(() => {
+                                isAnimating = false;
+                            }, 300);
+                        });
+                    }
+                };
+                
+                // Use passive listeners for better performance
                 document.addEventListener('click', function(e) {
                     if (!mobileToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                        navMenu.classList.remove('active');
-                        mobileToggle.classList.remove('active');
-                        body.style.overflow = '';
+                        closeMenu();
                     }
-                });
+                }, { passive: true });
                 
-                // Close menu when pressing escape
                 document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileToggle.classList.remove('active');
-                        body.style.overflow = '';
+                    if (e.key === 'Escape' && menuState) {
+                        closeMenu();
                     }
-                });
+                }, { passive: true });
                 
-                // Close menu when window resizes to desktop
+                // Throttled resize handler
+                let resizeTimeout;
                 window.addEventListener('resize', function() {
-                    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileToggle.classList.remove('active');
-                        body.style.overflow = '';
-                    }
-                });
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        if (window.innerWidth > 768 && menuState) {
+                            closeMenu();
+                        }
+                    }, 250);
+                }, { passive: true });
             }
         });
     </script>
