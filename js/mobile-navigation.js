@@ -3,7 +3,7 @@
  * Handles mobile menu interactions, viewport management, and touch optimizations
  */
 
-class MobileNavigation {
+class MobileNavigationController {
     constructor() {
         this.isMenuOpen = false;
         this.isAnimating = false;
