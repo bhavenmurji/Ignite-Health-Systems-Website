@@ -85,7 +85,7 @@
 }
 
 .typewriter::after {
-    content: '|';
+    content: '\007C';
     animation: blink 1s infinite;
     color: #ff6b35;
     margin-left: 2px;

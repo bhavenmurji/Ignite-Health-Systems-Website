@@ -47,6 +47,8 @@
     <link rel="stylesheet" href="css/performance-enhancements.css" data-critical>
     <link rel="stylesheet" href="css/ui-fixes.css" data-critical>
     <link rel="stylesheet" href="css/intro-fix.css" data-critical>
+    <!-- Boxicons for icon replacements -->
+    <link rel="stylesheet" href="assets/Icons/boxicons-2.0.7/css/boxicons.min.css">
     <!-- Performance and Core Web Vitals Optimization -->
     <link rel="preload" href="assets/images/Ignite Logo.png" as="image">
     <link rel="preload" href="assets/images/NeuralNetwork.png" as="image">
@@ -178,7 +180,7 @@
             </div>
             <div class="problem-grid">
                 <div class="problem-card">
-                    <div class="problem-icon">📊</div>
+                    <div class="problem-icon"><i class='bx bx-chart bx-lg'></i></div>
                     <h3>Practice Independence Collapse</h3>
                     <ul>
                         <li><strong>60.1% → 42.2%</strong> private practice ownership (2012-2024)</li>
@@ -188,7 +190,7 @@
                     <p class="citation">Source: AMA 2024 Policy Research Perspective | Physician Practice Characteristics</p>
                 </div>
                 <div class="problem-card">
-                    <div class="problem-icon">⏰</div>
+                    <div class="problem-icon"><i class='bx bx-time-five bx-lg'></i></div>
                     <h3>EHR Time Burden (Validated Research)</h3>
                     <ul>
                         <li><strong>49.2%</strong> of office time spent on EHR and desk work</li>
@@ -198,7 +200,7 @@
                     <p class="citation">Source: Sinsky et al., Ann Intern Med 2016 | JAMA Network Open 2024</p>
                 </div>
                 <div class="problem-card">
-                    <div class="problem-icon">💔</div>
+                    <div class="problem-icon"><i class='bx bx-heart-circle bx-lg'></i></div>
                     <h3>Human Cost</h3>
                     <ul>
                         <li><strong>400+</strong> physician suicides annually</li>
@@ -296,21 +298,21 @@
                     </p>
                     <div class="solution-features">
                         <div class="feature">
-                            <div class="feature-icon">🤖</div>
+                            <div class="feature-icon"><i class='bx bx-bot bx-lg'></i></div>
                             <div class="feature-content">
                                 <h4>Smart Documentation</h4>
                                 <p>AI-powered note generation that captures your clinical voice and reasoning</p>
                             </div>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">⚡</div>
+                            <div class="feature-icon"><i class='bx bx-bolt bx-lg'></i></div>
                             <div class="feature-content">
                                 <h4>Workflow Automation</h4>
                                 <p>Automate repetitive tasks like prior authorizations and prescription refills</p>
                             </div>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">📋</div>
+                            <div class="feature-icon"><i class='bx bx-clipboard bx-lg'></i></div>
                             <div class="feature-content">
                                 <h4>Clinical Decision Support</h4>
                                 <p>Evidence-based recommendations integrated seamlessly into your workflow</p>
@@ -335,7 +337,7 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-header">
-                        <div class="feature-icon">🩺</div>
+                        <div class="feature-icon"><i class='bx bx-health bx-lg'></i></div>
                         <h3>Clinical Intelligence Co-Pilot</h3>
                     </div>
                     <p>Stop clicking—start healing. Your AI co-pilot understands medical reasoning, not just keywords. Finally, technology that thinks like a doctor.</p>
@@ -347,7 +349,7 @@
                 </div>
                 <div class="feature-card">
                     <div class="feature-header">
-                        <div class="feature-icon">🔗</div>
+                        <div class="feature-icon"><i class='bx bx-link bx-lg'></i></div>
                         <h3>Escape the EHR Trap</h3>
                     </div>
                     <p>Your EHR finally works FOR you instead of against you. No more fighting with systems designed by people who've never seen a patient.</p>
@@ -359,7 +361,7 @@
                 </div>
                 <div class="feature-card">
                     <div class="feature-header">
-                        <div class="feature-icon">📊</div>
+                        <div class="feature-icon"><i class='bx bx-line-chart bx-lg'></i></div>
                         <h3>Get Your Weekends Back</h3>
                     </div>
                     <p>See exactly how much time you're saving. Watch your documentation burden melt away while your patient satisfaction soars.</p>
@@ -371,7 +373,7 @@
                 </div>
                 <div class="feature-card">
                     <div class="feature-header">
-                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-icon"><i class='bx bx-shield bx-lg'></i></div>
                         <h3>Built by Doctors Who Understand Risk</h3>
                     </div>
                     <p>We know what's at stake. Enterprise-grade security built by physicians who've seen what happens when systems fail patients.</p>
@@ -494,15 +496,15 @@
                 <p>Join 1,200+ physicians who've discovered the freedom of a true clinical intelligence co-pilot. When your EHR finally works FOR you instead of against you, everything changes.</p>
                 <div class="cta-benefits">
                     <div class="benefit">
-                        <span class="benefit-icon">🚀</span>
+                        <span class="benefit-icon"><i class='bx bx-rocket'></i></span>
                         <span>Early access to the workflow revolution</span>
                     </div>
                     <div class="benefit">
-                        <span class="benefit-icon">🎯</span>
+                        <span class="benefit-icon"><i class='bx bx-target-lock'></i></span>
                         <span>Personal onboarding from physician founders</span>
                     </div>
                     <div class="benefit">
-                        <span class="benefit-icon">⚡</span>
+                        <span class="benefit-icon"><i class='bx bx-bolt'></i></span>
                         <span>Direct line to Dr. Bhaven Murji, MD, MSci</span>
                     </div>
                 </div>
@@ -607,13 +609,13 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
                     .then(reg => {
-                        console.log('✅ Service Worker registered:', reg);
+                        console.log('[SUCCESS] Service Worker registered:', reg);
                         // Check for updates every 10 minutes
                         setInterval(() => {
                             reg.update();
                         }, 600000);
                     })
-                    .catch(err => console.log('❌ Service Worker registration failed:', err));
+                    .catch(err => console.log('[ERROR] Service Worker registration failed:', err));
             });
         }
         
