@@ -1,6 +1,0 @@
-{
-  "buildCommand": "cd ignite-health-systems && npm run build",
-  "outputDirectory": "ignite-health-systems/.next",
-  "framework": "nextjs",
-  "installCommand": "cd ignite-health-systems && npm install"
-}
