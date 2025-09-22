@@ -675,14 +675,58 @@
             document.getElementById('minutes-per-note').addEventListener('input', updateCalculator);
             document.getElementById('working-days').addEventListener('input', updateCalculator);
             
-            // Mobile menu toggle
+            // Mobile menu toggle with improved handling
             const mobileToggle = document.querySelector('.mobile-menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
+            const body = document.body;
             
-            mobileToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                mobileToggle.classList.toggle('active');
-            });
+            if (mobileToggle && navMenu) {
+                mobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isActive = navMenu.classList.contains('active');
+                    
+                    if (isActive) {
+                        // Close menu
+                        navMenu.classList.remove('active');
+                        mobileToggle.classList.remove('active');
+                        body.style.overflow = '';
+                    } else {
+                        // Open menu
+                        navMenu.classList.add('active');
+                        mobileToggle.classList.add('active');
+                        body.style.overflow = 'hidden';
+                    }
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mobileToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        mobileToggle.classList.remove('active');
+                        body.style.overflow = '';
+                    }
+                });
+                
+                // Close menu when pressing escape
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileToggle.classList.remove('active');
+                        body.style.overflow = '';
+                    }
+                });
+                
+                // Close menu when window resizes to desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileToggle.classList.remove('active');
+                        body.style.overflow = '';
+                    }
+                });
+            }
         });
     </script>
     
