@@ -11,31 +11,35 @@
     width: 100vw !important;
     height: 100vh !important;
     background: radial-gradient(ellipse at center, #1a0f0a 0%, #0d0d0d 100%) !important;
-    z-index: 99999 !important;
+    z-index: 10000 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     opacity: 1;
-    transition: opacity 0.8s ease-out !important;
+    transition: opacity 0.6s ease-out !important;
     overflow: hidden !important;
-    /* Remove conflicting properties */
-    contain: none !important;
     will-change: opacity !important;
-    isolation: auto !important;
+    contain: layout style paint !important;
+    isolation: isolate !important;
+    transform: translateZ(0) !important;
 }
 
 /* Ensure content is centered and visible */
 .intro-content {
     position: relative;
-    z-index: 100000;
+    z-index: 10001;
     text-align: center;
-    animation: introFadeIn 0.6s ease-out;
+    animation: introFadeIn 0.8s ease-out 0.2s both;
+    will-change: transform, opacity;
+    transform: translateZ(0);
 }
 
 /* Logo animation - faster and smoother */
 .intro-logo {
     margin-bottom: 2rem;
-    animation: logoSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: logoSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+    will-change: transform, opacity;
+    transform: translateZ(0);
 }
 
 .intro-logo-img {
@@ -62,9 +66,9 @@
     animation: wordAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.intro-title .word:nth-child(1) { animation-delay: 0.3s; }
-.intro-title .word:nth-child(2) { animation-delay: 0.5s; }
-.intro-title .word:nth-child(3) { animation-delay: 0.7s; }
+.intro-title .word:nth-child(1) { animation-delay: 0.6s; }
+.intro-title .word:nth-child(2) { animation-delay: 0.9s; }
+.intro-title .word:nth-child(3) { animation-delay: 1.2s; }
 
 /* Typewriter text - smoother appearance */
 .intro-tagline {
@@ -112,7 +116,9 @@
     height: 100%;
     width: 0;
     background: linear-gradient(90deg, #ff6b35, #ffb347);
-    animation: progressFill 4s ease-out forwards;
+    animation: progressFill 4s ease-out 0.5s forwards;
+    will-change: width;
+    transform: translateZ(0);
 }
 
 /* Particles - optimized performance */
