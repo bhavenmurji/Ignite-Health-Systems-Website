@@ -3,7 +3,9 @@ import { TestimonialCard } from '@/components/TestimonialCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ArrowRight, Check, Zap, Users, Shield, Brain, Clock, Target } from 'lucide-react'
+import { ArrowRight, Check, Clock, Shield, Target, Users, Zap } from 'lucide-react'
+import { Stethoscope, Doctor } from 'healthicons-react/outline'
+import { Neurology } from 'healthicons-react'
 import { Link } from 'wouter'
 import doctorPortrait from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
 
@@ -110,7 +112,7 @@ export default function Home() {
               <Card className="hover-elevate">
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <Brain className="h-6 w-6 text-primary" />
+                    <Neurology className="h-6 w-6 text-primary" />
                     <CardTitle>Chart-Aware</CardTitle>
                   </div>
                   <CardDescription>
@@ -134,7 +136,7 @@ export default function Home() {
               <Card className="hover-elevate">
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <Users className="h-6 w-6 text-primary" />
+                    <Doctor className="h-6 w-6 text-primary" />
                     <CardTitle>Lifelong Learning Partner</CardTitle>
                   </div>
                   <CardDescription>
