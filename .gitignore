@@ -1,0 +1,19 @@
+# Ignore sensitive files and directories
+.env*
+.DS_Store
+node_modules/
+.next/
+.claude/
+.hive-mind/
+.swarm/
+.vercel/
+scripts/
+src/
+docs/
+coordination/
+dist/
+deploy-static/
+public/
+tests/
+__pycache__/
+*.log
