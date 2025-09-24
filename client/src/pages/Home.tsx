@@ -1,5 +1,4 @@
 import { HeroSection } from '@/components/HeroSection'
-import { TestimonialCard } from '@/components/TestimonialCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -8,6 +7,7 @@ import { Stethoscope, Doctor } from 'healthicons-react/outline'
 import { Neurology } from 'healthicons-react'
 import { Link } from 'wouter'
 import doctorPortrait from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
+import rocketVsCar from '@assets/RocketOnHorsevsNewCar_1758754490209.png'
 
 export default function Home() {
   return (
@@ -170,33 +170,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-muted/30">
+      {/* Revolution vs Evolution Section */}
+      <section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center space-y-4 mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                From the Front Lines of Medicine
-              </h2>
-            </div>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                    Stop Bolting Rockets onto Horses
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Legacy healthcare systems are trapped in the past, frantically bolting AI features onto fragmented platforms. It's like strapping a rocket to a horse—impressive engineering, but fundamentally the wrong approach.
+                  </p>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <TestimonialCard
-                quote="Ignite is the only platform that understands that my biggest challenge isn't just documentation—it's the cognitive load of juggling five different systems. It gives me back my focus."
-                author="Dr. Sarah Chen"
-                title="Physician, Direct Primary Care"
-                avatar={doctorPortrait}
-              />
-              <TestimonialCard
-                quote="The idea of an AI that helps me with board prep based on the patients I actually saw this week... that's not just a time-saver, it makes me a fundamentally better doctor. It's a game-changer."
-                author="Dr. Michael Rodriguez"
-                title="Physician, Internal Medicine"
-              />
-              <TestimonialCard
-                quote="We saw an immediate impact. Our physicians are finishing notes in real-time and our administrative overhead has been cut in half. We're a more sustainable practice because of Ignite."
-                author="Dr. Jennifer Walsh"
-                title="Clinic Director, Independent Practice"
-              />
+                <div className="space-y-6">
+                  <div className="border-l-4 border-destructive pl-6">
+                    <h3 className="text-xl font-semibold text-foreground mb-2">The Fragmentation Crisis</h3>
+                    <p className="text-muted-foreground">
+                      Current AI adds speed to broken workflows. You're still context-switching between EMRs, transcription tools, research platforms, and study apps. Even DAX can't see your chart data—you're narrating blindly across disconnected systems.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-6">
+                    <h3 className="text-xl font-semibold text-foreground mb-2">The Evolution Imperative</h3>
+                    <p className="text-muted-foreground">
+                      True transformation requires evolutionary change—not incremental improvements to outdated modes of transport. Just as the automobile didn't improve the horse, next-generation healthcare AI demands a completely new foundation.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <Badge variant="outline" className="text-accent border-accent">
+                    One Unified Intelligence Layer
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="flex justify-center">
+                <div className="relative max-w-lg w-full">
+                  <img 
+                    src={rocketVsCar} 
+                    alt="Legacy systems: Rocket on Horse vs Next-generation: Car with Robots" 
+                    className="w-full h-auto rounded-lg hover-elevate bg-card/50 p-2"
+                    data-testid="image-evolution-analogy"
+                  />
+                  <div className="absolute -bottom-4 left-4 right-4 text-center">
+                    <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur px-4 py-2 rounded-md">
+                      Legacy vs Next-Generation Healthcare Technology
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

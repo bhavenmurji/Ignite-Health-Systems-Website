@@ -8,6 +8,7 @@ import { Header } from "@/components/Header";
 import Home from "@/pages/Home";
 import Platform from "@/pages/Platform";
 import About from "@/pages/About";
+import ProofOfConcept from "@/pages/ProofOfConcept";
 import Episodes from "@/pages/Episodes";
 import EpisodeDetail from "@/pages/EpisodeDetail";
 import Signup from "@/pages/Signup";
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/platform" component={Platform} />
       <Route path="/about" component={About} />
+      <Route path="/proof-of-concept" component={ProofOfConcept} />
       <Route path="/episodes" component={Episodes} />
       <Route path="/episodes/:id" component={EpisodeDetail} />
       <Route path="/signup" component={Signup} />
