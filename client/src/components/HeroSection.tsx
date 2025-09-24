@@ -40,16 +40,10 @@ export function HeroSection() {
               <span className="text-primary">Independent Medicine</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-100 font-medium">
-              The system is broken. Your time is invaluable. Stop the busy-work and get back to healing.
+              plagued by click fatigue? Time to take back control of the clinic from the coders.
             </p>
           </div>
 
-          {/* Description */}
-          <div className="max-w-3xl mx-auto">
-            <p className="text-lg text-gray-200 leading-relaxed">
-              Healthcare technology has failed physicians. Instead of facilitating care, it has created a crisis of documentation, burnout, and fragmentation. Ignite Health Systems is the answer. We are a physician-founded company delivering a revolutionary AI co-pilot that unifies your workflow, eliminates 60% of administrative overhead, and restores the vital time needed for clinical thought and patient connection.
-            </p>
-          </div>
 
           {/* Call to Actions */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
