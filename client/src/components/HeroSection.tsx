@@ -1,26 +1,40 @@
 import { Button } from '@/components/ui/button'
 import { StatCard } from './StatCard'
 import { ArrowRight, Play } from 'lucide-react'
-import heroImage from '@assets/IgniteARevolution_1758739687681.png'
 
 export function HeroSection() {
   return (
-    <div className="relative overflow-hidden">
-      {/* Hero Background with Dark Overlay */}
+    <div className="relative overflow-hidden min-h-screen flex items-center">
+      {/* Dark Geometric Background Pattern */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 bg-gray-900"
         style={{
-          backgroundImage: `url(${heroImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundImage: `
+            linear-gradient(45deg, #1f2937 25%, transparent 25%), 
+            linear-gradient(-45deg, #1f2937 25%, transparent 25%), 
+            linear-gradient(45deg, transparent 75%, #374151 75%), 
+            linear-gradient(-45deg, transparent 75%, #374151 75%)`,
+          backgroundSize: '60px 60px',
+          backgroundPosition: '0 0, 0 30px, 30px -30px, -30px 0px'
         }}
       />
-      {/* Dark wash overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-primary/30" />
-      {/* Flame gradient accent overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/10" />
+      {/* Geometric accent patterns with fiery colors */}
+      <div 
+        className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `
+            linear-gradient(60deg, hsl(15, 85%, 45%) 25%, transparent 25%, transparent 75%, hsl(15, 85%, 45%) 75%), 
+            linear-gradient(120deg, hsl(35, 80%, 50%) 25%, transparent 25%, transparent 75%, hsl(35, 80%, 50%) 75%)`,
+          backgroundSize: '120px 120px',
+          backgroundPosition: '0 0, 60px 60px'
+        }}
+      />
+      {/* Depth effect overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/30" />
+      {/* Subtle animated glow effect */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent animate-pulse" />
       
-      <div className="relative container mx-auto px-4 py-24">
+      <div className="relative container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           {/* Main Headlines */}
           <div className="space-y-4">

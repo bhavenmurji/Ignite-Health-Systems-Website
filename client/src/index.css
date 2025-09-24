@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Background Utilities */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);
