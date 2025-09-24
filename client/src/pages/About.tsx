@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Award, Globe, Users, BookOpen } from 'lucide-react'
 import { Link } from 'wouter'
-import drMurjiImage from '@assets/generated_images/Doctor_Murji_professional_portrait_a7af89e9.png'
+import drMurjiImage from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
 
 export default function About() {
   return (

@@ -1,5 +1,5 @@
 import { TestimonialCard } from '../TestimonialCard'
-import doctorPortrait from '@assets/generated_images/Doctor_portrait_professional_7c0d58c3.png'
+import doctorPortrait from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
 
 export default function TestimonialCardExample() {
   return (

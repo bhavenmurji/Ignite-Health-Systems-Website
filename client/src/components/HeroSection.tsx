@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { StatCard } from './StatCard'
 import { ArrowRight, Play } from 'lucide-react'
-import heroImage from '@assets/generated_images/Healthcare_team_collaboration_d0ca4e12.png'
+import heroImage from '@assets/IgniteARevolution_1758739687681.png'
 
 export function HeroSection() {
   return (

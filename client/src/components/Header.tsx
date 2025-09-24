@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'wouter'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from './ThemeToggle'
-import { Stethoscope, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import igniteLogo from '@assets/Ignite Logo_1758739687681.png'
 
 const navigation = [
   { name: 'Platform', href: '/platform' },
@@ -20,10 +21,12 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" data-testid="link-home">
-            <div className="flex items-center gap-2 hover-elevate px-2 py-1 rounded-md">
-              <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-md">
-                <Stethoscope className="h-5 w-5 text-primary-foreground" />
-              </div>
+            <div className="flex items-center gap-3 hover-elevate px-2 py-1 rounded-md">
+              <img 
+                src={igniteLogo} 
+                alt="Ignite Health Systems Logo" 
+                className="h-8 w-8 object-contain"
+              />
               <span className="font-semibold text-lg">Ignite Health</span>
             </div>
           </Link>
