@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { ThemeToggle } from './ThemeToggle'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
-import igniteLogo from '@assets/Ignite Logo_1758739687681.png'
+import igniteLogo from '@assets/IgniteLogoIsolated_1758748120080.png'
 
 const navigation = [
   { name: 'Platform', href: '/platform' },
@@ -18,16 +18,18 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link href="/" data-testid="link-home">
-            <div className="flex items-center gap-3 hover-elevate px-2 py-1 rounded-md">
+            <div className="flex items-center gap-4 hover-elevate px-3 py-2 rounded-md">
               <img 
                 src={igniteLogo} 
                 alt="Ignite Health Systems Logo" 
-                className="h-8 w-8 object-contain"
+                className="h-12 w-12 object-contain drop-shadow-lg"
               />
-              <span className="font-semibold text-lg">Ignite Health</span>
+              <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Ignite Health
+              </span>
             </div>
           </Link>
 
