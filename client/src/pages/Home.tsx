@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Check, Zap, Users, Shield, Brain, Clock, Target } from 'lucide-react'
 import { Link } from 'wouter'
-import doctorPortrait from '@assets/generated_images/Doctor_portrait_professional_7c0d58c3.png'
+import doctorPortrait from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
 
 export default function Home() {
   return (

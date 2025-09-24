@@ -3,7 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, CheckCircle, XCircle, Monitor, Smartphone, Cloud, Zap } from 'lucide-react'
 import { Link } from 'wouter'
-import dashboardImage from '@assets/generated_images/Healthcare_technology_dashboard_08cf17b9.png'
+import dashboardImage from '@assets/ProofOfConceptFinalVision_1758739687681.png'
+import oldSystemImage from '@assets/OldHospitalITArchitecture_1758739687681.png'
+import neuralNetworkImage from '@assets/NeuralNetwork_1758739687681.png'
 
 export default function Platform() {
   return (
@@ -26,27 +28,74 @@ export default function Platform() {
       <section className="py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center space-y-4 mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                From a Document-Centric Past to an{' '}
+                <span className="text-primary">AI-Native Future</span>
+              </h2>
+            </div>
+            
+            {/* Comparison Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
               <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                  From a Document-Centric Past to an{' '}
-                  <span className="text-primary">AI-Native Future</span>
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  The fundamental problem with healthcare technology is that it was built on the wrong foundation. Today's EMRs are document-centric digital versions of paper charts, designed in the 1990s for billing and compliance. They are not, and have never been, tools for clinical thinking.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Ignite is the clean slate: an AI-native platform built from the ground up to function as a unified clinical intelligence layer.
-                </p>
+                <div className="relative">
+                  <img 
+                    src={oldSystemImage}
+                    alt="Legacy Healthcare IT Systems"
+                    className="rounded-lg shadow-lg w-full opacity-75"
+                    data-testid="img-old-system"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <Badge variant="destructive" className="text-sm">Legacy Systems</Badge>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-foreground">The Old Way</h3>
+                  <p className="text-muted-foreground">
+                    Document-centric EMRs built in the 1990s for billing and compliance. Fragmented, slow, and forcing physicians into endless clicking through disconnected systems.
+                  </p>
+                </div>
               </div>
-              <div className="relative">
+              
+              <div className="space-y-6">
+                <div className="relative">
+                  <img 
+                    src={dashboardImage}
+                    alt="Ignite AI-Native Clinical Platform"
+                    className="rounded-lg shadow-lg w-full"
+                    data-testid="img-platform-dashboard"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <Badge className="text-sm">AI-Native Platform</Badge>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-foreground">The Ignite Way</h3>
+                  <p className="text-muted-foreground">
+                    Unified clinical intelligence layer that enhances human judgment with real-time AI insights, ambient listening, and seamless workflow integration.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Architecture Visual */}
+            <div className="text-center">
+              <div className="relative inline-block">
                 <img 
-                  src={dashboardImage}
-                  alt="Ignite Clinical Dashboard"
-                  className="rounded-lg shadow-lg w-full"
-                  data-testid="img-platform-dashboard"
+                  src={neuralNetworkImage}
+                  alt="Neural Network Architecture"
+                  className="rounded-lg shadow-lg max-w-md mx-auto"
+                  data-testid="img-neural-network"
                 />
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-primary/90 text-primary-foreground">
+                    Mamba-Based Clinical AI
+                  </Badge>
+                </div>
               </div>
+              <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
+                Built on revolutionary Mamba architecture that understands the context and complexity of medical decision-making
+              </p>
             </div>
           </div>
         </div>
