@@ -7,67 +7,67 @@
   background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
 }
 
-/* LIGHT MODE */
+/* DARK THEME - IGNITE BRAND COLORS */
 :root {
-  --button-outline: rgba(0,0,0, .10);
-  --badge-outline: rgba(0,0,0, .05);
+  --button-outline: rgba(22,100,147, .15);
+  --badge-outline: rgba(22,100,147, .10);
 
   /* Automatic computation of border around primary / danger buttons */
-  --opaque-button-border-intensity: -8; /* In terms of percentages */
+  --opaque-button-border-intensity: 8; /* In terms of percentages */
 
   /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(0,0,0, .03);
-  --elevate-2: rgba(0,0,0, .08);
+  --elevate-1: rgba(22,100,147, .08);
+  --elevate-2: rgba(22,100,147, .15);
 
-  --background: 25 8% 96%;
+  --background: 0 0% 0%; /* Pure black */
 
-  --foreground: 25 20% 12%;
+  --foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --border: 25 15% 82%;
+  --border: 207 57% 23%; /* Indigo dye */
 
-  --card: 25 8% 92%;
+  --card: 205 85% 8%; /* Very dark prussian blue */
 
-  --card-foreground: 25 20% 12%;
+  --card-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --card-border: 25 15% 86%;
+  --card-border: 207 57% 23%; /* Indigo dye */
 
-  --sidebar: 25 8% 88%;
+  --sidebar: 0 0% 3%; /* Near black */
 
-  --sidebar-foreground: 25 20% 12%;
+  --sidebar-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --sidebar-border: 25 15% 84%;
+  --sidebar-border: 205 85% 15%; /* Prussian blue */
 
-  --sidebar-primary: 15 85% 45%;
+  --sidebar-primary: 15 85% 45%; /* Orange-red flame */
 
-  --sidebar-primary-foreground: 25 8% 96%;
+  --sidebar-primary-foreground: 0 0% 100%; /* Pure white */
 
-  --sidebar-accent: 25 15% 84%;
+  --sidebar-accent: 207 57% 23%; /* Indigo dye */
 
-  --sidebar-accent-foreground: 25 20% 12%;
+  --sidebar-accent-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --sidebar-ring: 15 85% 45%;
+  --sidebar-ring: 203 74% 33%; /* Lapis lazuli electric blue */
 
-  --popover: 25 8% 88%;
+  --popover: 205 85% 8%; /* Very dark prussian blue */
 
-  --popover-foreground: 25 20% 12%;
+  --popover-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --popover-border: 25 15% 82%;
+  --popover-border: 207 57% 23%; /* Indigo dye */
 
-  --primary: 15 85% 45%;
+  --primary: 15 85% 45%; /* Orange-red flame */
 
-  --primary-foreground: 25 8% 96%;
+  --primary-foreground: 0 0% 100%; /* Pure white */
 
-  --secondary: 25 15% 82%;
+  --secondary: 207 57% 23%; /* Indigo dye */
 
-  --secondary-foreground: 25 20% 12%;
+  --secondary-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --muted: 25 10% 80%;
+  --muted: 205 85% 15%; /* Prussian blue */
 
-  --muted-foreground: 25 25% 40%;
+  --muted-foreground: 203 74% 65%; /* Dimmed electric blue */
 
-  --accent: 35 80% 50%;
+  --accent: 203 74% 33%; /* Lapis lazuli electric blue */
 
-  --accent-foreground: 25 20% 12%;
+  --accent-foreground: 0 0% 100%; /* Pure white */
 
   --destructive: 0 75% 45%;
 
@@ -128,64 +128,65 @@
 }
 
 .dark {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
+  /* Same as root - always dark theme */
+  --button-outline: rgba(22,100,147, .15);
+  --badge-outline: rgba(22,100,147, .10);
 
-  --opaque-button-border-intensity: 9;  /* In terms of percentages */
+  --opaque-button-border-intensity: 8;
 
   /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
+  --elevate-1: rgba(22,100,147, .08);
+  --elevate-2: rgba(22,100,147, .15);
 
-  --background: 15 15% 8%;
+  --background: 0 0% 0%; /* Pure black */
 
-  --foreground: 25 8% 95%;
+  --foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --border: 15 20% 18%;
+  --border: 207 57% 23%; /* Indigo dye */
 
-  --card: 15 15% 12%;
+  --card: 205 85% 8%; /* Very dark prussian blue */
 
-  --card-foreground: 25 8% 95%;
+  --card-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --card-border: 15 20% 20%;
+  --card-border: 207 57% 23%; /* Indigo dye */
 
-  --sidebar: 15 15% 10%;
+  --sidebar: 0 0% 3%; /* Near black */
 
-  --sidebar-foreground: 25 8% 95%;
+  --sidebar-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --sidebar-border: 15 20% 16%;
+  --sidebar-border: 205 85% 15%; /* Prussian blue */
 
-  --sidebar-primary: 15 85% 45%;
+  --sidebar-primary: 15 85% 45%; /* Orange-red flame */
 
-  --sidebar-primary-foreground: 25 8% 96%;
+  --sidebar-primary-foreground: 0 0% 100%; /* Pure white */
 
-  --sidebar-accent: 15 20% 14%;
+  --sidebar-accent: 207 57% 23%; /* Indigo dye */
 
-  --sidebar-accent-foreground: 25 8% 95%;
+  --sidebar-accent-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --sidebar-ring: 15 85% 55%;
+  --sidebar-ring: 203 74% 33%; /* Lapis lazuli electric blue */
 
-  --popover: 15 20% 16%;
+  --popover: 205 85% 8%; /* Very dark prussian blue */
 
-  --popover-foreground: 25 8% 95%;
+  --popover-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --popover-border: 15 20% 24%;
+  --popover-border: 207 57% 23%; /* Indigo dye */
 
-  --primary: 15 85% 45%;
+  --primary: 15 85% 45%; /* Orange-red flame */
 
-  --primary-foreground: 25 8% 96%;
+  --primary-foreground: 0 0% 100%; /* Pure white */
 
-  --secondary: 15 20% 20%;
+  --secondary: 207 57% 23%; /* Indigo dye */
 
-  --secondary-foreground: 25 8% 95%;
+  --secondary-foreground: 203 74% 85%; /* Electric blue tinted white */
 
-  --muted: 15 15% 18%;
+  --muted: 205 85% 15%; /* Prussian blue */
 
-  --muted-foreground: 25 8% 75%;
+  --muted-foreground: 203 74% 65%; /* Dimmed electric blue */
 
-  --accent: 35 80% 50%;
+  --accent: 203 74% 33%; /* Lapis lazuli electric blue */
 
-  --accent-foreground: 15 15% 8%;
+  --accent-foreground: 0 0% 100%; /* Pure white */
 
   --destructive: 0 75% 45%;
 
