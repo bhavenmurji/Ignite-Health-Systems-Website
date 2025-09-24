@@ -29,7 +29,7 @@ export function Header() {
                 className="h-12 w-12 object-contain drop-shadow-lg"
               />
               <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Ignite Health
+                Ignite Health Systems
               </span>
             </div>
           </Link>

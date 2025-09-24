@@ -17,17 +17,6 @@ export function HeroSection() {
       />
       {/* Dark wash overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-primary/30" />
-      {/* Subtle geometric accent overlay */}
-      <div 
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `
-            linear-gradient(60deg, hsl(15, 85%, 45%) 25%, transparent 25%, transparent 75%, hsl(15, 85%, 45%) 75%), 
-            linear-gradient(120deg, hsl(35, 80%, 50%) 25%, transparent 25%, transparent 75%, hsl(35, 80%, 50%) 75%)`,
-          backgroundSize: '120px 120px',
-          backgroundPosition: '0 0, 60px 60px'
-        }}
-      />
       {/* Subtle animated glow effect */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent animate-pulse" />
       
@@ -40,7 +29,7 @@ export function HeroSection() {
               <span className="text-primary">Independent Medicine</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-100 font-medium">
-              plagued by click fatigue? Time to take back control of the clinic from the coders.
+              Plagued by Click Fatigue? Time to take back control of the clinic from the coders.
             </p>
           </div>
 
