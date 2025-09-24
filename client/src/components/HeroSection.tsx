@@ -6,32 +6,36 @@ import heroImage from '@assets/IgniteARevolution_1758739687681.png'
 export function HeroSection() {
   return (
     <div className="relative overflow-hidden">
-      {/* Hero Background */}
+      {/* Hero Background with Dark Overlay */}
       <div 
-        className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-transparent"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(rgba(37, 99, 235, 0.1), rgba(37, 99, 235, 0.05)), url(${heroImage})`,
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       />
+      {/* Dark wash overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-primary/30" />
+      {/* Flame gradient accent overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/10" />
       
       <div className="relative container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           {/* Main Headlines */}
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
               The Clinical Co-pilot for{' '}
               <span className="text-primary">Independent Medicine</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground font-medium">
+            <p className="text-xl md:text-2xl text-gray-100 font-medium">
               The system is broken. Your time is invaluable. Stop the busy-work and get back to healing.
             </p>
           </div>
 
           {/* Description */}
           <div className="max-w-3xl mx-auto">
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg text-gray-200 leading-relaxed">
               Healthcare technology has failed physicians. Instead of facilitating care, it has created a crisis of documentation, burnout, and fragmentation. Ignite Health Systems is the answer. We are a physician-founded company delivering a revolutionary AI co-pilot that unifies your workflow, eliminates 60% of administrative overhead, and restores the vital time needed for clinical thought and patient connection.
             </p>
           </div>
