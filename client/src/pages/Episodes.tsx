@@ -51,7 +51,7 @@ export default function Episodes() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              The Ignite Health Podcast
+              The Ignite Health Systems Podcast
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
               Deep conversations about the future of healthcare technology, physician autonomy, and the movement to restore humanity to medicine.
