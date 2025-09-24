@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ArrowRight, Award, Globe, Users, BookOpen } from 'lucide-react'
+import { ArrowRight, Award, Globe, BookOpen } from 'lucide-react'
+import { Doctor } from 'healthicons-react/outline'
 import { Link } from 'wouter'
 import drMurjiImage from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
 
@@ -122,7 +123,7 @@ export default function About() {
 
               <Card className="hover-elevate text-center">
                 <CardHeader>
-                  <Users className="h-8 w-8 text-primary mx-auto mb-4" />
+                  <Doctor className="h-8 w-8 text-primary mx-auto mb-4" />
                   <CardTitle className="text-lg">COVID Frontlines</CardTitle>
                   <CardDescription>
                     Served on the front lines during the COVID-19 pandemic in the UK
