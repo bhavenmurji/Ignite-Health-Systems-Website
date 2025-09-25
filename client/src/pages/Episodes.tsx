@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Play, Calendar, Clock, Users } from 'lucide-react'
 import { Link } from 'wouter'
+import enhancedLogo from '@assets/IgniteLogoEnhanced_1758759175692.png'
 
 interface Episode {
   id: string
@@ -50,6 +51,16 @@ export default function Episodes() {
       <section className="py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-8">
+            {/* Enhanced Logo */}
+            <div className="flex justify-center mb-8">
+              <img 
+                src={enhancedLogo} 
+                alt="Ignite Health Systems Enhanced Logo with Medical Symbol" 
+                className="h-32 md:h-40 w-auto object-contain"
+                data-testid="img-enhanced-logo"
+              />
+            </div>
+            
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
               The Ignite Health Systems Podcast
             </h1>

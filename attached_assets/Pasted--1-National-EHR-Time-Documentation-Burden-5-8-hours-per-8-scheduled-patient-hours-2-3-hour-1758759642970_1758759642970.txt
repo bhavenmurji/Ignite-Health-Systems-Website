@@ -1,0 +1,85 @@
+### 1. National EHR Time/Documentation Burden
+- **5.8 hours per 8 scheduled patient hours | 2.3 hours documentation**  
+  [National Comparison of Ambulatory Physician Electronic Health Record Use Across Specialties (2024)](https://pmc.ncbi.nlm.nih.gov/articles/PMC11534958/)
+
+### 2. AMIA Task Force Documentation/Burnout
+- **75% of healthcare professionals: documentation impedes care**  
+  [AMIA 25x5 Task Force (2024) Executive Summary](https://amia.org/education-events/amia-25x5-task-force-documentation-burden-reduction)
+
+### 3. 80% of Healthcare Data is Unstructured
+- **Journal of Medical Internet Research | Data unstructured statistic**  
+  [Medical Documentation Burden Among US Office-Based Physicians in 2019: A National Study (2022)](https://pmc.ncbi.nlm.nih.gov/articles/PMC8961402/)
+
+### 4. Physician Burnout
+- **Burnout statistics (JAMA, Harvard)**  
+  [Physician Burnout and the Electronic Health Record (JAMA 2018)](https://jamanetwork.com/journals/jama/fullarticle/2684994)  
+  [Harvard study: Annual cost of $4.6 billion (Annals of Internal Medicine)](https://www.acpjournals.org/doi/10.7326/M18-1422)
+
+### 5. EHR Navigation Time (67%)
+- **Electronic Health Record Documentation Times among Emergency Medicine Trainees**  
+  [EHR Documentation Times (Emergency Medicine)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6341413/)
+
+***
+
+### 6. Epic Market Share
+- **Epic 42.3% control of EHR market**  
+  [KLAS Research: U.S. Hospital EMR Market Share 2022](https://klasresearch.com/report/us-hospital-emr-market-share-2022/3125)
+
+***
+
+### Cited Breakthrough AI Research
+
+#### 7. COMET – Microsoft/Epic Foundation Model
+- **COMET: Largest event-level medical foundation model**  
+  [COMET: Generative Medical Event Models Improve with Scale (Epic & Microsoft, 2025)](https://arxiv.org/abs/2508.12104)
+
+#### 8. Mamba/EHRMamba – Long-sequence Medical AI
+- **EHRMamba scaling + ClinicalMamba**  
+  [Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Gu et al. 2024)](https://arxiv.org/pdf/2312.00752.pdf)  
+  [EHRMamba: Towards Generalizable and Scalable Foundation Models for Electronic Health Records (ML4H 2024)](https://arxiv.org/pdf/2405.14567.pdf)
+
+#### 9. Jet-Nemotron & PostNAS – 53.6x Speedup
+- **Jet-Nemotron: Efficient Language Model with PostNAS**  
+  [Jet-Nemotron: Efficient Language Model with Post Neural Architecture Search (NVIDIA)](https://arxiv.org/pdf/2508.15884.pdf)  
+  [Jet-Nemotron GitHub (when available)](https://github.com/NVlabs/Jet-Nemotron) (Check for updates)
+
+#### 10. Biomni: Multimodal, Reinforcement-Learning AI
+- **Biomni and Multi-Agent AI Tool Frameworks**  
+  *No direct public Git link, but for similar multimodal RL health agents:*  
+  [Multi-Agent Reinforcement Learning for Healthcare](https://arxiv.org/abs/2005.12667)
+
+#### 11. Yuan Zhong – Synthetic EHR Generation for Privacy
+- [Generating synthetic EHRs with randomized event transition distributions (Zhong et al., arXiv)](https://arxiv.org/abs/1910.06888)
+
+#### 12. Uncertainty-Aware Contrastive Decoding (UCD)
+- [Uncertainty-Aware Contrastive Decoding (2024)](https://arxiv.org/abs/2403.04369)
+
+#### 13. Ontology-Grounded RAG (OG-RAG) for Medicine
+- [OG-RAG: Ontology-Grounded Retrieval-Augmented Generation for Medical Advice (Microsoft)](https://arxiv.org/abs/2402.10423)
+
+***
+
+### Other Relevant Data Points and Sources
+
+#### - Direct Primary Care (DPC) Market Size
+- **Market size/membership**  
+  [DPC Alliance Growth Stats](https://www.dpcalliance.org/dpc-growth-statistics)
+
+#### - FDA & CMS AI Policy
+- [FDA Digital Health Innovation Plan](https://www.fda.gov/medical-devices/digital-health-center-excellence/digital-health-innovation-action-plan)
+- [CMS AI Reimbursement Codes (2024 final rule)](https://www.cms.gov/newsroom/fact-sheets/medicare-physician-fee-schedule-payment-policies)
+
+***
+
+### Open-Source and Technical Codebases
+
+#### - Mamba, EHRMamba Implementation
+- [Mamba Official GitHub](https://github.com/state-spaces/mamba)
+- [EHRMamba ML4H GitHub](https://github.com/VectorInstitute/EHRMamba) (Check ML4H author’s profiles for most up-to-date links)
+
+#### - Jet-Nemotron Code (NVIDIA, often released after publication)
+- [Jet-Nemotron GitHub](https://github.com/NVlabs/Jet-Nemotron)
+
+#### - COMET/Healthcare AI Models
+- [COMET/Epic Foundation Model (preprint/GitHub)](https://arxiv.org/abs/2508.12104).
+
