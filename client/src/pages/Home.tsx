@@ -32,7 +32,11 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="hover-elevate">
+              <Card 
+                className="hover-elevate cursor-pointer"
+                onClick={() => window.open('https://jamanetwork.com/journals/jama/fullarticle/2684994', '_blank', 'noopener,noreferrer')}
+                data-testid="card-burnout-statistics"
+              >
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Clock className="h-5 w-5 text-destructive" />
@@ -62,7 +66,11 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="hover-elevate">
+              <Card 
+                className="hover-elevate cursor-pointer"
+                onClick={() => window.open('https://amia.org/education-events/amia-25x5-task-force-documentation-burden-reduction', '_blank', 'noopener,noreferrer')}
+                data-testid="card-solution-urgency"
+              >
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Target className="h-5 w-5 text-primary" />

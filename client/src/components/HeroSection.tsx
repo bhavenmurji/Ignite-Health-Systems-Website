@@ -53,18 +53,21 @@ export function HeroSection() {
               label="Physicians in Private Practice"
               description="A stark decline driven by administrative and financial pressures"
               trend="down"
+              href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8961402/"
             />
             <StatCard
               value="15.4"
               label="Hours/Week on Paperwork"
               description="Time stolen directly from patient care and well-being"
               trend="down"
+              href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8961402/"
             />
             <StatCard
               value="$100,000+"
               label="Annual Revenue Lost"
               description="Per physician due to EMR inefficiencies and documentation burden"
               trend="down"
+              href="https://www.acpjournals.org/doi/10.7326/M18-1422"
             />
           </div>
         </div>
