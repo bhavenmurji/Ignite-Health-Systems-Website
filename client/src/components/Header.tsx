@@ -7,9 +7,9 @@ import igniteLogo from '@assets/IgniteLogoIsolated_1758748120080.png'
 
 const navigation = [
   { name: 'Platform', href: '/platform' },
-  { name: 'About Dr. Murji', href: '/about' },
-  { name: 'Proof of Concept', href: '/proof-of-concept' },
-  { name: 'Episodes', href: '/episodes' },
+  { name: 'Philosophy', href: '/about' },
+  { name: 'Proof', href: '/proof-of-concept' },
+  { name: 'Podcast', href: '/episodes' },
 ]
 
 export function Header() {

@@ -5,6 +5,7 @@ import { ArrowRight, Award, Globe, BookOpen } from 'lucide-react'
 import { Doctor } from 'healthicons-react/outline'
 import { Link } from 'wouter'
 import drMurjiImage from '@assets/ProStock_1758758416506.png'
+import coFounderSearch from '@assets/image_1758758549058.png'
 
 export default function About() {
   return (
@@ -248,6 +249,34 @@ export default function About() {
                     </p>
                   </CardContent>
                 </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Seeking Technical Co-Founder */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+              Seeking Technical Co-Founder
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Join Dr. Murji in building revolutionary Mamba-based clinical AI that understands the context and complexity of medical decision-making. Help create the future of healthcare intelligence.
+            </p>
+            <div className="flex justify-center">
+              <div className="max-w-md w-full">
+                <div className="rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-cofounder-search">
+                  <img 
+                    src={coFounderSearch} 
+                    alt="Co-founder Search - Revolutionary AI Architecture" 
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
+                <div className="text-center mt-4">
+                  <p className="text-sm text-muted-foreground">Revolutionary AI Architecture</p>
+                </div>
               </div>
             </div>
           </div>
