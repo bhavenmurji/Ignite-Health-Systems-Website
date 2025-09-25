@@ -6,7 +6,6 @@ import { useState } from 'react'
 import igniteLogo from '@assets/IgniteLogoIsolated_1758748120080.png'
 
 const navigation = [
-  { name: 'Platform', href: '/platform' },
   { name: 'Philosophy', href: '/about' },
   { name: 'Proof', href: '/proof-of-concept' },
   { name: 'Podcast', href: '/episodes' },
