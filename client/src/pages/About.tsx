@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Award, Globe, BookOpen } from 'lucide-react'
 import { Doctor } from 'healthicons-react/outline'
 import { Link } from 'wouter'
-import drMurjiImage from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
+import drMurjiImage from '@assets/ProStock_1758758416506.png'
 
 export default function About() {
   return (
@@ -31,13 +31,13 @@ export default function About() {
               <div className="space-y-8">
                 <div className="space-y-4">
                   <h2 className="text-3xl font-bold text-foreground">
-                    The Crucible Year: Rebuilding from Nothing
+                    The Transition: Rebuilding from First Principles
                   </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    In 2021, his UK medical career path erased by the pandemic, Dr. Murji arrived in Philadelphia with nothing but a suitcase. In a single, grueling year, he passed all three USMLE licensing exams while simultaneously training for and completing Ironman Maryland.
+                    When the pandemic disrupted his UK medical career path, Dr. Murji found himself starting over in Philadelphia. This transition period required rebuilding his medical credentials while adapting to a new healthcare system.
                   </p>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    To pay his rent, he worked early morning shifts at Starbucks and sold government-subsidized phones on street corners. This period of intense hardship became his crucible, cementing a core philosophy: when systems fail, true change emerges from those willing to rebuild from first principles.
+                    The experience of navigating different healthcare systems and rebuilding his career reinforced a core philosophy: when existing systems fail to serve their purpose, meaningful change comes from those willing to rebuild from first principles rather than accepting broken status quo.
                   </p>
                 </div>
 
@@ -47,12 +47,12 @@ export default function About() {
                     <CardHeader className="pb-3">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <Badge>2021</Badge>
-                        The Crucible Year
+                        Career Transition
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-muted-foreground">
-                        Arrived in Philadelphia with nothing, passed all USMLE exams, completed Ironman Maryland
+                        Relocated to Philadelphia, completed medical licensing requirements for US practice
                       </p>
                     </CardContent>
                   </Card>
@@ -66,7 +66,7 @@ export default function About() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-muted-foreground">
-                        Chief Resident at Virtua Health, Assistant Vice Chair of Graduate Medical Education Committee
+                        Medical residency training with involvement in medical education initiatives
                       </p>
                     </CardContent>
                   </Card>
@@ -80,7 +80,7 @@ export default function About() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-muted-foreground">
-                        Founded Ignite Health Systems to revolutionize healthcare technology and eliminate administrative burden
+                        Founded Ignite Health Systems to address healthcare technology challenges
                       </p>
                     </CardContent>
                   </Card>
