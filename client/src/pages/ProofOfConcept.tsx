@@ -5,7 +5,7 @@ import { Link } from 'wouter'
 import aviationAnalogy from '@assets/CoPilotAnalogy_1758754810597.png'
 import currentHealthcare from '@assets/Computer_1758754810597.png'
 import futureHealthcare from '@assets/CoDoctor_1758754810596.png'
-import proofOfConcept from '@assets/ProofOfConceptFinalVision_1758754810597.png'
+import federatedArchitecture from '@assets/FederatedLocalAndCloudData_1758759175692.png'
 import coFounderSearch from '@assets/image_1758758549058.png'
 
 export default function ProofOfConcept() {
@@ -215,14 +215,14 @@ export default function ProofOfConcept() {
               <div className="flex justify-center order-2 lg:order-1">
                 <div className="relative max-w-lg w-full">
                   <img 
-                    src={proofOfConcept} 
-                    alt="Proof of Concept - Ignite's Unified Healthcare Intelligence" 
+                    src={federatedArchitecture} 
+                    alt="Federated Architecture - Local Patient Data with Cloud-based Agentic Services for Research, Learning, and Clinical Decision Support" 
                     className="w-full h-auto rounded-lg hover-elevate bg-card/50 p-2"
-                    data-testid="image-proof-concept"
+                    data-testid="image-federated-architecture"
                   />
                   <div className="absolute -bottom-4 left-4 right-4 text-center">
                     <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur px-4 py-2 rounded-md">
-                      The Future of Unified Healthcare Intelligence
+                      Federated Local & Cloud Data Architecture
                     </p>
                   </div>
                 </div>
@@ -231,12 +231,12 @@ export default function ProofOfConcept() {
               <div className="space-y-8 order-1 lg:order-2">
                 <div className="space-y-4">
                   <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                    One Unified Intelligence Layer
+                    Federated Architecture: Privacy Meets Intelligence
                   </h2>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    Imagine walking into patient rooms with complete context already synthesized. 
-                    AI captures ambient conversation while accessing full chart history, providing real-time evidence 
-                    and clinical guidelines contextually.
+                    Patient identifying information stays secure in local storage while cloud-based agentic services 
+                    provide research, physician learning, and clinical decision support. This federated approach 
+                    delivers real-time intelligence while maintaining complete data privacy and control.
                   </p>
                 </div>
 
@@ -244,19 +244,19 @@ export default function ProofOfConcept() {
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                     <p className="text-muted-foreground">
-                      <strong className="text-foreground">Zero Clicking:</strong> No more cognitive fragmentation across 7+ platforms
+                      <strong className="text-foreground">Local Data Control:</strong> Patient information never leaves your secure environment
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                     <p className="text-muted-foreground">
-                      <strong className="text-foreground">Invisible Documentation:</strong> Happens seamlessly while you focus on patients
+                      <strong className="text-foreground">Cloud Intelligence:</strong> Agentic services enhance research and clinical decisions
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
                     <p className="text-muted-foreground">
-                      <strong className="text-foreground">Personalized Learning:</strong> AI analyzes daily decisions against evidence-based guidelines
+                      <strong className="text-foreground">Real-time Learning:</strong> Continuous enhancement of physician knowledge and patient care
                     </p>
                   </div>
                 </div>
