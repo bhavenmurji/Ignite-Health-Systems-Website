@@ -215,7 +215,11 @@ export default function ProofOfConcept() {
                 </div>
 
                 <div className="space-y-6">
-                  <Card className="hover-elevate">
+                  <Card 
+                    className="hover-elevate cursor-pointer"
+                    onClick={() => window.open('https://www.acpjournals.org/doi/10.7326/M18-1422', '_blank', 'noopener,noreferrer')}
+                    data-testid="card-physician-burnout"
+                  >
                     <CardContent className="p-6">
                       <h4 className="font-semibold text-foreground mb-2">Physician Burnout Impact</h4>
                       <p className="text-sm text-muted-foreground mb-3">
@@ -227,6 +231,7 @@ export default function ProofOfConcept() {
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="block text-sm text-primary hover:underline"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           Physician Burnout and the Electronic Health Record (JAMA 2018)
                         </a>
@@ -235,6 +240,7 @@ export default function ProofOfConcept() {
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="block text-sm text-primary hover:underline"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           Harvard study: Annual cost analysis (Annals of Internal Medicine)
                         </a>
@@ -242,7 +248,11 @@ export default function ProofOfConcept() {
                     </CardContent>
                   </Card>
 
-                  <Card className="hover-elevate">
+                  <Card 
+                    className="hover-elevate cursor-pointer"
+                    onClick={() => window.open('https://pmc.ncbi.nlm.nih.gov/articles/PMC8961402/', '_blank', 'noopener,noreferrer')}
+                    data-testid="card-unstructured-data"
+                  >
                     <CardContent className="p-6">
                       <h4 className="font-semibold text-foreground mb-2">Unstructured Healthcare Data</h4>
                       <p className="text-sm text-muted-foreground mb-3">
@@ -253,6 +263,7 @@ export default function ProofOfConcept() {
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-sm text-primary hover:underline"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         Medical Documentation Burden Among US Office-Based Physicians (2022)
                       </a>
