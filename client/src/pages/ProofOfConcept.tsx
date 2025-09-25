@@ -6,7 +6,7 @@ import aviationAnalogy from '@assets/CoPilotAnalogy_1758754810597.png'
 import currentHealthcare from '@assets/Computer_1758754810597.png'
 import futureHealthcare from '@assets/CoDoctor_1758754810596.png'
 import proofOfConcept from '@assets/ProofOfConceptFinalVision_1758754810597.png'
-import rocketVsCar from '@assets/RocketOnHorsevsNewCar_1758754810597.png'
+import coFounderSearch from '@assets/image_1758758549058.png'
 
 export default function ProofOfConcept() {
   return (
@@ -83,23 +83,77 @@ export default function ProofOfConcept() {
               </div>
             </div>
 
-            {/* Horse-Rocket Evolution: Text left, Image right */}
+            {/* Old Way vs Ignite Way */}
             <div className="mb-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* The Old Way */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Legacy Systems: Bolting Rockets onto Horses</h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    Current healthcare systems frantically bolt AI features onto ancient, fragmented architectures. It's impressive engineering, but fundamentally the wrong approach. True transformation requires evolutionary change, not incremental improvements to outdated foundations.
-                  </p>
+                  <div className="space-y-4">
+                    <h3 className="text-2xl md:text-3xl font-bold text-foreground">The Old Way</h3>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      Document-centric EMRs built in the 1990s for billing and compliance. Fragmented, slow, and forcing physicians into endless clicking through disconnected systems.
+                    </p>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="max-w-sm w-full">
+                      <div className="aspect-square rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-old-way">
+                        <img 
+                          src={currentHealthcare} 
+                          alt="Document-centric EMRs built in the 1990s - The Fragmented Barrier" 
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      </div>
+                      <div className="text-center mt-2">
+                        <p className="text-sm text-muted-foreground">Document-Centric EMR Workflow</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-center">
-                  <div className="max-w-lg w-full">
-                    <div className="rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-evolution-analogy">
-                      <img 
-                        src={rocketVsCar} 
-                        alt="Legacy systems: Rocket on Horse vs Next-generation: Car with Robots" 
-                        className="w-full h-auto rounded-lg"
-                      />
+
+                {/* The Ignite Way */}
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h3 className="text-2xl md:text-3xl font-bold text-foreground">The Ignite Way</h3>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                      Unified clinical intelligence layer that enhances human judgment with real-time AI insights, ambient listening, and seamless workflow integration.
+                    </p>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="max-w-sm w-full">
+                      <div className="aspect-square rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-ignite-way">
+                        <img 
+                          src={futureHealthcare} 
+                          alt="AI-Native Platform - Unified clinical intelligence layer" 
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      </div>
+                      <div className="text-center mt-2">
+                        <p className="text-sm text-muted-foreground">Neural Network Architecture</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mamba-Based Clinical AI Section */}
+              <div className="mt-12 text-center">
+                <div className="max-w-4xl mx-auto space-y-6">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Mamba-Based Clinical AI</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Built on revolutionary Mamba architecture that understands the context and complexity of medical decision-making.
+                  </p>
+                  <div className="flex justify-center">
+                    <div className="max-w-md w-full">
+                      <div className="rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-cofounder-search">
+                        <img 
+                          src={coFounderSearch} 
+                          alt="Co-founder Search - Revolutionary AI Architecture" 
+                          className="w-full h-auto rounded-lg"
+                        />
+                      </div>
+                      <div className="text-center mt-2">
+                        <p className="text-sm text-muted-foreground">Seeking Technical Co-Founder</p>
+                      </div>
                     </div>
                   </div>
                 </div>
