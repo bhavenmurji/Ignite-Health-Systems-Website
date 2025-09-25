@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Testing Suite - Ignite Health Systems</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .device-simulator {
+            border: 2px solid #333;
+            border-radius: 20px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+        .device-screen {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            height: 500px;
+            overflow-y: auto;
+        }
+        .device-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .device-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .device-button.active {
+            background: #007bff;
+            color: white;
+        }
+        .device-button:not(.active) {
+            background: #e9ecef;
+            color: #495057;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 4px solid #ddd;
+        }
+        .test-result.pass { border-color: #28a745; background: #d4edda; color: #155724; }
+        .test-result.fail { border-color: #dc3545; background: #f8d7da; color: #721c24; }
+        .test-result.warning { border-color: #ffc107; background: #fff3cd; color: #856404; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+        .device-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .touch-area {
+            width: 100%;
+            height: 100px;
+            background: #e9ecef;
+            border: 2px dashed #6c757d;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .touch-area.active {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .orientation-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .orientation-button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .orientation-button.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>📱 Mobile Testing Suite</h1>
+    <p>Comprehensive mobile device testing for Ignite Health Systems website</p>
+
+    <div class="test-container">
+        <h2>Device Simulation Controls</h2>
+        <div class="device-controls">
+            <button class="device-button active" onclick="setDevice('iphone-15')">iPhone 15</button>
+            <button class="device-button" onclick="setDevice('iphone-se')">iPhone SE</button>
+            <button class="device-button" onclick="setDevice('samsung-s24')">Samsung S24</button>
+            <button class="device-button" onclick="setDevice('pixel-7')">Pixel 7</button>
+            <button class="device-button" onclick="setDevice('ipad-air')">iPad Air</button>
+            <button class="device-button" onclick="setDevice('custom')">Custom</button>
+        </div>
+        
+        <div class="orientation-controls">
+            <button class="orientation-button active" onclick="setOrientation('portrait')">Portrait</button>
+            <button class="orientation-button" onclick="setOrientation('landscape')">Landscape</button>
+        </div>
+
+        <button onclick="runMobileTests()">Run Mobile Tests</button>
+        <button onclick="runTouchTests()">Test Touch Interactions</button>
+        <button onclick="runResponsiveTests()">Test Responsive Design</button>
+        <button onclick="runPerformanceTests()">Mobile Performance</button>
+        <button onclick="generateMobileReport()">Generate Report</button>
+    </div>
+
+    <div class="device-simulator" id="device-simulator">
+        <div class="device-screen" id="device-screen">
+            <iframe id="test-iframe" src="about:blank" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+    </div>
+
+    <div id="device-info" class="device-info"></div>
+    <div id="mobile-results"></div>
+
+    <script>
+        class MobileTester {
+            constructor() {
+                this.currentDevice = 'iphone-15';
+                this.currentOrientation = 'portrait';
+                this.testResults = [];
+                this.devices = {
+                    'iphone-15': { width: 393, height: 852, pixelRatio: 3, userAgent: 'iPhone15' },
+                    'iphone-se': { width: 375, height: 667, pixelRatio: 2, userAgent: 'iPhoneSE' },
+                    'samsung-s24': { width: 412, height: 915, pixelRatio: 2.625, userAgent: 'SamsungS24' },
+                    'pixel-7': { width: 412, height: 914, pixelRatio: 2.625, userAgent: 'Pixel7' },
+                    'ipad-air': { width: 820, height: 1180, pixelRatio: 2, userAgent: 'iPadAir' },
+                    'custom': { width: 360, height: 640, pixelRatio: 2, userAgent: 'Custom' }
+                };
+                this.touchEvents = [];
+                this.initializeTouchTracking();
+            }
+
+            setDevice(deviceName) {
+                this.currentDevice = deviceName;
+                this.updateDeviceSimulator();
+                this.updateDeviceInfo();
+                
+                // Update active button
+                document.querySelectorAll('.device-button').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+            }
+
+            setOrientation(orientation) {
+                this.currentOrientation = orientation;
+                this.updateDeviceSimulator();
+                
+                // Update active button
+                document.querySelectorAll('.orientation-button').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+            }
+
+            updateDeviceSimulator() {
+                const device = this.devices[this.currentDevice];
+                const simulator = document.getElementById('device-simulator');
+                
+                let width = device.width;
+                let height = device.height;
+                
+                if (this.currentOrientation === 'landscape') {
+                    [width, height] = [height, width];
+                }
+                
+                simulator.style.width = `${width + 40}px`;
+                simulator.style.height = `${height + 40}px`;
+                
+                const screen = document.getElementById('device-screen');
+                screen.style.width = `${width}px`;
+                screen.style.height = `${height}px`;
+            }
+
+            updateDeviceInfo() {
+                const device = this.devices[this.currentDevice];
+                let width = device.width;
+                let height = device.height;
+                
+                if (this.currentOrientation === 'landscape') {
+                    [width, height] = [height, width];
+                }
+                
+                const info = `
+Device: ${this.currentDevice}
+Orientation: ${this.currentOrientation}
+Viewport: ${width}x${height}
+Pixel Ratio: ${device.pixelRatio}
+User Agent: ${device.userAgent}
+Touch Support: ${this.checkTouchSupport()}
+Screen Resolution: ${screen.width}x${screen.height}
+Available Screen: ${screen.availWidth}x${screen.availHeight}
+Color Depth: ${screen.colorDepth} bits
+                `;
+                
+                document.getElementById('device-info').textContent = info;
+            }
+
+            checkTouchSupport() {
+                return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            }
+
+            initializeTouchTracking() {
+                const testArea = document.createElement('div');
+                testArea.className = 'touch-area';
+                testArea.textContent = 'Touch Test Area - Tap, Swipe, Pinch to Test';
+                testArea.id = 'touch-test-area';
+                
+                // Add touch event listeners
+                testArea.addEventListener('touchstart', this.handleTouchStart.bind(this));
+                testArea.addEventListener('touchmove', this.handleTouchMove.bind(this));
+                testArea.addEventListener('touchend', this.handleTouchEnd.bind(this));
+                
+                // Add mouse events for desktop testing
+                testArea.addEventListener('mousedown', this.handleMouseDown.bind(this));
+                testArea.addEventListener('mousemove', this.handleMouseMove.bind(this));
+                testArea.addEventListener('mouseup', this.handleMouseUp.bind(this));
+                
+                document.getElementById('device-screen').appendChild(testArea);
+            }
+
+            handleTouchStart(e) {
+                this.touchEvents.push({
+                    type: 'touchstart',
+                    timestamp: Date.now(),
+                    touches: e.touches.length,
+                    coordinates: Array.from(e.touches).map(t => ({ x: t.clientX, y: t.clientY }))
+                });
+                e.target.classList.add('active');
+            }
+
+            handleTouchMove(e) {
+                this.touchEvents.push({
+                    type: 'touchmove',
+                    timestamp: Date.now(),
+                    touches: e.touches.length,
+                    coordinates: Array.from(e.touches).map(t => ({ x: t.clientX, y: t.clientY }))
+                });
+            }
+
+            handleTouchEnd(e) {
+                this.touchEvents.push({
+                    type: 'touchend',
+                    timestamp: Date.now(),
+                    touches: e.touches.length
+                });
+                e.target.classList.remove('active');
+            }
+
+            handleMouseDown(e) {
+                this.touchEvents.push({
+                    type: 'mousedown',
+                    timestamp: Date.now(),
+                    coordinates: [{ x: e.clientX, y: e.clientY }]
+                });
+                e.target.classList.add('active');
+            }
+
+            handleMouseMove(e) {
+                if (e.buttons > 0) {
+                    this.touchEvents.push({
+                        type: 'mousemove',
+                        timestamp: Date.now(),
+                        coordinates: [{ x: e.clientX, y: e.clientY }]
+                    });
+                }
+            }
+
+            handleMouseUp(e) {
+                this.touchEvents.push({
+                    type: 'mouseup',
+                    timestamp: Date.now(),
+                    coordinates: [{ x: e.clientX, y: e.clientY }]
+                });
+                e.target.classList.remove('active');
+            }
+
+            runMobileTests() {
+                console.log('📱 Running Mobile Tests...');
+                this.testResults = [];
+                
+                this.testViewportMeta();
+                this.testTouchTargets();
+                this.testReadability();
+                this.testNavigation();
+                this.testFormUsability();
+                this.testImageOptimization();
+                this.testLoadTime();
+                
+                this.displayResults();
+            }
+
+            testViewportMeta() {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                const hasViewport = viewport !== null;
+                const hasProperContent = viewport && viewport.content.includes('width=device-width');
+                
+                this.addResult(
+                    'Viewport Meta Tag',
+                    hasViewport && hasProperContent,
+                    hasViewport && hasProperContent ? 
+                        'Proper viewport meta tag found' : 
+                        'Missing or improper viewport meta tag',
+                    hasViewport && hasProperContent ? 'pass' : 'fail'
+                );
+            }
+
+            testTouchTargets() {
+                const buttons = document.querySelectorAll('button, a, input[type="button"], input[type="submit"]');
+                let smallTargets = 0;
+                const minSize = 44; // 44px minimum touch target size
+                
+                buttons.forEach(button => {
+                    const rect = button.getBoundingClientRect();
+                    if (rect.width < minSize || rect.height < minSize) {
+                        smallTargets++;
+                    }
+                });
+                
+                this.addResult(
+                    'Touch Target Size',
+                    smallTargets === 0,
+                    smallTargets === 0 ? 
+                        'All touch targets are appropriately sized' : 
+                        `${smallTargets} touch targets are too small (< 44px)`,
+                    smallTargets === 0 ? 'pass' : 'warning'
+                );
+            }
+
+            testReadability() {
+                const textElements = document.querySelectorAll('p, span, div, h1, h2, h3, h4, h5, h6');
+                let smallText = 0;
+                const minFontSize = 16; // 16px minimum for mobile
+                
+                textElements.forEach(element => {
+                    const fontSize = parseFloat(window.getComputedStyle(element).fontSize);
+                    if (fontSize < minFontSize && element.textContent.trim().length > 0) {
+                        smallText++;
+                    }
+                });
+                
+                this.addResult(
+                    'Text Readability',
+                    smallText < 5,
+                    smallText < 5 ? 
+                        'Text is appropriately sized for mobile' : 
+                        `${smallText} elements have text smaller than 16px`,
+                    smallText < 5 ? 'pass' : 'warning'
+                );
+            }
+
+            testNavigation() {
+                const mobileMenu = document.querySelector('.mobile-menu-toggle, .hamburger, .menu-toggle');
+                const hasHamburger = mobileMenu !== null;
+                
+                this.addResult(
+                    'Mobile Navigation',
+                    hasHamburger,
+                    hasHamburger ? 
+                        'Mobile navigation menu found' : 
+                        'No mobile navigation menu detected',
+                    hasHamburger ? 'pass' : 'fail'
+                );
+                
+                // Test navigation spacing
+                const navLinks = document.querySelectorAll('nav a, .nav-link');
+                let poorlySpaced = 0;
+                const minSpacing = 44;
+                
+                navLinks.forEach(link => {
+                    const rect = link.getBoundingClientRect();
+                    if (rect.height < minSpacing) {
+                        poorlySpaced++;
+                    }
+                });
+                
+                this.addResult(
+                    'Navigation Spacing',
+                    poorlySpaced === 0,
+                    poorlySpaced === 0 ? 
+                        'Navigation links are properly spaced' : 
+                        `${poorlySpaced} navigation links have insufficient spacing`,
+                    poorlySpaced === 0 ? 'pass' : 'warning'
+                );
+            }
+
+            testFormUsability() {
+                const inputs = document.querySelectorAll('input, textarea, select');
+                let mobileOptimized = 0;
+                
+                inputs.forEach(input => {
+                    const rect = input.getBoundingClientRect();
+                    const hasLabel = input.labels && input.labels.length > 0;
+                    const hasPlaceholder = input.hasAttribute('placeholder');
+                    const hasProperType = input.type !== 'text' || input.hasAttribute('inputmode');
+                    
+                    if (rect.height >= 44 && (hasLabel || hasPlaceholder) && hasProperType) {
+                        mobileOptimized++;
+                    }
+                });
+                
+                this.addResult(
+                    'Form Mobile Usability',
+                    inputs.length === 0 || mobileOptimized === inputs.length,
+                    inputs.length === 0 ? 
+                        'No forms to test' : 
+                        `${mobileOptimized}/${inputs.length} form elements are mobile-optimized`,
+                    inputs.length === 0 || mobileOptimized === inputs.length ? 'pass' : 'warning'
+                );
+            }
+
+            testImageOptimization() {
+                const images = document.querySelectorAll('img');
+                let optimizedImages = 0;
+                
+                images.forEach(img => {
+                    const hasAlt = img.hasAttribute('alt');
+                    const hasResponsive = img.hasAttribute('srcset') || img.style.maxWidth === '100%' || 
+                                         getComputedStyle(img).maxWidth === '100%';
+                    
+                    if (hasAlt && hasResponsive) {
+                        optimizedImages++;
+                    }
+                });
+                
+                this.addResult(
+                    'Image Optimization',
+                    images.length === 0 || optimizedImages === images.length,
+                    images.length === 0 ? 
+                        'No images to test' : 
+                        `${optimizedImages}/${images.length} images are mobile-optimized`,
+                    images.length === 0 || optimizedImages === images.length ? 'pass' : 'warning'
+                );
+            }
+
+            testLoadTime() {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                const isGoodLoadTime = loadTime < 3000; // 3 seconds for mobile
+                
+                this.addResult(
+                    'Mobile Load Time',
+                    isGoodLoadTime,
+                    `Page loaded in ${loadTime}ms`,
+                    isGoodLoadTime ? 'pass' : loadTime < 5000 ? 'warning' : 'fail'
+                );
+            }
+
+            testTouchInteractions() {
+                console.log('👆 Testing Touch Interactions...');
+                this.testResults = [];
+                
+                // Test touch event support
+                const hasTouchEvents = 'ontouchstart' in window;
+                this.addResult(
+                    'Touch Event Support',
+                    hasTouchEvents,
+                    hasTouchEvents ? 'Touch events are supported' : 'Touch events not supported',
+                    hasTouchEvents ? 'pass' : 'warning'
+                );
+                
+                // Test multi-touch support
+                const maxTouchPoints = navigator.maxTouchPoints || 0;
+                this.addResult(
+                    'Multi-touch Support',
+                    maxTouchPoints > 1,
+                    `Device supports ${maxTouchPoints} touch points`,
+                    maxTouchPoints > 1 ? 'pass' : 'warning'
+                );
+                
+                // Test touch event tracking
+                this.addResult(
+                    'Touch Event Tracking',
+                    this.touchEvents.length > 0,
+                    this.touchEvents.length > 0 ? 
+                        `${this.touchEvents.length} touch events recorded` : 
+                        'No touch events recorded',
+                    this.touchEvents.length > 0 ? 'pass' : 'warning'
+                );
+                
+                this.displayResults();
+            }
+
+            testResponsiveDesign() {
+                console.log('📐 Testing Responsive Design...');
+                this.testResults = [];
+                
+                // Test different viewport sizes
+                const breakpoints = [320, 768, 1024, 1200];
+                let responsiveScore = 0;
+                
+                breakpoints.forEach(width => {
+                    // Simulate viewport width change
+                    const originalWidth = window.innerWidth;
+                    
+                    // Check if elements adapt properly (simplified test)
+                    const container = document.querySelector('.container, .hero-container, main');
+                    if (container) {
+                        const computedStyle = window.getComputedStyle(container);
+                        const hasResponsiveWidth = computedStyle.maxWidth !== 'none' || 
+                                                 computedStyle.width.includes('%');
+                        if (hasResponsiveWidth) responsiveScore++;
+                    }
+                });
+                
+                this.addResult(
+                    'Responsive Breakpoints',
+                    responsiveScore >= 3,
+                    `${responsiveScore}/${breakpoints.length} breakpoints properly implemented`,
+                    responsiveScore >= 3 ? 'pass' : 'warning'
+                );
+                
+                // Test flexible images
+                const images = document.querySelectorAll('img');
+                let flexibleImages = 0;
+                
+                images.forEach(img => {
+                    const style = window.getComputedStyle(img);
+                    if (style.maxWidth === '100%' || style.width === '100%') {
+                        flexibleImages++;
+                    }
+                });
+                
+                this.addResult(
+                    'Flexible Images',
+                    images.length === 0 || flexibleImages === images.length,
+                    images.length === 0 ? 
+                        'No images to test' : 
+                        `${flexibleImages}/${images.length} images are flexible`,
+                    images.length === 0 || flexibleImages === images.length ? 'pass' : 'warning'
+                );
+                
+                this.displayResults();
+            }
+
+            testMobilePerformance() {
+                console.log('⚡ Testing Mobile Performance...');
+                this.testResults = [];
+                
+                // Test resource sizes
+                const resources = performance.getEntriesByType('resource');
+                let totalSize = 0;
+                let largeResources = 0;
+                
+                resources.forEach(resource => {
+                    const size = resource.transferSize || 0;
+                    totalSize += size;
+                    if (size > 100000) { // 100KB
+                        largeResources++;
+                    }
+                });
+                
+                const totalSizeKB = Math.round(totalSize / 1024);
+                
+                this.addResult(
+                    'Total Page Size',
+                    totalSizeKB < 2000,
+                    `Total page size: ${totalSizeKB}KB`,
+                    totalSizeKB < 1000 ? 'pass' : totalSizeKB < 2000 ? 'warning' : 'fail'
+                );
+                
+                this.addResult(
+                    'Large Resources',
+                    largeResources < 5,
+                    `${largeResources} resources larger than 100KB`,
+                    largeResources < 3 ? 'pass' : largeResources < 5 ? 'warning' : 'fail'
+                );
+                
+                // Test memory usage (if available)
+                if (performance.memory) {
+                    const memoryMB = Math.round(performance.memory.usedJSHeapSize / 1024 / 1024);
+                    this.addResult(
+                        'Memory Usage',
+                        memoryMB < 30,
+                        `JavaScript heap: ${memoryMB}MB`,
+                        memoryMB < 20 ? 'pass' : memoryMB < 30 ? 'warning' : 'fail'
+                    );
+                }
+                
+                this.displayResults();
+            }
+
+            addResult(testName, passed, message, status = null) {
+                this.testResults.push({
+                    name: testName,
+                    passed: passed,
+                    message: message,
+                    status: status || (passed ? 'pass' : 'fail')
+                });
+            }
+
+            displayResults() {
+                const passed = this.testResults.filter(r => r.status === 'pass').length;
+                const total = this.testResults.length;
+                const score = Math.round((passed / total) * 100);
+                
+                let resultsHTML = `
+                    <div class="test-container">
+                        <h2>Mobile Test Results</h2>
+                        <div style="text-align: center; font-size: 24px; margin: 20px 0;">
+                            Score: ${score}% (${passed}/${total} tests passed)
+                        </div>
+                `;
+                
+                this.testResults.forEach(result => {
+                    resultsHTML += `
+                        <div class="test-result ${result.status}">
+                            <strong>${result.name}:</strong> ${result.message}
+                        </div>
+                    `;
+                });
+                
+                resultsHTML += '</div>';
+                
+                document.getElementById('mobile-results').innerHTML = resultsHTML;
+            }
+
+            generateReport() {
+                if (this.testResults.length === 0) {
+                    alert('Please run mobile tests first!');
+                    return;
+                }
+
+                const report = {
+                    timestamp: new Date().toISOString(),
+                    device: this.currentDevice,
+                    orientation: this.currentOrientation,
+                    deviceInfo: this.devices[this.currentDevice],
+                    testResults: this.testResults,
+                    touchEvents: this.touchEvents.slice(-50), // Last 50 touch events
+                    userAgent: navigator.userAgent,
+                    viewport: {
+                        width: window.innerWidth,
+                        height: window.innerHeight
+                    }
+                };
+
+                const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `mobile-test-report-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                console.log('📱 Mobile Test Report Generated:', report);
+            }
+        }
+
+        const mobileTester = new MobileTester();
+
+        function setDevice(deviceName) {
+            mobileTester.setDevice(deviceName);
+        }
+
+        function setOrientation(orientation) {
+            mobileTester.setOrientation(orientation);
+        }
+
+        function runMobileTests() {
+            mobileTester.runMobileTests();
+        }
+
+        function runTouchTests() {
+            mobileTester.testTouchInteractions();
+        }
+
+        function runResponsiveTests() {
+            mobileTester.testResponsiveDesign();
+        }
+
+        function runPerformanceTests() {
+            mobileTester.testMobilePerformance();
+        }
+
+        function generateMobileReport() {
+            mobileTester.generateReport();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            mobileTester.updateDeviceSimulator();
+            mobileTester.updateDeviceInfo();
+            
+            // Auto-run basic mobile tests
+            setTimeout(() => {
+                console.log('📱 Auto-running basic mobile tests...');
+                mobileTester.runMobileTests();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+/* Mobile Navigation Styles */
+
+/* Hamburger Menu Button */
+.mobile-menu-toggle {
+    display: none;
+    position: relative;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: var(--text-primary, #ffffff);
+    border-radius: 3px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: all 0.25s ease-in-out;
+}
+
+.mobile-menu-toggle span:nth-child(1) {
+    top: 0px;
+}
+
+.mobile-menu-toggle span:nth-child(2) {
+    top: 10px;
+}
+
+.mobile-menu-toggle span:nth-child(3) {
+    top: 20px;
+}
+
+/* Hamburger to X animation */
+.mobile-menu-toggle.active span:nth-child(1) {
+    top: 10px;
+    transform: rotate(135deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    left: -60px;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    top: 10px;
+    transform: rotate(-135deg);
+}
+
+/* Mobile Navigation Overlay */
+.mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    transform: translateZ(0);
+    will-change: opacity;
+}
+
+.mobile-nav-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Mobile Navigation Menu */
+.mobile-nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 320px;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transition: right 0.3s ease-in-out;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-nav-menu.active {
+    right: 0;
+}
+
+/* Mobile Menu Header */
+.mobile-menu-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-menu-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mobile-menu-logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.mobile-menu-logo span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary, #ffffff);
+}
+
+/* Mobile Menu Links */
+.mobile-nav-links {
+    flex: 1;
+    padding: 2rem 0;
+    list-style: none;
+}
+
+.mobile-nav-links li {
+    margin: 0;
+}
+
+.mobile-nav-links a {
+    display: block;
+    padding: 1rem 1.5rem;
+    color: var(--text-primary, #ffffff);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--accent, #ff6b35);
+    padding-left: 2rem;
+}
+
+.mobile-nav-links a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--accent, #ff6b35);
+    transition: height 0.3s ease;
+}
+
+.mobile-nav-links a:hover::before,
+.mobile-nav-links a.active::before {
+    height: 60%;
+}
+
+/* Mobile CTA Button */
+.mobile-nav-cta {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.mobile-nav-cta .btn {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8556 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-cta .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+}
+
+/* Mobile Contact Info */
+.mobile-nav-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 107, 53, 0.2);
+    color: var(--text-muted, #999999);
+    font-size: 0.9rem;
+}
+
+.mobile-nav-footer p {
+    margin: 0.5rem 0;
+}
+
+.mobile-nav-footer a {
+    color: var(--accent, #ff6b35);
+    text-decoration: none;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    /* Hide desktop navigation */
+    .nav-links {
+        display: none !important;
+    }
+    
+    /* Show mobile menu toggle */
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    /* Adjust header for mobile */
+    #header nav {
+        padding: 1rem;
+    }
+    
+    #header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    #header .logo {
+        z-index: 1001;
+        transform: translateZ(0);
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .nav-links a {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .mobile-menu-toggle span,
+    .mobile-nav-menu,
+    .mobile-nav-overlay,
+    .mobile-nav-links a {
+        transition: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .mobile-menu-toggle span {
+        background: white;
+    }
+    
+    .mobile-nav-menu {
+        background: black;
+        border-left: 2px solid white;
+    }
+    
+    .mobile-nav-links a {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .mobile-nav-menu {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .mobile-nav-menu {
+        width: 50%;
+        max-width: none;
+    }
+    
+    .mobile-nav-links {
+        padding: 1rem 0;
+    }
+    
+    .mobile-nav-links a {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}

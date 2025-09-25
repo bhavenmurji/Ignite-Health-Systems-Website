@@ -1,0 +1,452 @@
+/* Mobile Responsiveness Fixes - Priority Issues */
+
+/* Critical Fix 1: Touch Target Optimization */
+@media (max-width: 768px) {
+    /* Ensure minimum 44px touch targets */
+    .nav-link,
+    .mobile-menu-toggle,
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+    }
+    
+    /* Mobile navigation improvements */
+    .nav-menu.active {
+        background: rgba(13, 13, 13, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .nav-link {
+        font-size: 1.1rem;
+        margin: 8px 0;
+        padding: 16px 24px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-link:active {
+        transform: scale(0.95);
+        background: rgba(255, 107, 53, 0.2);
+    }
+}
+
+/* Critical Fix 2: Horizontal Scroll Prevention */
+body, html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.container {
+    max-width: 100%;
+    padding: 0 16px;
+    overflow-x: hidden;
+}
+
+@media (max-width: 480px) {
+    .calculator-container {
+        flex-direction: column;
+        gap: 1rem;
+        overflow-x: hidden;
+    }
+    
+    .calculator-inputs,
+    .calculator-results {
+        width: 100%;
+        min-width: 0;
+        flex-shrink: 1;
+    }
+    
+    .calculator-inputs .input-group {
+        margin-bottom: 1rem;
+    }
+    
+    .calculator-inputs input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Fix wide elements */
+    .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+    
+    .stat {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .workflow-comparison {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .workflow-column {
+        width: 100%;
+    }
+}
+
+/* Critical Fix 3: iOS Safari Viewport Handling */
+/* Use CSS custom properties for dynamic viewport */
+:root {
+    --vh: 1vh;
+    --dvh: 100vh; /* Fallback */
+}
+
+@supports (height: 100dvh) {
+    :root {
+        --dvh: 100dvh;
+    }
+}
+
+.hero {
+    min-height: calc(var(--vh, 1vh) * 100);
+    min-height: var(--dvh);
+}
+
+/* Fix for iOS Safari address bar bounce */
+@media (max-width: 768px) {
+    .intro-overlay {
+        height: calc(var(--vh, 1vh) * 100);
+        height: var(--dvh);
+    }
+    
+    .nav-menu.active {
+        height: calc(var(--vh, 1vh) * 100 - 70px);
+        max-height: calc(var(--vh, 1vh) * 100 - 70px);
+    }
+}
+
+/* Critical Fix 4: Mobile Menu Backdrop Click */
+.mobile-menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 98;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    will-change: opacity, visibility;
+}
+
+.mobile-menu-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* High Priority Fix 1: Animation Performance Optimization */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+    /* Optimize animations for mobile */
+    .intro-logo,
+    .intro-title .word {
+        animation-duration: 0.6s;
+        animation-timing-function: ease-out;
+    }
+    
+    /* Reduce particle effects */
+    .fire-particle,
+    .floating-element {
+        display: none;
+    }
+    
+    /* Simplify hover effects to active states */
+    .feature-card:hover {
+        transform: none;
+    }
+    
+    .feature-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* For low-end devices (detected via media queries) */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High Priority Fix 2: Touch Response Optimization */
+@media (max-width: 768px) {
+    /* Add hardware acceleration */
+    .btn,
+    .nav-link,
+    .mobile-menu-toggle,
+    .card {
+        transform: translateZ(0);
+        will-change: transform;
+        -webkit-tap-highlight-color: rgba(255, 107, 53, 0.3);
+    }
+    
+    /* Faster touch feedback */
+    .btn:active,
+    .nav-link:active {
+        transform: scale(0.95) translateZ(0);
+        transition: transform 0.05s ease;
+    }
+    
+    /* Remove hover states on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+        .btn:hover,
+        .nav-link:hover,
+        .card:hover {
+            transform: none;
+            box-shadow: inherit;
+        }
+    }
+}
+
+/* High Priority Fix 3: Landscape Mode Optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .navbar {
+        height: 50px;
+        padding: 0.5rem 1rem;
+    }
+    
+    .hero {
+        min-height: calc(var(--vh, 1vh) * 100);
+        padding: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+    }
+    
+    .nav-menu.active {
+        top: 50px;
+        height: calc(var(--vh, 1vh) * 100 - 50px);
+    }
+    
+    .intro-overlay {
+        padding: 1rem;
+    }
+    
+    .intro-title {
+        font-size: 2.5rem;
+        margin: 20px 0 10px;
+    }
+}
+
+/* Form Input Improvements */
+@media (max-width: 768px) {
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="text"],
+    textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 107, 53, 0.3);
+        background: rgba(26, 26, 26, 0.8);
+        color: #ffffff;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    input:focus,
+    textarea:focus {
+        border-color: #ff6b35;
+        outline: none;
+        transform: scale(1.02);
+        transition: all 0.2s ease;
+    }
+    
+    /* Better keyboard types */
+    input[type="email"] {
+        inputmode: email;
+    }
+    
+    input[type="tel"] {
+        inputmode: tel;
+    }
+    
+    input[type="number"] {
+        inputmode: numeric;
+    }
+}
+
+/* Fix for small screens (iPhone SE and below) */
+@media (max-width: 375px) {
+    .container {
+        padding: 0 12px;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    
+    .hero-stats {
+        gap: 0.8rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .problem-grid,
+    .features-grid,
+    .testimonials-grid {
+        gap: 0.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+}
+
+/* Loading and Performance Optimizations */
+@media (max-width: 768px) {
+    /* Skeleton loading for images */
+    img {
+        background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+    }
+    
+    img.loaded {
+        background: none;
+        animation: none;
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+    
+    /* Reduce image quality on slow connections */
+    @media (prefers-reduced-data: reduce) {
+        img {
+            filter: blur(0.5px);
+        }
+    }
+}
+
+/* Accessibility Improvements for Mobile */
+@media (max-width: 768px) {
+    /* Better focus indicators */
+    .btn:focus,
+    .nav-link:focus,
+    input:focus,
+    textarea:focus {
+        outline: 3px solid #ff6b35;
+        outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        .nav-menu.active {
+            background: #000000;
+            border: 2px solid #ffffff;
+        }
+        
+        .nav-link {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 4px 0;
+        }
+        
+        .btn {
+            border: 2px solid #ffffff;
+        }
+    }
+    
+    /* Large text support */
+    @media (prefers-color-scheme: dark) and (prefers-contrast: more) {
+        body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .nav-link {
+            font-size: 1.3rem;
+            padding: 20px 24px;
+        }
+    }
+}
+
+/* Network-aware optimizations */
+@media (max-width: 768px) {
+    /* Slow connection handling */
+    @media (connection: slow-2g) {
+        .intro-overlay {
+            animation: none;
+        }
+        
+        .hero {
+            background-attachment: scroll;
+        }
+    }
+    
+    /* Save data mode */
+    @media (prefers-reduced-data: reduce) {
+        .hero {
+            background-image: none;
+            background-color: var(--background);
+        }
+        
+        video {
+            display: none;
+        }
+    }
+}
+
+/* Debug helpers (remove in production) */
+.debug-mobile {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 107, 53, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 10000;
+    font-family: monospace;
+}
+
+@media (max-width: 768px) {
+    .debug-mobile::before {
+        content: "📱 Mobile ";
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .debug-mobile::before {
+        content: "📱 Tablet ";
+    }
+}
+
+@media (min-width: 1025px) {
+    .debug-mobile::before {
+        content: "🖥️ Desktop ";
+    }
+}

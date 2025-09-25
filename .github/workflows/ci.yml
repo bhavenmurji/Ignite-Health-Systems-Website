@@ -1,0 +1,191 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    name: Lint and Validate
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Type checking
+        run: |
+          if [ -f "tsconfig.json" ]; then
+            npx tsc --noEmit
+          else
+            echo "No TypeScript configuration found, skipping type check"
+          fi
+        continue-on-error: true
+
+      - name: Validate environment setup
+        run: |
+          echo "NODE_ENV=development" > .env
+          echo "NEXT_PUBLIC_N8N_WEBHOOK_URL=https://test.example.com/webhook" >> .env
+          npm run validate-env
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Audit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Check for sensitive files
+        run: |
+          echo "Checking for sensitive files..."
+          if find . -name "*.env" -not -path "./node_modules/*" -not -name ".env.example" | grep -q .; then
+            echo "⚠️ Warning: .env files found in repository"
+            find . -name "*.env" -not -path "./node_modules/*" -not -name ".env.example"
+          fi
+
+          if find . \( -name "*.key" -o -name "*.pem" -o -name "*_rsa" \) -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./out/*" -not -path "./.next/*" | grep -q .; then
+            echo "❌ Error: Private key files found"
+            find . \( -name "*.key" -o -name "*.pem" -o -name "*_rsa" \) -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./out/*" -not -path "./.next/*"
+            exit 1
+          fi
+
+  build-test:
+    runs-on: ubuntu-latest
+    name: Build and Test
+    needs: [lint-and-validate]
+
+    strategy:
+      matrix:
+        node-version: ['18', '20']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: |
+          echo "NODE_ENV=production" > .env
+          echo "NEXT_PUBLIC_SITE_URL=https://ignitehealthsystems.com" >> .env
+          echo "NEXT_PUBLIC_N8N_WEBHOOK_URL=https://n8n.ruv.io/webhook/ignite-health-contact" >> .env
+          npm run build
+
+      - name: Test build output
+        run: |
+          if [ -d "out" ] || [ -d "dist" ] || [ -d ".next" ]; then
+            echo "✅ Build output directory found"
+            ls -la out/ 2>/dev/null || ls -la dist/ 2>/dev/null || ls -la .next/ 2>/dev/null || echo "Build output exists"
+          else
+            echo "❌ No build output directory found"
+            exit 1
+          fi
+
+  performance-test:
+    runs-on: ubuntu-latest
+    name: Performance Testing
+    needs: [build-test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        run: |
+          echo "NODE_ENV=production" > .env
+          echo "NEXT_PUBLIC_SITE_URL=https://ignitehealthsystems.com" >> .env
+          echo "NEXT_PUBLIC_N8N_WEBHOOK_URL=https://n8n.ruv.io/webhook/ignite-health-contact" >> .env
+          npm run build
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Lighthouse CI
+        run: |
+          if [ -f "lighthouserc.js" ]; then
+            lhci autorun
+          else
+            echo "No Lighthouse configuration found, running basic audit"
+            lhci collect --staticDistDir=out --numberOfRuns=1
+          fi
+        continue-on-error: true
+
+  notify-deployment:
+    runs-on: ubuntu-latest
+    name: Deployment Notifications
+    needs: [security-scan, build-test]
+    if: always()
+
+    steps:
+      - name: Deployment Status
+        run: |
+          if [ "${{ needs.build-test.result }}" == "success" ] && [ "${{ needs.security-scan.result }}" == "success" ]; then
+            echo "🎉 All checks passed! Ready for deployment."
+            echo "deployment_ready=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Some checks failed. Review before deploying."
+            echo "deployment_ready=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Lint & Validate**: ${{ needs.lint-and-validate.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Security Scan**: ${{ needs.security-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Test**: ${{ needs.build-test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.deployment-status.outputs.deployment_ready }}" == "true" ]; then
+            echo "✅ **Status**: Ready for production deployment" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Status**: Issues detected - review before deploying" >> $GITHUB_STEP_SUMMARY
+          fi

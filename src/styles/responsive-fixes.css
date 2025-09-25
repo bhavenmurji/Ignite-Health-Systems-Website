@@ -1,0 +1,374 @@
+/* 
+ * RESPONSIVE DESIGN FIXES
+ * Addresses specific browser window reactivity issues
+ */
+
+/* Prevent horizontal overflow on all elements */
+*, *::before, *::after {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Root container fixes */
+html {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* Main content containers */
+main {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Section level responsive containers */
+section {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Hero section specific fixes */
+.hero-section {
+  width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  min-height: 100svh; /* For mobile Safari */
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Enhanced hero background fixes */
+.hero-background {
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Cinematic intro fixes */
+.cinematic-intro {
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  max-width: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+/* Image responsive fixes */
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Next.js Image component fixes */
+.next-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Grid system responsive fixes */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Two column grid with better breakpoints */
+.two-col-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 4vw, 3rem);
+  width: 100%;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .two-col-responsive {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Text sizing responsive fixes */
+.text-hero-responsive {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  max-width: 100%;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.text-subtitle-responsive {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+.text-body-responsive {
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  line-height: 1.6;
+  max-width: 100%;
+}
+
+/* Button responsive fixes */
+.btn-responsive {
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  width: 100%;
+  max-width: 300px;
+}
+
+@media (min-width: 640px) {
+  .btn-responsive {
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* Card responsive fixes */
+.card-responsive {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+/* Container responsive fixes */
+.container-responsive {
+  width: 100%;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+
+/* Mobile-first spacing */
+.spacing-responsive {
+  margin: clamp(1rem, 3vw, 2rem) 0;
+}
+
+.spacing-section {
+  padding: clamp(2rem, 8vw, 6rem) 0;
+}
+
+/* Viewport-based heights */
+.min-h-screen-responsive {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.h-screen-responsive {
+  height: 100vh;
+  height: 100svh;
+}
+
+/* Animation performance fixes */
+.animation-optimized {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce animations on mobile for performance */
+@media (max-width: 768px) {
+  .reduce-animations {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+}
+
+/* Typography responsive fixes */
+.typography-responsive h1 {
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.typography-responsive h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.typography-responsive h3 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  line-height: 1.3;
+}
+
+.typography-responsive p {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.6;
+}
+
+/* Fix for Framer Motion containers */
+.motion-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Touch improvements for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .touch-optimized {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .btn-touch {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Safe area adjustments for notched devices */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Critical responsive fixes for specific components */
+
+/* Enhanced Hero fixes */
+.enhanced-hero {
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.enhanced-hero .hero-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.enhanced-hero .hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 6vw, 4rem);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .enhanced-hero .hero-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Cinematic intro fixes */
+.cinematic-intro .intro-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  text-align: center;
+}
+
+.cinematic-intro .intro-title {
+  font-size: clamp(2rem, 8vw, 6rem);
+  line-height: 1;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* Statistics grid responsive */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Button group responsive */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .button-group {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* Navigation responsive fixes */
+.nav-responsive {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+/* Critical width constraints */
+.full-width-constrained {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Debug utilities - remove in production */
+.debug-responsive {
+  outline: 2px solid red;
+  position: relative;
+}
+
+.debug-responsive::before {
+  content: "W: " attr(data-width) " | VW: 100vw";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: red;
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  z-index: 9999;
+}

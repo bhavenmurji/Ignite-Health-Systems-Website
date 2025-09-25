@@ -1,0 +1,300 @@
+/**
+ * Ignite Health Systems - Animation Performance Fixes
+ * Optimizes animations for better performance and reduced conflicts
+ */
+
+/* Hardware acceleration for critical animations */
+.intro-overlay,
+.intro-content,
+.intro-logo,
+.intro-title,
+.intro-title .word,
+.intro-progress,
+.intro-progress::before,
+.navbar,
+.nav-menu,
+.mobile-menu-toggle {
+    transform: translateZ(0);
+    will-change: auto;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimize intro animations with better timing */
+.intro-logo {
+    animation: logoReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+.intro-title .word {
+    animation: wordReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.intro-title .word:nth-child(1) {
+    animation-delay: 0.6s;
+}
+
+.intro-title .word:nth-child(2) {
+    animation-delay: 0.9s;
+}
+
+.intro-title .word:nth-child(3) {
+    animation-delay: 1.2s;
+}
+
+/* Stagger progress bar animation */
+.intro-progress::before {
+    animation: progressBar 3.5s ease-out 0.8s forwards;
+}
+
+/* Optimize typewriter animation */
+.typewriter {
+    animation: blink 1s infinite;
+    will-change: border-color;
+}
+
+/* Reduce particle count and optimize performance */
+.particle {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    animation: floatUp 3.5s ease-out forwards;
+}
+
+/* Mobile-specific animation optimizations */
+@media (max-width: 768px) {
+    /* Reduce animation complexity on mobile */
+    .intro-logo {
+        animation-duration: 0.6s;
+    }
+    
+    .intro-title .word {
+        animation-duration: 0.4s;
+    }
+    
+    .intro-title .word:nth-child(1) {
+        animation-delay: 0.4s;
+    }
+    
+    .intro-title .word:nth-child(2) {
+        animation-delay: 0.6s;
+    }
+    
+    .intro-title .word:nth-child(3) {
+        animation-delay: 0.8s;
+    }
+    
+    /* Faster progress bar on mobile */
+    .intro-progress::before {
+        animation-duration: 2.5s;
+        animation-delay: 0.5s;
+    }
+    
+    /* Disable particles on mobile for performance */
+    .particle {
+        display: none;
+    }
+    
+    /* Optimize mobile menu animations */
+    .nav-menu {
+        transition: transform 0.25s ease-in-out;
+    }
+    
+    .mobile-menu-toggle span {
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+/* Optimized keyframes with GPU acceleration */
+@keyframes logoReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotateZ(-10deg) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateZ(0deg) translateZ(0);
+    }
+}
+
+@keyframes wordReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+@keyframes progressBar {
+    from {
+        width: 0;
+        transform: translateZ(0);
+    }
+    to {
+        width: 100%;
+        transform: translateZ(0);
+    }
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0) translateZ(0);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(80vh) scale(0.5) translateZ(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20vh) scale(1) translateZ(0);
+    }
+}
+
+/* Smooth fade transitions */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+/* Optimize intro overlay transitions */
+.intro-overlay {
+    transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+}
+
+.intro-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+/* Performance optimizations for high refresh rate displays */
+@media (min-resolution: 120dpi) {
+    .intro-overlay,
+    .intro-content,
+    .particle {
+        contain: layout style paint;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .intro-overlay,
+    .intro-content,
+    .intro-logo,
+    .intro-title .word,
+    .intro-progress::before,
+    .particle,
+    .typewriter,
+    .nav-menu,
+    .mobile-menu-toggle span {
+        animation: none !important;
+        transition: opacity 0.3s ease !important;
+    }
+    
+    .intro-title .word {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .intro-logo {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .intro-progress::before {
+        width: 100% !important;
+        animation: none !important;
+    }
+}
+
+/* High refresh rate display optimizations */
+@media (min-resolution: 120dpi), (-webkit-min-device-pixel-ratio: 1.5) {
+    .intro-overlay {
+        will-change: opacity;
+    }
+    
+    .intro-content {
+        will-change: transform, opacity;
+    }
+    
+    .particle {
+        will-change: transform, opacity;
+    }
+}
+
+/* Battery saving mode detection */
+@media (prefers-reduced-motion: reduce), (update: slow) {
+    .particle {
+        display: none !important;
+    }
+    
+    .intro-overlay {
+        animation: none !important;
+        transition: opacity 0.3s ease !important;
+    }
+}
+
+/* Optimize for touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .intro-overlay {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+    
+    .mobile-menu-toggle {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        padding: 0.5rem;
+    }
+}
+
+/* Ensure smooth scrolling restoration */
+.intro-overlay.hidden ~ * {
+    will-change: auto;
+}
+
+/* Cleanup animations after intro */
+.intro-overlay.hidden {
+    contain: none;
+    will-change: auto;
+}
+
+/* Force GPU compositing for smooth animations */
+.intro-content,
+.intro-logo,
+.intro-title {
+    transform: translateZ(0);
+    contain: layout style paint;
+}
+
+/* Optimize typewriter cursor blinking */
+@keyframes blink {
+    0%, 45% { 
+        border-color: var(--primary, #ff6b35);
+        opacity: 1;
+    }
+    50%, 100% { 
+        border-color: transparent;
+        opacity: 0.5;
+    }
+}

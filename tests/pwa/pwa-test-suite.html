@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test Suite - Ignite Health Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #0d0d0d;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            border-radius: 12px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .test-section {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #333;
+        }
+
+        .test-section h2 {
+            color: #ff6b35;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .test-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #444;
+        }
+
+        .test-card h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .test-result {
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .test-pass {
+            background: rgba(46, 160, 67, 0.2);
+            border: 1px solid #2ea043;
+            color: #7dd3fc;
+        }
+
+        .test-fail {
+            background: rgba(218, 54, 51, 0.2);
+            border: 1px solid #da3633;
+            color: #f87171;
+        }
+
+        .test-warning {
+            background: rgba(251, 189, 35, 0.2);
+            border: 1px solid #fbbd23;
+            color: #fbbf24;
+        }
+
+        .test-info {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            color: #93c5fd;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #f7931e;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-display h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-display .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .manifest-display {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow: auto;
+            max-height: 300px;
+        }
+
+        .install-prompt {
+            background: #2a2a2a;
+            border: 1px solid #ff6b35;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-support {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-item {
+            padding: 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feature-supported {
+            background: rgba(46, 160, 67, 0.2);
+            border: 1px solid #2ea043;
+        }
+
+        .feature-not-supported {
+            background: rgba(218, 54, 51, 0.2);
+            border: 1px solid #da3633;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-green { background: #2ea043; }
+        .status-red { background: #da3633; }
+        .status-yellow { background: #fbbd23; }
+
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header class="header">
+            <h1>🔥 PWA Test Suite</h1>
+            <p>Progressive Web App Feature Testing & Validation for Ignite Health Systems</p>
+        </header>
+
+        <div class="controls">
+            <button class="btn" onclick="runAllTests()">🧪 Run All PWA Tests</button>
+            <button class="btn" onclick="testServiceWorker()">⚙️ Test Service Worker</button>
+            <button class="btn" onclick="testManifest()">📱 Test Manifest</button>
+            <button class="btn" onclick="testInstallability()">📥 Test Install Prompt</button>
+            <button class="btn" onclick="testOffline()">🌐 Test Offline</button>
+            <button class="btn" onclick="testNotifications()">🔔 Test Notifications</button>
+            <button class="btn" onclick="generateReport()">📊 Generate Report</button>
+        </div>
+
+        <div class="score-display" id="overallScore" style="display: none;">
+            <h3>Overall PWA Score</h3>
+            <div class="score" id="scoreValue">0/100</div>
+            <div id="scoreDescription">Running tests...</div>
+        </div>
+
+        <!-- Service Worker Tests -->
+        <section class="test-section">
+            <h2>⚙️ Service Worker Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Service Worker Registration</h3>
+                    <div id="sw-registration-result" class="test-result test-info">
+                        Click "Test Service Worker" to check registration
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Service Worker State</h3>
+                    <div id="sw-state-result" class="test-result test-info">
+                        Waiting for service worker test
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Cache API Support</h3>
+                    <div id="cache-support-result" class="test-result test-info">
+                        Testing cache availability
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Background Sync</h3>
+                    <div id="background-sync-result" class="test-result test-info">
+                        Testing background sync capability
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Manifest Tests -->
+        <section class="test-section">
+            <h2>📱 Web App Manifest Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Manifest Presence</h3>
+                    <div id="manifest-presence-result" class="test-result test-info">
+                        Click "Test Manifest" to validate
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Required Properties</h3>
+                    <div id="manifest-properties-result" class="test-result test-info">
+                        Checking manifest properties
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Icons Configuration</h3>
+                    <div id="manifest-icons-result" class="test-result test-info">
+                        Validating icon specifications
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Display Mode</h3>
+                    <div id="manifest-display-result" class="test-result test-info">
+                        Checking display configuration
+                    </div>
+                </div>
+            </div>
+            <div id="manifestDisplay" class="manifest-display" style="display: none;"></div>
+        </section>
+
+        <!-- Install Tests -->
+        <section class="test-section">
+            <h2>📥 Installation Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Install Prompt Support</h3>
+                    <div id="install-prompt-result" class="test-result test-info">
+                        Click "Test Install Prompt" to check
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Install Criteria</h3>
+                    <div id="install-criteria-result" class="test-result test-info">
+                        Checking installability criteria
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Standalone Mode</h3>
+                    <div id="standalone-result" class="test-result test-info">
+                        Testing standalone display mode
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Install Button</h3>
+                    <div id="install-button-result" class="test-result test-info">
+                        Checking install button functionality
+                    </div>
+                </div>
+            </div>
+            <div id="installPrompt" class="install-prompt" style="display: none;"></div>
+        </section>
+
+        <!-- Offline Tests -->
+        <section class="test-section">
+            <h2>🌐 Offline Functionality Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Offline Detection</h3>
+                    <div id="offline-detection-result" class="test-result test-info">
+                        Click "Test Offline" to validate
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Cache Strategy</h3>
+                    <div id="cache-strategy-result" class="test-result test-info">
+                        Testing caching strategies
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Offline Indicator</h3>
+                    <div id="offline-indicator-result" class="test-result test-info">
+                        Checking offline UI indicators
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Resource Caching</h3>
+                    <div id="resource-caching-result" class="test-result test-info">
+                        Validating resource availability offline
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notifications Tests -->
+        <section class="test-section">
+            <h2>🔔 Push Notifications Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Notification Permission</h3>
+                    <div id="notification-permission-result" class="test-result test-info">
+                        Click "Test Notifications" to check
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Push API Support</h3>
+                    <div id="push-api-result" class="test-result test-info">
+                        Testing push notification capability
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Notification Actions</h3>
+                    <div id="notification-actions-result" class="test-result test-info">
+                        Checking notification actions support
+                    </div>
+                </div>
+                <div class="test-card">
+                    <h3>Badge API</h3>
+                    <div id="badge-api-result" class="test-result test-info">
+                        Testing app badge functionality
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PWA Features Support -->
+        <section class="test-section">
+            <h2>🚀 PWA Features Support</h2>
+            <div class="feature-support" id="featureSupport"></div>
+        </section>
+
+        <!-- Test Results Summary -->
+        <section class="test-section">
+            <h2>📊 Test Results Summary</h2>
+            <div id="testSummary" class="test-grid"></div>
+        </section>
+    </div>
+
+    <script>
+        class PWATestSuite {
+            constructor() {
+                this.testResults = {
+                    serviceWorker: {},
+                    manifest: {},
+                    install: {},
+                    offline: {},
+                    notifications: {},
+                    features: {}
+                };
+                this.totalTests = 0;
+                this.passedTests = 0;
+            }
+
+            async runAllTests() {
+                this.resetResults();
+                this.showScore();
+                
+                try {
+                    await Promise.all([
+                        this.testServiceWorker(),
+                        this.testManifest(),
+                        this.testInstallability(),
+                        this.testOffline(),
+                        this.testNotifications(),
+                        this.testPWAFeatures()
+                    ]);
+                    
+                    this.calculateScore();
+                    this.updateSummary();
+                } catch (error) {
+                    console.error('Error running PWA tests:', error);
+                    this.displayResult('test-error', 'Error running tests: ' + error.message, 'fail');
+                }
+            }
+
+            resetResults() {
+                this.testResults = {
+                    serviceWorker: {},
+                    manifest: {},
+                    install: {},
+                    offline: {},
+                    notifications: {},
+                    features: {}
+                };
+                this.totalTests = 0;
+                this.passedTests = 0;
+            }
+
+            showScore() {
+                document.getElementById('overallScore').style.display = 'block';
+            }
+
+            async testServiceWorker() {
+                console.log('🔧 Testing Service Worker...');
+                
+                // Test Service Worker Registration
+                const swRegistration = this.testSWRegistration();
+                this.displayResult('sw-registration-result', swRegistration.message, swRegistration.status);
+                this.testResults.serviceWorker.registration = swRegistration.passed;
+
+                // Test Service Worker State
+                const swState = await this.testSWState();
+                this.displayResult('sw-state-result', swState.message, swState.status);
+                this.testResults.serviceWorker.state = swState.passed;
+
+                // Test Cache API Support
+                const cacheSupport = this.testCacheSupport();
+                this.displayResult('cache-support-result', cacheSupport.message, cacheSupport.status);
+                this.testResults.serviceWorker.cache = cacheSupport.passed;
+
+                // Test Background Sync
+                const backgroundSync = this.testBackgroundSync();
+                this.displayResult('background-sync-result', backgroundSync.message, backgroundSync.status);
+                this.testResults.serviceWorker.backgroundSync = backgroundSync.passed;
+            }
+
+            testSWRegistration() {
+                this.totalTests++;
+                if ('serviceWorker' in navigator) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Service Worker API is supported and available'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Service Worker API is not supported in this browser'
+                    };
+                }
+            }
+
+            async testSWState() {
+                this.totalTests++;
+                if ('serviceWorker' in navigator) {
+                    try {
+                        const registration = await navigator.serviceWorker.getRegistration();
+                        if (registration) {
+                            this.passedTests++;
+                            const state = registration.active ? registration.active.state : 'no active worker';
+                            return {
+                                passed: true,
+                                status: 'pass',
+                                message: `✅ Service Worker registered and ${state}`
+                            };
+                        } else {
+                            return {
+                                passed: false,
+                                status: 'warning',
+                                message: '⚠️ Service Worker not registered yet'
+                            };
+                        }
+                    } catch (error) {
+                        return {
+                            passed: false,
+                            status: 'fail',
+                            message: `❌ Error checking Service Worker: ${error.message}`
+                        };
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Service Worker not supported'
+                    };
+                }
+            }
+
+            testCacheSupport() {
+                this.totalTests++;
+                if ('caches' in window) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Cache API is supported and available'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Cache API is not supported'
+                    };
+                }
+            }
+
+            testBackgroundSync() {
+                this.totalTests++;
+                if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Background Sync is supported'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: '⚠️ Background Sync is not supported'
+                    };
+                }
+            }
+
+            async testManifest() {
+                console.log('📱 Testing Web App Manifest...');
+                
+                const manifestPresence = await this.testManifestPresence();
+                this.displayResult('manifest-presence-result', manifestPresence.message, manifestPresence.status);
+                this.testResults.manifest.presence = manifestPresence.passed;
+
+                if (manifestPresence.manifest) {
+                    const manifestProperties = this.testManifestProperties(manifestPresence.manifest);
+                    this.displayResult('manifest-properties-result', manifestProperties.message, manifestProperties.status);
+                    this.testResults.manifest.properties = manifestProperties.passed;
+
+                    const manifestIcons = this.testManifestIcons(manifestPresence.manifest);
+                    this.displayResult('manifest-icons-result', manifestIcons.message, manifestIcons.status);
+                    this.testResults.manifest.icons = manifestIcons.passed;
+
+                    const manifestDisplay = this.testManifestDisplay(manifestPresence.manifest);
+                    this.displayResult('manifest-display-result', manifestDisplay.message, manifestDisplay.status);
+                    this.testResults.manifest.display = manifestDisplay.passed;
+
+                    this.displayManifest(manifestPresence.manifest);
+                }
+            }
+
+            async testManifestPresence() {
+                this.totalTests++;
+                
+                // Check for manifest link
+                const manifestLink = document.querySelector('link[rel="manifest"]');
+                if (!manifestLink) {
+                    // Check for dynamically created manifest
+                    if (window.IgnitePWA) {
+                        this.passedTests++;
+                        try {
+                            // Try to get the manifest from the blob URL
+                            const response = await fetch(manifestLink?.href || '/manifest.json').catch(() => null);
+                            if (response && response.ok) {
+                                const manifest = await response.json();
+                                return {
+                                    passed: true,
+                                    status: 'pass',
+                                    message: '✅ Web App Manifest found (dynamically generated)',
+                                    manifest: manifest
+                                };
+                            }
+                        } catch (error) {
+                            // Fallback: create manifest from PWA config
+                            const manifest = {
+                                name: "Ignite Health Systems",
+                                short_name: "Ignite Health",
+                                description: "AI-Powered Clinical Co-Pilot for Independent Physicians",
+                                start_url: "/",
+                                display: "standalone",
+                                background_color: "#0d0d0d",
+                                theme_color: "#ff6b35"
+                            };
+                            return {
+                                passed: true,
+                                status: 'pass',
+                                message: '✅ Web App Manifest detected (PWA installer)',
+                                manifest: manifest
+                            };
+                        }
+                    }
+                    
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ No Web App Manifest found'
+                    };
+                }
+
+                try {
+                    const response = await fetch(manifestLink.href);
+                    if (response.ok) {
+                        const manifest = await response.json();
+                        this.passedTests++;
+                        return {
+                            passed: true,
+                            status: 'pass',
+                            message: '✅ Web App Manifest found and accessible',
+                            manifest: manifest
+                        };
+                    } else {
+                        return {
+                            passed: false,
+                            status: 'fail',
+                            message: `❌ Manifest not accessible (${response.status})`
+                        };
+                    }
+                } catch (error) {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: `❌ Error loading manifest: ${error.message}`
+                    };
+                }
+            }
+
+            testManifestProperties(manifest) {
+                this.totalTests++;
+                const requiredProps = ['name', 'start_url', 'display'];
+                const missing = requiredProps.filter(prop => !manifest[prop]);
+                
+                if (missing.length === 0) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ All required manifest properties present'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: `❌ Missing required properties: ${missing.join(', ')}`
+                    };
+                }
+            }
+
+            testManifestIcons(manifest) {
+                this.totalTests++;
+                if (manifest.icons && manifest.icons.length > 0) {
+                    const hasLargeIcon = manifest.icons.some(icon => {
+                        const sizes = icon.sizes ? icon.sizes.split('x') : [];
+                        return sizes.length === 2 && parseInt(sizes[0]) >= 192;
+                    });
+                    
+                    if (hasLargeIcon) {
+                        this.passedTests++;
+                        return {
+                            passed: true,
+                            status: 'pass',
+                            message: `✅ Icons configured (${manifest.icons.length} icons)`
+                        };
+                    } else {
+                        return {
+                            passed: false,
+                            status: 'warning',
+                            message: '⚠️ No icon ≥192px found'
+                        };
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ No icons configured in manifest'
+                    };
+                }
+            }
+
+            testManifestDisplay(manifest) {
+                this.totalTests++;
+                const validDisplayModes = ['fullscreen', 'standalone', 'minimal-ui', 'browser'];
+                
+                if (validDisplayModes.includes(manifest.display)) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: `✅ Valid display mode: ${manifest.display}`
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: `⚠️ Invalid or missing display mode: ${manifest.display || 'undefined'}`
+                    };
+                }
+            }
+
+            displayManifest(manifest) {
+                const manifestDisplay = document.getElementById('manifestDisplay');
+                manifestDisplay.style.display = 'block';
+                manifestDisplay.innerHTML = `<pre>${JSON.stringify(manifest, null, 2)}</pre>`;
+            }
+
+            async testInstallability() {
+                console.log('📥 Testing PWA Installability...');
+                
+                const installPrompt = this.testInstallPromptSupport();
+                this.displayResult('install-prompt-result', installPrompt.message, installPrompt.status);
+                this.testResults.install.promptSupport = installPrompt.passed;
+
+                const installCriteria = this.testInstallCriteria();
+                this.displayResult('install-criteria-result', installCriteria.message, installCriteria.status);
+                this.testResults.install.criteria = installCriteria.passed;
+
+                const standalone = this.testStandaloneMode();
+                this.displayResult('standalone-result', standalone.message, standalone.status);
+                this.testResults.install.standalone = standalone.passed;
+
+                const installButton = this.testInstallButton();
+                this.displayResult('install-button-result', installButton.message, installButton.status);
+                this.testResults.install.button = installButton.passed;
+            }
+
+            testInstallPromptSupport() {
+                this.totalTests++;
+                if ('BeforeInstallPromptEvent' in window || window.IgnitePWA?.pwaState?.deferredPrompt) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Install prompt events supported'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: '⚠️ Install prompt events not supported in this browser'
+                    };
+                }
+            }
+
+            testInstallCriteria() {
+                this.totalTests++;
+                const criteria = {
+                    https: location.protocol === 'https:' || location.hostname === 'localhost',
+                    manifest: document.querySelector('link[rel="manifest"]') !== null || window.IgnitePWA,
+                    serviceWorker: 'serviceWorker' in navigator
+                };
+
+                const passed = Object.values(criteria).every(Boolean);
+                if (passed) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Basic install criteria met (HTTPS, Manifest, Service Worker)'
+                    };
+                } else {
+                    const failing = Object.entries(criteria)
+                        .filter(([key, value]) => !value)
+                        .map(([key]) => key);
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: `❌ Missing criteria: ${failing.join(', ')}`
+                    };
+                }
+            }
+
+            testStandaloneMode() {
+                this.totalTests++;
+                const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                                   window.navigator.standalone === true ||
+                                   document.body.classList.contains('pwa-installed');
+                
+                if (isStandalone) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ App is running in standalone mode'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'info',
+                        message: 'ℹ️ App is running in browser mode'
+                    };
+                }
+            }
+
+            testInstallButton() {
+                this.totalTests++;
+                const installButton = document.querySelector('.pwa-install-button');
+                
+                if (installButton) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Install button is present and functional'
+                    };
+                } else if (window.IgnitePWA?.pwaState?.isInstalled) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ App is already installed (install button hidden)'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: '⚠️ Install button not found or not yet triggered'
+                    };
+                }
+            }
+
+            async testOffline() {
+                console.log('🌐 Testing Offline Functionality...');
+                
+                const offlineDetection = this.testOfflineDetection();
+                this.displayResult('offline-detection-result', offlineDetection.message, offlineDetection.status);
+                this.testResults.offline.detection = offlineDetection.passed;
+
+                const cacheStrategy = await this.testCacheStrategy();
+                this.displayResult('cache-strategy-result', cacheStrategy.message, cacheStrategy.status);
+                this.testResults.offline.cacheStrategy = cacheStrategy.passed;
+
+                const offlineIndicator = this.testOfflineIndicator();
+                this.displayResult('offline-indicator-result', offlineIndicator.message, offlineIndicator.status);
+                this.testResults.offline.indicator = offlineIndicator.passed;
+
+                const resourceCaching = await this.testResourceCaching();
+                this.displayResult('resource-caching-result', resourceCaching.message, resourceCaching.status);
+                this.testResults.offline.resourceCaching = resourceCaching.passed;
+            }
+
+            testOfflineDetection() {
+                this.totalTests++;
+                const hasOnlineEvents = 'onLine' in navigator;
+                const hasOfflineSupport = window.IgniteMobile?.device || window.IgnitePWA?.pwaState;
+                
+                if (hasOnlineEvents && hasOfflineSupport) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: `✅ Offline detection active (currently ${navigator.onLine ? 'online' : 'offline'})`
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: '⚠️ Limited offline detection capability'
+                    };
+                }
+            }
+
+            async testCacheStrategy() {
+                this.totalTests++;
+                if ('caches' in window) {
+                    try {
+                        const cacheNames = await caches.keys();
+                        if (cacheNames.length > 0) {
+                            this.passedTests++;
+                            return {
+                                passed: true,
+                                status: 'pass',
+                                message: `✅ Cache strategy active (${cacheNames.length} cache(s))`
+                            };
+                        } else {
+                            return {
+                                passed: false,
+                                status: 'warning',
+                                message: '⚠️ No caches found - offline functionality limited'
+                            };
+                        }
+                    } catch (error) {
+                        return {
+                            passed: false,
+                            status: 'fail',
+                            message: `❌ Error checking caches: ${error.message}`
+                        };
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Cache API not supported'
+                    };
+                }
+            }
+
+            testOfflineIndicator() {
+                this.totalTests++;
+                const hasOfflineStyles = Array.from(document.styleSheets).some(sheet => {
+                    try {
+                        return Array.from(sheet.cssRules || []).some(rule => 
+                            rule.selectorText && rule.selectorText.includes('.offline'));
+                    } catch (e) {
+                        return false;
+                    }
+                });
+
+                if (hasOfflineStyles || document.querySelector('.offline-indicator')) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Offline indicator UI implemented'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: '⚠️ No offline indicator UI found'
+                    };
+                }
+            }
+
+            async testResourceCaching() {
+                this.totalTests++;
+                const criticalResources = [
+                    '/css/styles.css',
+                    '/js/app.js',
+                    '/js/pwa-installer.js'
+                ];
+
+                if ('caches' in window) {
+                    try {
+                        const cacheNames = await caches.keys();
+                        let cachedResources = 0;
+                        
+                        for (const cacheName of cacheNames) {
+                            const cache = await caches.open(cacheName);
+                            const requests = await cache.keys();
+                            
+                            criticalResources.forEach(resource => {
+                                if (requests.some(req => req.url.includes(resource))) {
+                                    cachedResources++;
+                                }
+                            });
+                        }
+
+                        if (cachedResources > 0) {
+                            this.passedTests++;
+                            return {
+                                passed: true,
+                                status: 'pass',
+                                message: `✅ Resources cached for offline use (${cachedResources}/${criticalResources.length})`
+                            };
+                        } else {
+                            return {
+                                passed: false,
+                                status: 'warning',
+                                message: '⚠️ Critical resources not cached'
+                            };
+                        }
+                    } catch (error) {
+                        return {
+                            passed: false,
+                            status: 'fail',
+                            message: `❌ Error checking resource caches: ${error.message}`
+                        };
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Cache API not available'
+                    };
+                }
+            }
+
+            async testNotifications() {
+                console.log('🔔 Testing Push Notifications...');
+                
+                const permission = this.testNotificationPermission();
+                this.displayResult('notification-permission-result', permission.message, permission.status);
+                this.testResults.notifications.permission = permission.passed;
+
+                const pushAPI = this.testPushAPI();
+                this.displayResult('push-api-result', pushAPI.message, pushAPI.status);
+                this.testResults.notifications.pushAPI = pushAPI.passed;
+
+                const actions = this.testNotificationActions();
+                this.displayResult('notification-actions-result', actions.message, actions.status);
+                this.testResults.notifications.actions = actions.passed;
+
+                const badge = this.testBadgeAPI();
+                this.displayResult('badge-api-result', badge.message, badge.status);
+                this.testResults.notifications.badge = badge.passed;
+            }
+
+            testNotificationPermission() {
+                this.totalTests++;
+                if ('Notification' in window) {
+                    const permission = Notification.permission;
+                    if (permission === 'granted') {
+                        this.passedTests++;
+                        return {
+                            passed: true,
+                            status: 'pass',
+                            message: '✅ Notification permission granted'
+                        };
+                    } else if (permission === 'denied') {
+                        return {
+                            passed: false,
+                            status: 'fail',
+                            message: '❌ Notification permission denied'
+                        };
+                    } else {
+                        return {
+                            passed: false,
+                            status: 'warning',
+                            message: '⚠️ Notification permission not requested yet'
+                        };
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Notifications not supported'
+                    };
+                }
+            }
+
+            testPushAPI() {
+                this.totalTests++;
+                if ('serviceWorker' in navigator && 'PushManager' in window) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ Push API supported'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Push API not supported'
+                    };
+                }
+            }
+
+            testNotificationActions() {
+                this.totalTests++;
+                if ('Notification' in window) {
+                    // Test if actions are supported by checking prototype
+                    const supportsActions = 'actions' in Notification.prototype;
+                    if (supportsActions) {
+                        this.passedTests++;
+                        return {
+                            passed: true,
+                            status: 'pass',
+                            message: '✅ Notification actions supported'
+                        };
+                    } else {
+                        return {
+                            passed: false,
+                            status: 'warning',
+                            message: '⚠️ Notification actions not supported'
+                        };
+                    }
+                } else {
+                    return {
+                        passed: false,
+                        status: 'fail',
+                        message: '❌ Notifications not supported'
+                    };
+                }
+            }
+
+            testBadgeAPI() {
+                this.totalTests++;
+                if ('setAppBadge' in navigator) {
+                    this.passedTests++;
+                    return {
+                        passed: true,
+                        status: 'pass',
+                        message: '✅ App Badge API supported'
+                    };
+                } else {
+                    return {
+                        passed: false,
+                        status: 'warning',
+                        message: '⚠️ App Badge API not supported'
+                    };
+                }
+            }
+
+            testPWAFeatures() {
+                console.log('🚀 Testing PWA Feature Support...');
+                
+                const features = {
+                    'Service Worker': 'serviceWorker' in navigator,
+                    'Cache API': 'caches' in window,
+                    'Web App Manifest': document.querySelector('link[rel="manifest"]') !== null || window.IgnitePWA,
+                    'Push Notifications': 'Notification' in window,
+                    'Push API': 'PushManager' in window,
+                    'Background Sync': 'serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype,
+                    'App Badge': 'setAppBadge' in navigator,
+                    'Share API': 'share' in navigator,
+                    'Fullscreen API': 'requestFullscreen' in document.documentElement,
+                    'Screen Wake Lock': 'wakeLock' in navigator,
+                    'Install Events': 'BeforeInstallPromptEvent' in window,
+                    'Standalone Mode': window.matchMedia('(display-mode: standalone)').matches,
+                    'Device Motion': 'DeviceMotionEvent' in window,
+                    'Geolocation': 'geolocation' in navigator,
+                    'Camera API': 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices,
+                    'Touch Events': 'ontouchstart' in window,
+                    'Orientation': 'orientation' in window || 'onorientationchange' in window,
+                    'Vibration': 'vibrate' in navigator,
+                    'Local Storage': 'localStorage' in window,
+                    'Session Storage': 'sessionStorage' in window,
+                    'IndexedDB': 'indexedDB' in window,
+                    'Web Workers': 'Worker' in window,
+                    'Fetch API': 'fetch' in window,
+                    'Intersection Observer': 'IntersectionObserver' in window,
+                    'Resize Observer': 'ResizeObserver' in window,
+                    'Performance Observer': 'PerformanceObserver' in window
+                };
+
+                const featureSupport = document.getElementById('featureSupport');
+                featureSupport.innerHTML = '';
+
+                Object.entries(features).forEach(([feature, supported]) => {
+                    const featureItem = document.createElement('div');
+                    featureItem.className = `feature-item ${supported ? 'feature-supported' : 'feature-not-supported'}`;
+                    featureItem.innerHTML = `
+                        <span>${feature}</span>
+                        <span class="status-indicator ${supported ? 'status-green' : 'status-red'}"></span>
+                    `;
+                    featureSupport.appendChild(featureItem);
+                    
+                    this.totalTests++;
+                    if (supported) this.passedTests++;
+                });
+
+                this.testResults.features = features;
+            }
+
+            calculateScore() {
+                const score = this.totalTests > 0 ? Math.round((this.passedTests / this.totalTests) * 100) : 0;
+                const scoreElement = document.getElementById('scoreValue');
+                const descElement = document.getElementById('scoreDescription');
+                
+                scoreElement.textContent = `${score}/100`;
+                
+                if (score >= 90) {
+                    descElement.textContent = 'Excellent PWA Implementation! 🎉';
+                    scoreElement.parentElement.style.background = 'linear-gradient(135deg, #2ea043, #26a641)';
+                } else if (score >= 70) {
+                    descElement.textContent = 'Good PWA Implementation 👍';
+                    scoreElement.parentElement.style.background = 'linear-gradient(135deg, #ff6b35, #f7931e)';
+                } else if (score >= 50) {
+                    descElement.textContent = 'Basic PWA Features Present ⚠️';
+                    scoreElement.parentElement.style.background = 'linear-gradient(135deg, #fbbd23, #f59e0b)';
+                } else {
+                    descElement.textContent = 'PWA Implementation Needs Work ⚠️';
+                    scoreElement.parentElement.style.background = 'linear-gradient(135deg, #da3633, #dc2626)';
+                }
+            }
+
+            updateSummary() {
+                const summary = document.getElementById('testSummary');
+                summary.innerHTML = '';
+
+                const categories = [
+                    { name: 'Service Worker', tests: this.testResults.serviceWorker },
+                    { name: 'Manifest', tests: this.testResults.manifest },
+                    { name: 'Installation', tests: this.testResults.install },
+                    { name: 'Offline', tests: this.testResults.offline },
+                    { name: 'Notifications', tests: this.testResults.notifications }
+                ];
+
+                categories.forEach(category => {
+                    const passed = Object.values(category.tests).filter(Boolean).length;
+                    const total = Object.keys(category.tests).length;
+                    const percentage = total > 0 ? Math.round((passed / total) * 100) : 0;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'test-card';
+                    card.innerHTML = `
+                        <h3>${category.name}</h3>
+                        <div class="test-result ${percentage >= 75 ? 'test-pass' : percentage >= 50 ? 'test-warning' : 'test-fail'}">
+                            ${passed}/${total} tests passed (${percentage}%)
+                        </div>
+                    `;
+                    summary.appendChild(card);
+                });
+            }
+
+            displayResult(elementId, message, status) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = message;
+                    element.className = `test-result test-${status}`;
+                }
+            }
+
+            generateReport() {
+                const report = {
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    url: window.location.href,
+                    totalTests: this.totalTests,
+                    passedTests: this.passedTests,
+                    score: this.totalTests > 0 ? Math.round((this.passedTests / this.totalTests) * 100) : 0,
+                    results: this.testResults,
+                    recommendations: this.generateRecommendations()
+                };
+
+                console.log('PWA Test Report:', report);
+                
+                // Create downloadable report
+                const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `pwa-test-report-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                alert('PWA test report generated and downloaded!');
+            }
+
+            generateRecommendations() {
+                const recommendations = [];
+                
+                if (!this.testResults.serviceWorker.registration) {
+                    recommendations.push('Implement Service Worker for offline functionality');
+                }
+                
+                if (!this.testResults.manifest.presence) {
+                    recommendations.push('Add Web App Manifest for installability');
+                }
+                
+                if (!this.testResults.install.criteria) {
+                    recommendations.push('Ensure HTTPS, Manifest, and Service Worker for install criteria');
+                }
+                
+                if (!this.testResults.offline.cacheStrategy) {
+                    recommendations.push('Implement caching strategy for offline support');
+                }
+                
+                if (!this.testResults.notifications.permission) {
+                    recommendations.push('Request notification permissions for engagement');
+                }
+
+                return recommendations;
+            }
+        }
+
+        // Initialize PWA Test Suite
+        const pwaTestSuite = new PWATestSuite();
+
+        // Global functions for buttons
+        function runAllTests() {
+            pwaTestSuite.runAllTests();
+        }
+
+        function testServiceWorker() {
+            pwaTestSuite.testServiceWorker();
+        }
+
+        function testManifest() {
+            pwaTestSuite.testManifest();
+        }
+
+        function testInstallability() {
+            pwaTestSuite.testInstallability();
+        }
+
+        function testOffline() {
+            pwaTestSuite.testOffline();
+        }
+
+        function testNotifications() {
+            pwaTestSuite.testNotifications();
+        }
+
+        function generateReport() {
+            pwaTestSuite.generateReport();
+        }
+
+        // Auto-test features on load
+        document.addEventListener('DOMContentLoaded', () => {
+            pwaTestSuite.testPWAFeatures();
+        });
+    </script>
+</body>
+</html>

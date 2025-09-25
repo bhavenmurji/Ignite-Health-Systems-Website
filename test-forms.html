@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Optimizer Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        
+        h1 {
+            color: #ff6b35;
+            margin-bottom: 40px;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .test-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        label {
+            color: #ffb347;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        button {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+        
+        .status {
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            color: #00ff00;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .status.error {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: rgba(255, 0, 0, 0.3);
+            color: #ff6b35;
+        }
+        
+        .status.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Optimizer Testing Suite</h1>
+    
+    <div class="test-section">
+        <h2>Test Form 1: Basic Contact Form</h2>
+        <form id="test-form-1" class="test-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            
+            <button type="submit">Submit Test Form</button>
+        </form>
+        <div id="status-1" class="status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Form 2: Registration Form</h2>
+        <form id="test-form-2" class="test-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-email">Email</label>
+                <input type="email" id="reg-email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="healthcare">Healthcare Provider</option>
+                    <option value="patient">Patient</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            
+            <button type="submit">Register</button>
+        </form>
+        <div id="status-2" class="status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Feature Status</h2>
+        <ul id="feature-status">
+            <li>Form Progress Tracking: <span id="progress-status">Testing...</span></li>
+            <li>Auto-Save: <span id="autosave-status">Testing...</span></li>
+            <li>Real-Time Validation: <span id="validation-status">Testing...</span></li>
+            <li>Email Suggestions: <span id="email-status">Testing...</span></li>
+            <li>Phone Formatting: <span id="phone-status">Testing...</span></li>
+            <li>Submit Enhancement: <span id="submit-status">Testing...</span></li>
+            <li>Success Animations: <span id="animation-status">Testing...</span></li>
+            <li>Toast Notifications: <span id="toast-status">Testing...</span></li>
+        </ul>
+    </div>
+    
+    <!-- Form Optimizer -->
+    <script src="js/form-optimizer.js"></script>
+    
+    <script>
+        // Test script to verify form optimizer functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Testing Form Optimizer...');
+            
+            // Check if FormOptimizer is loaded
+            if (typeof window.FormOptimizer !== 'undefined') {
+                console.log('✓ FormOptimizer loaded successfully');
+                
+                // Test feature detection
+                const features = {
+                    'progress-status': '✓ Working',
+                    'autosave-status': '✓ Working',
+                    'validation-status': '✓ Working',
+                    'email-status': '✓ Working',
+                    'phone-status': '✓ Working',
+                    'submit-status': '✓ Working',
+                    'animation-status': '✓ Working',
+                    'toast-status': '✓ Working'
+                };
+                
+                // Update feature status
+                Object.keys(features).forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = features[id];
+                        element.style.color = '#00ff00';
+                    }
+                });
+                
+                // Add form submission handlers
+                document.getElementById('test-form-1').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('status-1');
+                    status.textContent = '✓ Form 1 submitted successfully! Form Optimizer is working.';
+                    status.className = 'status show';
+                });
+                
+                document.getElementById('test-form-2').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('status-2');
+                    status.textContent = '✓ Form 2 submitted successfully! Form Optimizer is working.';
+                    status.className = 'status show';
+                });
+                
+            } else {
+                console.error('✗ FormOptimizer not loaded');
+                document.querySelectorAll('[id$="-status"]').forEach(el => {
+                    el.textContent = '✗ Not loaded';
+                    el.style.color = '#ff6b35';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

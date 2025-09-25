@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-09-24T23:01:53.988Z",
+  "diagnosis": "Invalid Cloudflare API tokens causing 401 Unauthorized errors",
+  "rootCause": "CLOUDFLARE_API_TOKEN and CLOUDFLARE_API_KEY in environment files are invalid or expired",
+  "impact": "Complete inability to access Cloudflare API, resulting in \"No deployment available\" error",
+  "solution": "Generate new API token with Cloudflare Pages permissions",
+  "steps": [
+    "Generate new API token at https://dash.cloudflare.com/profile/api-tokens",
+    "Replace token in .env and .env.cloudflare files",
+    "Test token with test_all_tokens.js script",
+    "Verify Pages project exists or create new one",
+    "Trigger deployment and verify success"
+  ],
+  "priority": "CRITICAL - Blocking all deployments",
+  "estimatedFixTime": "10-15 minutes"
+}
