@@ -8,6 +8,9 @@ import { Neurology } from 'healthicons-react'
 import { Link } from 'wouter'
 import doctorPortrait from '@assets/BhavenMurjiNeedsACoFounder_1758739687681.png'
 import rocketVsCar from '@assets/RocketOnHorsevsNewCar_1758754490209.png'
+import computerImage from '@assets/Computer_1758754810597.png'
+import coDoctorImage from '@assets/CoDoctor_1758754810596.png'
+import coPilotAnalogy from '@assets/CoPilotAnalogy_1758754810597.png'
 
 export default function Home() {
   return (
@@ -170,56 +173,154 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Revolution vs Evolution Section */}
-      <section className="py-24">
+
+      {/* Three-Stage Transformation */}
+      <section className="py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                    Stop Bolting Rockets onto Horses
-                  </h2>
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                The Three-Stage Transformation
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                From aviation principles to healthcare evolution
+              </p>
+            </div>
+
+            {/* Current Crisis: Image left, Text right */}
+            <div className="mb-16">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="flex justify-center order-2 lg:order-1">
+                  <div className="max-w-lg w-full">
+                    <div className="aspect-square rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-current-healthcare">
+                      <img 
+                        src={computerImage} 
+                        alt="Current Healthcare System - The Fragmented Barrier" 
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="text-center mt-4">
+                      <p className="text-sm text-muted-foreground">The Fragmentation Crisis: Lost in the Digital Maze</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-6 order-1 lg:order-2">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Before AI: The Fragmented Healthcare Maze</h3>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    Legacy healthcare systems are trapped in the past, frantically bolting AI features onto fragmented platforms. It's like strapping a rocket to a horse—impressive engineering, but fundamentally the wrong approach.
+                    Current healthcare AI adds speed to broken workflows, forcing physicians to frantically click between fragmented systems. This isn't just inefficient; it's a barrier that steals precious time from patients and critical thinking from doctors. We're trapped in a digital maze, where essential insights are scattered across platforms, preventing seamless care and burning out dedicated professionals.
                   </p>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="border-l-4 border-destructive pl-6">
-                    <h3 className="text-xl font-semibold text-foreground mb-2">The Fragmentation Crisis</h3>
-                    <p className="text-muted-foreground">
-                      Current AI adds speed to broken workflows. You're still context-switching between EMRs, transcription tools, research platforms, and study apps. Even DAX can't see your chart data—you're narrating blindly across disconnected systems.
-                    </p>
+                  <div className="space-y-4">
+                    <div className="border-l-4 border-destructive pl-6">
+                      <h4 className="font-semibold text-foreground mb-2">Learning happened here:</h4>
+                      <p className="text-sm text-muted-foreground">Medical journals, UpToDate.com, and OpenEvidence - completely isolated from actual practice</p>
+                    </div>
+                    <div className="border-l-4 border-destructive pl-6">
+                      <h4 className="font-semibold text-foreground mb-2">Practice happened here:</h4>
+                      <p className="text-sm text-muted-foreground">EMR systems with zero clinical decision support, endless clicking between tabs and screens</p>
+                    </div>
+                    <div className="border-l-4 border-destructive pl-6">
+                      <h4 className="font-semibold text-foreground mb-2">Testing happened here:</h4>
+                      <p className="text-sm text-muted-foreground">AAFP, ABFM, AMBOSS, UWorld - completely disconnected from real cases</p>
+                    </div>
                   </div>
-
-                  <div className="border-l-4 border-primary pl-6">
-                    <h3 className="text-xl font-semibold text-foreground mb-2">The Evolution Imperative</h3>
-                    <p className="text-muted-foreground">
-                      True transformation requires evolutionary change—not incremental improvements to outdated modes of transport. Just as the automobile didn't improve the horse, next-generation healthcare AI demands a completely new foundation.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <Badge variant="outline" className="text-accent border-accent">
-                    One Unified Intelligence Layer
-                  </Badge>
                 </div>
               </div>
+            </div>
 
-              <div className="flex justify-center">
-                <div className="relative max-w-lg w-full">
-                  <img 
-                    src={rocketVsCar} 
-                    alt="Legacy systems: Rocket on Horse vs Next-generation: Car with Robots" 
-                    className="w-full h-auto rounded-lg hover-elevate bg-card/50 p-2"
-                    data-testid="image-evolution-analogy"
-                  />
-                  <div className="absolute -bottom-4 left-4 right-4 text-center">
-                    <p className="text-sm text-muted-foreground bg-background/80 backdrop-blur px-4 py-2 rounded-md">
-                      Legacy vs Next-Generation Healthcare Technology
+            {/* Current AI Reality */}
+            <div className="mb-16">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Current AI: Still Fragmented, Just Faster</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Even with today's AI tools, physicians are still context-switching across multiple platforms. DAX can't see chart data, forcing doctors to narrate blindly. The fundamental problem persists: cognitive fragmentation across 7+ platforms that breaks clinical thinking.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="border-l-4 border-yellow-500 pl-6">
+                      <h4 className="font-semibold text-foreground mb-2">5:30 AM - Precharting with DAX:</h4>
+                      <p className="text-sm text-muted-foreground">Wake up early, click through charts, read everything aloud - DAX can't see the data</p>
+                    </div>
+                    <div className="border-l-4 border-yellow-500 pl-6">
+                      <h4 className="font-semibold text-foreground mb-2">Patient Care:</h4>
+                      <p className="text-sm text-muted-foreground">Second recording per patient, step out to dictate what DAX missed, manual lab narration</p>
+                    </div>
+                    <div className="border-l-4 border-yellow-500 pl-6">
+                      <h4 className="font-semibold text-foreground mb-2">Evening Study:</h4>
+                      <p className="text-sm text-muted-foreground">Separate platforms from clinical work, no connection between performance and learning</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <div className="relative max-w-lg w-full">
+                    <Badge variant="outline" className="absolute top-4 left-4 z-10 bg-yellow-100 text-yellow-800 border-yellow-300">
+                      Still Fragmented
+                    </Badge>
+                    <p className="text-center text-lg text-muted-foreground mt-8">
+                      Current AI tools still require context-switching between multiple disconnected platforms
                     </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Aviation Inspiration & Ignite Solution */}
+            <div className="flex flex-col md:grid md:grid-cols-2 gap-12">
+              {/* Aviation: Text above image */}
+              <div className="flex flex-col space-y-6 order-1">
+                <div className="space-y-4">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Aviation Inspiration: Orchestrated Command, Unburdened Care</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Just as an aviation co-pilot expertly manages complex systems and crew, allowing the captain to command the flight, healthcare needs unified intelligence. This analogy underscores our vision: to offload the administrative and informational burden from physicians, empowering them to deliver exceptional patient care with seamless support, clarity, and restored autonomy.
+                  </p>
+                </div>
+                <div className="flex justify-center">
+                  <div className="max-w-sm w-full">
+                    <div className="aspect-square rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-aviation-analogy">
+                      <img 
+                        src={coPilotAnalogy} 
+                        alt="Aviation Analogy - Co-pilot Orchestrates Crew & Systems" 
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="text-center mt-4">
+                      <p className="text-sm text-muted-foreground">Aviation Inspiration: Orchestrated Command, Unburdened Care</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Ignite Solution: Keep as image above text */}
+              <div className="flex flex-col items-center space-y-6 order-2">
+                <div className="max-w-sm w-full">
+                  <div className="aspect-square rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-future-healthcare">
+                    <img 
+                      src={coDoctorImage} 
+                      alt="Future Healthcare System - Ignite: Clinical Co-Pilot Enhances Direct Patient-Physician Relationship" 
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <div className="text-center mt-4">
+                    <p className="text-sm text-muted-foreground">Ignite Solution: One Unified Intelligence Layer</p>
+                  </div>
+                </div>
+                <div className="text-center space-y-4">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">The Ignite Future: One Unified Intelligence</h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Imagine a future where you walk into patient rooms with complete context already synthesized. Ignite: Clinical Co-Pilot eliminates cognitive fragmentation, seamlessly connecting all vital information—from EHR to evidence-based guidelines—into one intuitive layer. This isn't about replacing doctors; it's about freeing them from digital busy-work, making them supercharged human doctors who can truly focus on healing.
+                  </p>
+                  <div className="space-y-3">
+                    <div className="border-l-4 border-primary pl-6 text-left">
+                      <h4 className="font-semibold text-foreground mb-1">5:30 AM - Intelligent Precharting:</h4>
+                      <p className="text-sm text-muted-foreground">AI analyzes schedules and histories, one conversation per patient where AI sees everything</p>
+                    </div>
+                    <div className="border-l-4 border-primary pl-6 text-left">
+                      <h4 className="font-semibold text-foreground mb-1">7:00 AM - Supercharged Patient Care:</h4>
+                      <p className="text-sm text-muted-foreground">Complete context synthesized, ambient conversation capture, real-time evidence integration</p>
+                    </div>
+                    <div className="border-l-4 border-primary pl-6 text-left">
+                      <h4 className="font-semibold text-foreground mb-1">6:00 PM - Personalized Learning:</h4>
+                      <p className="text-sm text-muted-foreground">AI analyzes clinical decisions, generates targeted questions based on actual cases</p>
+                    </div>
                   </div>
                 </div>
               </div>
