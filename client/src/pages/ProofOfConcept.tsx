@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import { ArrowRight, Brain, Lightbulb, Rocket } from 'lucide-react'
 import { Link } from 'wouter'
 import aviationAnalogy from '@assets/CoPilotAnalogy_1758754810597.png'
 import currentHealthcare from '@assets/Computer_1758754810597.png'
 import futureHealthcare from '@assets/CoDoctor_1758754810596.png'
 import federatedArchitecture from '@assets/FederatedLocalAndCloudData_1758759175692.png'
-import coFounderSearch from '@assets/image_1758758549058.png'
 
 export default function ProofOfConcept() {
   return (
@@ -135,29 +135,6 @@ export default function ProofOfConcept() {
                 </div>
               </div>
 
-              {/* Mamba-Based Clinical AI Section */}
-              <div className="mt-12 text-center">
-                <div className="max-w-4xl mx-auto space-y-6">
-                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Mamba-Based Clinical AI</h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    Built on revolutionary Mamba architecture that understands the context and complexity of medical decision-making.
-                  </p>
-                  <div className="flex justify-center">
-                    <div className="max-w-md w-full">
-                      <div className="rounded-lg overflow-visible bg-card border hover-elevate" data-testid="image-cofounder-search">
-                        <img 
-                          src={coFounderSearch} 
-                          alt="Co-founder Search - Revolutionary AI Architecture" 
-                          className="w-full h-auto rounded-lg"
-                        />
-                      </div>
-                      <div className="text-center mt-2">
-                        <p className="text-sm text-muted-foreground">Seeking Technical Co-Founder</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Aviation Inspiration & Ignite Solution */}
@@ -272,8 +249,216 @@ export default function ProofOfConcept() {
         </div>
       </section>
 
-      {/* Call to Action */}
+      {/* Research Citations */}
       <section className="py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center space-y-4 mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                Evidence-Based Foundation
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Our approach is grounded in peer-reviewed research and breakthrough AI developments
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Documentation Burden Studies */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-foreground">Healthcare Documentation Crisis</h3>
+                
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">National EHR Time/Documentation Burden</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>5.8 hours per 8 scheduled patient hours | 2.3 hours documentation</strong>
+                    </p>
+                    <a 
+                      href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11534958/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      National Comparison of Ambulatory Physician Electronic Health Record Use (2024)
+                    </a>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">AMIA Task Force Documentation/Burnout</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>75% of healthcare professionals: documentation impedes care</strong>
+                    </p>
+                    <a 
+                      href="https://amia.org/education-events/amia-25x5-task-force-documentation-burden-reduction" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      AMIA 25x5 Task Force (2024) Executive Summary
+                    </a>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">Unstructured Healthcare Data</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>80% of Healthcare Data is Unstructured</strong>
+                    </p>
+                    <a 
+                      href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8961402/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      Medical Documentation Burden Among US Office-Based Physicians (2022)
+                    </a>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">Physician Burnout Impact</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>Annual cost of $4.6 billion</strong>
+                    </p>
+                    <div className="space-y-2">
+                      <a 
+                        href="https://jamanetwork.com/journals/jama/fullarticle/2684994" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-sm text-primary hover:underline"
+                      >
+                        Physician Burnout and the Electronic Health Record (JAMA 2018)
+                      </a>
+                      <a 
+                        href="https://www.acpjournals.org/doi/10.7326/M18-1422" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-sm text-primary hover:underline"
+                      >
+                        Harvard study: Annual cost analysis (Annals of Internal Medicine)
+                      </a>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Breakthrough AI Research */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-foreground">Breakthrough AI Research</h3>
+                
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">COMET – Microsoft/Epic Foundation Model</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>Largest event-level medical foundation model</strong>
+                    </p>
+                    <a 
+                      href="https://arxiv.org/abs/2508.12104" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      COMET: Generative Medical Event Models (Epic & Microsoft, 2025)
+                    </a>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">Mamba/EHRMamba – Long-sequence Medical AI</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>EHRMamba scaling + ClinicalMamba</strong>
+                    </p>
+                    <div className="space-y-2">
+                      <a 
+                        href="https://arxiv.org/pdf/2312.00752.pdf" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-sm text-primary hover:underline"
+                      >
+                        Mamba: Linear-Time Sequence Modeling (Gu et al. 2024)
+                      </a>
+                      <a 
+                        href="https://arxiv.org/pdf/2405.14567.pdf" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-sm text-primary hover:underline"
+                      >
+                        EHRMamba: Scalable Foundation Models (ML4H 2024)
+                      </a>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">Jet-Nemotron & PostNAS</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      <strong>53.6x Speedup</strong>
+                    </p>
+                    <a 
+                      href="https://arxiv.org/pdf/2508.15884.pdf" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      Jet-Nemotron: Efficient Language Model (NVIDIA)
+                    </a>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover-elevate">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold text-foreground mb-2">Advanced Medical AI Frameworks</h4>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Uncertainty-Aware Contrastive Decoding</p>
+                        <a 
+                          href="https://arxiv.org/abs/2403.04369" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary hover:underline"
+                        >
+                          UCD Research (2024)
+                        </a>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Ontology-Grounded RAG for Medicine</p>
+                        <a 
+                          href="https://arxiv.org/abs/2402.10423" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary hover:underline"
+                        >
+                          OG-RAG: Medical Advice (Microsoft)
+                        </a>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Synthetic EHR Generation for Privacy</p>
+                        <a 
+                          href="https://arxiv.org/abs/1910.06888" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary hover:underline"
+                        >
+                          Yuan Zhong et al. - Synthetic EHRs
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
