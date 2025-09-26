@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Enhanced Color System with Better Contrast */
+    --background: 210 11% 7%; /* #0f1211 */
+    --foreground: 160 14% 95%; /* Enhanced contrast: #f0f4f3 */
+    --foreground-muted: 160 14% 88%; /* #dde5e2 */
+    --foreground-subtle: 160 14% 75%; /* #b8c7c0 */
+
+    /* Improved Muted Colors */
+    --muted: 240 2% 16%; /* #27272a */
+    --muted-foreground: 160 14% 85%; /* Better contrast: #d1dbd6 */
+    --muted-foreground-light: 160 14% 70%; /* #acc2b8 */
+    --muted-foreground-dark: 160 14% 80%; /* #c5d2cb */
+
+    /* Enhanced Card System */
+    --card: 220 17% 98% / 0.02; /* Slightly more visible */
+    --card-foreground: 160 14% 95%;
+    --card-border: 240 100% 100% / 0.12; /* More visible borders */
+
+    --popover: 210 11% 7%;
+    --popover-foreground: 160 14% 95%;
+
+    /* Primary Accent Colors */
+    --primary: 165 96% 71%; /* #78fcd6 */
+    --primary-foreground: 160 8% 6%; /* #0d0f0e */
+    --primary-dark: 160 100% 50%; /* #00ffb6 */
+    --primary-light: 160 48% 87%; /* #c5f2e5 */
+
+    /* Secondary Accent Colors */
+    --secondary: 160 14% 95%; /* Enhanced contrast */
+    --secondary-foreground: 165 14% 8%; /* #141a18 */
+
+    --accent: 240 2% 25%; /* #3f3f42 */
+    --accent-foreground: 240 2% 96%; /* #f4f4f5 */
+
+    /* Enhanced Border System */
+    --border: 240 100% 100% / 0.12; /* More visible borders */
+    --border-light: 210 17% 6% / 0.15;
+    --border-dark: 210 17% 6% / 0.08;
+    --border-subtle: 240 100% 100% / 0.06;
+
+    --ring: 165 96% 71%;
+
+    /* Enhanced Radius System */
+    --radius-sm: 0.375rem; /* 6px */
+    --radius: 0.5rem; /* 8px */
+    --radius-md: 0.75rem; /* 12px */
+    --radius-lg: 1rem; /* 16px */
+    --radius-xl: 1.5rem; /* 24px */
+
+    /* Typography Scale Variables */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-base: 1rem; /* 16px */
+    --font-size-lg: 1.125rem; /* 18px */
+    --font-size-xl: 1.25rem; /* 20px */
+    --font-size-2xl: 1.5rem; /* 24px */
+    --font-size-3xl: 1.875rem; /* 30px */
+    --font-size-4xl: 2.25rem; /* 36px */
+    --font-size-5xl: 3rem; /* 48px */
+    --font-size-6xl: 3.75rem; /* 60px */
+
+    /* Line Height Scale */
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+
+    /* Spacing Scale (8px base) */
+    --spacing-xs: 0.25rem; /* 4px */
+    --spacing-sm: 0.5rem; /* 8px */
+    --spacing-md: 1rem; /* 16px */
+    --spacing-lg: 1.5rem; /* 24px */
+    --spacing-xl: 2rem; /* 32px */
+    --spacing-2xl: 3rem; /* 48px */
+    --spacing-3xl: 4rem; /* 64px */
+    --spacing-4xl: 6rem; /* 96px */
+    --spacing-5xl: 8rem; /* 128px */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Enhanced Typography System */
+@layer components {
+  /* Heading Hierarchy */
+  .heading-display {
+    @apply text-foreground font-semibold;
+    font-size: var(--font-size-6xl);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+  }
+  
+  .heading-1 {
+    @apply text-foreground font-semibold;
+    font-size: var(--font-size-5xl);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.015em;
+  }
+  
+  .heading-2 {
+    @apply text-foreground font-semibold;
+    font-size: var(--font-size-4xl);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.01em;
+  }
+  
+  .heading-3 {
+    @apply text-foreground font-semibold;
+    font-size: var(--font-size-3xl);
+    line-height: var(--leading-snug);
+  }
+  
+  .heading-4 {
+    @apply text-foreground font-medium;
+    font-size: var(--font-size-2xl);
+    line-height: var(--leading-normal);
+  }
+  
+  .heading-5 {
+    @apply text-foreground font-medium;
+    font-size: var(--font-size-xl);
+    line-height: var(--leading-normal);
+  }
+
+  /* Body Text Hierarchy */
+  .body-large {
+    @apply text-foreground-muted font-normal;
+    font-size: var(--font-size-lg);
+    line-height: var(--leading-relaxed);
+  }
+  
+  .body-base {
+    @apply text-foreground-muted font-normal;
+    font-size: var(--font-size-base);
+    line-height: var(--leading-relaxed);
+  }
+  
+  .body-small {
+    @apply text-muted-foreground font-normal;
+    font-size: var(--font-size-sm);
+    line-height: var(--leading-normal);
+  }
+  
+  .body-xs {
+    @apply text-muted-foreground-light font-normal;
+    font-size: var(--font-size-xs);
+    line-height: var(--leading-normal);
+  }
+
+  /* Section Spacing */
+  .section-spacing {
+    padding-top: var(--spacing-4xl);
+    padding-bottom: var(--spacing-4xl);
+  }
+  
+  .section-spacing-sm {
+    padding-top: var(--spacing-3xl);
+    padding-bottom: var(--spacing-3xl);
+  }
+  
+  .section-spacing-lg {
+    padding-top: var(--spacing-5xl);
+    padding-bottom: var(--spacing-5xl);
+  }
+
+  /* Content Spacing */
+  .content-spacing {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .content-spacing-sm {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .content-spacing-lg {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  /* Enhanced Card Styles */
+  .card-enhanced {
+    @apply rounded-2xl;
+    background: rgba(231, 236, 235, 0.08);
+    border: 1px solid hsl(var(--card-border));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  .card-testimonial {
+    @apply card-enhanced;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Visual Separation Utilities */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+    margin: var(--spacing-2xl) 0;
+  }
+  
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--border-subtle)), transparent);
+    margin: var(--spacing-4xl) 0;
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .heading-display {
+    font-size: var(--font-size-4xl);
+  }
+  
+  .heading-1 {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .heading-2 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .section-spacing {
+    padding-top: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
+  }
+  
+  .section-spacing-lg {
+    padding-top: var(--spacing-3xl);
+    padding-bottom: var(--spacing-3xl);
+  }
+}

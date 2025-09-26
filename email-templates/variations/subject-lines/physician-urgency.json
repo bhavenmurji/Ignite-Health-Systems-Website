@@ -1,0 +1,51 @@
+{
+  "category": "urgency",
+  "audience": "physician",
+  "variations": [
+    {
+      "id": "urgency_01",
+      "subject": "🚨 Dr. {{FNAME}}, Your Practice Is Burning Out - Here's the Solution",
+      "tone": "urgent",
+      "emotional_trigger": "pain_point",
+      "personalization": "name",
+      "character_count": 65,
+      "emoji_count": 1
+    },
+    {
+      "id": "urgency_02",
+      "subject": "URGENT: {{SPECIALTY}} physicians losing 2+ hours daily to documentation",
+      "tone": "urgent",
+      "emotional_trigger": "time_loss",
+      "personalization": "specialty",
+      "character_count": 67,
+      "emoji_count": 0
+    },
+    {
+      "id": "urgency_03",
+      "subject": "⚡ Breaking: Solution for {{EMR_SYSTEM}} documentation burden (2 hrs saved daily)",
+      "tone": "urgent",
+      "emotional_trigger": "solution_promise",
+      "personalization": "emr_system",
+      "character_count": 75,
+      "emoji_count": 1
+    },
+    {
+      "id": "urgency_04",
+      "subject": "Last chance: End physician burnout in {{PRACTICE_MODEL}} practices",
+      "tone": "urgent",
+      "emotional_trigger": "scarcity",
+      "personalization": "practice_model",
+      "character_count": 63,
+      "emoji_count": 0
+    },
+    {
+      "id": "urgency_05",
+      "subject": "🔥 Dr. {{FNAME}}, this changes everything for {{SPECIALTY}} practices",
+      "tone": "urgent",
+      "emotional_trigger": "transformation",
+      "personalization": "name_specialty",
+      "character_count": 65,
+      "emoji_count": 1
+    }
+  ]
+}

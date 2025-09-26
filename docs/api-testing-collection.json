@@ -1,0 +1,700 @@
+{
+  "info": {
+    "name": "Ignite Health Systems API Testing Collection",
+    "description": "Comprehensive test collection for all API endpoints",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "production_url",
+      "value": "https://api.ignitehealthsystems.com",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "your_api_key_here",
+      "type": "string"
+    },
+    {
+      "key": "test_email",
+      "value": "test@example.com",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Get API Health Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check if the API is healthy and operational"
+          },
+          "response": [
+            {
+              "name": "Healthy Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/health",
+                  "host": ["{{base_url}}"],
+                  "path": ["health"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"2025-01-15T10:30:00Z\",\n  \"version\": \"1.0.0\",\n  \"uptime\": 86400\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Healthcare Professional Registration",
+      "item": [
+        {
+          "name": "Submit Valid Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Dr. Sarah Johnson",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "{{test_email}}",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "value": "Cardiology",
+                  "type": "text"
+                },
+                {
+                  "key": "practice",
+                  "value": "City Medical Center",
+                  "type": "text"
+                },
+                {
+                  "key": "practiceModel",
+                  "value": "Group Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "council",
+                  "value": "yes",
+                  "type": "text"
+                },
+                {
+                  "key": "challenge",
+                  "value": "Electronic health records consume 60% of my patient visit time, leaving only 40% for actual patient care. We need AI that can handle documentation seamlessly.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Submit a valid healthcare professional application"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Application with CV",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Dr. Michael Chen",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "michael.chen@hospital.com",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "value": "Emergency Medicine",
+                  "type": "text"
+                },
+                {
+                  "key": "practice",
+                  "value": "Metro General Hospital",
+                  "type": "text"
+                },
+                {
+                  "key": "practiceModel",
+                  "value": "Hospital Employment",
+                  "type": "text"
+                },
+                {
+                  "key": "council",
+                  "value": "yes",
+                  "type": "text"
+                },
+                {
+                  "key": "challenge",
+                  "value": "In emergency medicine, documentation requirements slow down patient care during critical situations.",
+                  "type": "text"
+                },
+                {
+                  "key": "cv",
+                  "type": "file",
+                  "src": "/path/to/test.pdf"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Submit application with CV file attachment"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Invalid Application (Missing Fields)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Dr. John Doe",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "invalid-email",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Test validation with missing required fields"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Rate Limiting",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Dr. Rate Test",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "ratetest@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "value": "Internal Medicine",
+                  "type": "text"
+                },
+                {
+                  "key": "practice",
+                  "value": "Test Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "practiceModel",
+                  "value": "Solo Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "council",
+                  "value": "no",
+                  "type": "text"
+                },
+                {
+                  "key": "challenge",
+                  "value": "Testing rate limiting functionality",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Test rate limiting - run multiple times quickly to trigger limit"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Newsletter Management",
+      "item": [
+        {
+          "name": "Subscribe to Newsletter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{test_email}}\",\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Johnson\",\n  \"role\": \"physician\",\n  \"consent\": true,\n  \"source\": \"api_testing\",\n  \"interests\": [\"AI_updates\", \"case_studies\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/newsletter",
+              "host": ["{{base_url}}"],
+              "path": ["api", "newsletter"]
+            },
+            "description": "Subscribe to newsletter with full profile"
+          },
+          "response": []
+        },
+        {
+          "name": "Subscribe Without Consent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test-noconsent@example.com\",\n  \"firstName\": \"Test\",\n  \"consent\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/newsletter",
+              "host": ["{{base_url}}"],
+              "path": ["api", "newsletter"]
+            },
+            "description": "Test GDPR validation - should fail without consent"
+          },
+          "response": []
+        },
+        {
+          "name": "Subscribe with Invalid Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"invalid-email-format\",\n  \"consent\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/newsletter",
+              "host": ["{{base_url}}"],
+              "path": ["api", "newsletter"]
+            },
+            "description": "Test email validation"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Newsletter Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/newsletter",
+              "host": ["{{base_url}}"],
+              "path": ["api", "newsletter"]
+            },
+            "description": "Check newsletter service health"
+          },
+          "response": []
+        },
+        {
+          "name": "Unsubscribe from Newsletter",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/newsletter?email={{test_email}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "newsletter"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "{{test_email}}"
+                }
+              ]
+            },
+            "description": "Unsubscribe email from newsletter"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics & Admin",
+      "item": [
+        {
+          "name": "Get Application Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"]
+            },
+            "description": "Get aggregated application statistics (requires API key)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Statistics Without Auth",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"]
+            },
+            "description": "Test authentication requirement - should fail without API key"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Security Tests",
+      "item": [
+        {
+          "name": "XSS Attempt in Form",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "<script>alert('xss')</script>Dr. Test",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "test@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "value": "Cardiology",
+                  "type": "text"
+                },
+                {
+                  "key": "practice",
+                  "value": "Test Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "practiceModel",
+                  "value": "Solo Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "council",
+                  "value": "no",
+                  "type": "text"
+                },
+                {
+                  "key": "challenge",
+                  "value": "Testing XSS prevention",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Test XSS prevention in form inputs"
+          },
+          "response": []
+        },
+        {
+          "name": "SQL Injection Attempt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Dr. Test'; DROP TABLE users; --",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "test@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "value": "Cardiology",
+                  "type": "text"
+                },
+                {
+                  "key": "practice",
+                  "value": "Test Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "practiceModel",
+                  "value": "Solo Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "council",
+                  "value": "no",
+                  "type": "text"
+                },
+                {
+                  "key": "challenge",
+                  "value": "Testing SQL injection prevention",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Test SQL injection prevention"
+          },
+          "response": []
+        },
+        {
+          "name": "CORS Preflight Request",
+          "request": {
+            "method": "OPTIONS",
+            "header": [
+              {
+                "key": "Origin",
+                "value": "https://ignitehealthsystems.com"
+              },
+              {
+                "key": "Access-Control-Request-Method",
+                "value": "POST"
+              },
+              {
+                "key": "Access-Control-Request-Headers",
+                "value": "Content-Type"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Test CORS preflight request handling"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Performance Tests",
+      "item": [
+        {
+          "name": "Concurrent Requests Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Use in test runners to send multiple concurrent requests"
+          },
+          "response": []
+        },
+        {
+          "name": "Large Payload Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Dr. Large Payload Test",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "large@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "value": "Internal Medicine",
+                  "type": "text"
+                },
+                {
+                  "key": "practice",
+                  "value": "Test Practice for Large Payload Testing",
+                  "type": "text"
+                },
+                {
+                  "key": "practiceModel",
+                  "value": "Solo Practice",
+                  "type": "text"
+                },
+                {
+                  "key": "council",
+                  "value": "yes",
+                  "type": "text"
+                },
+                {
+                  "key": "challenge",
+                  "value": "This is a very long challenge description that tests the system's ability to handle large text inputs. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "submit"]
+            },
+            "description": "Test handling of large text payloads"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set dynamic variables",
+          "pm.globals.set('timestamp', Date.now());",
+          "pm.globals.set('test_run_id', Math.random().toString(36).substr(2, 9));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test scripts",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test('Response has correct Content-Type header', function () {",
+          "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+          "});",
+          "",
+          "// Security headers check",
+          "pm.test('Security headers are present', function () {",
+          "    pm.expect(pm.response.headers.has('X-Content-Type-Options')).to.be.true;",
+          "    pm.expect(pm.response.headers.has('X-Frame-Options')).to.be.true;",
+          "    pm.expect(pm.response.headers.has('X-XSS-Protection')).to.be.true;",
+          "});"
+        ]
+      }
+    }
+  ]
+}

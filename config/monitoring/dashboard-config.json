@@ -1,0 +1,464 @@
+{
+  "dashboard": {
+    "title": "Ignite Health Email Automation Monitoring",
+    "version": "1.0.0",
+    "refresh_interval": "30s",
+    "time_range": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "tags": ["email", "automation", "ignite-health"],
+    "panels": [
+      {
+        "id": "email-delivery-overview",
+        "title": "Email Delivery Overview",
+        "type": "stat",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "email_delivery_rate",
+            "refId": "A",
+            "legendFormat": "Overall Delivery Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 85},
+                {"color": "green", "value": 95}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "delivery-by-user-type",
+        "title": "Email Delivery Rates by User Type",
+        "type": "bargauge",
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "email_delivery_rate",
+            "refId": "A",
+            "legendFormat": "{{user_type}}",
+            "groupBy": ["user_type"]
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 85},
+                {"color": "green", "value": 95}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "automation-trigger-success",
+        "title": "Automation Trigger Success Rates",
+        "type": "timeseries",
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 24,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "automation_trigger_success_rate",
+            "refId": "A",
+            "legendFormat": "{{trigger_type}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {"mode": "none", "group": "A"},
+              "axisPlacement": "auto",
+              "axisLabel": "",
+              "scaleDistribution": {"type": "linear"}
+            }
+          }
+        }
+      },
+      {
+        "id": "api-response-times",
+        "title": "API Response Times",
+        "type": "timeseries",
+        "gridPos": {
+          "x": 0,
+          "y": 16,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "api_response_time",
+            "refId": "A",
+            "legendFormat": "{{service}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ms",
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "fillOpacity": 20
+            }
+          }
+        }
+      },
+      {
+        "id": "co-founder-alerts",
+        "title": "Co-founder Alert Response Times",
+        "type": "stat",
+        "gridPos": {
+          "x": 12,
+          "y": 16,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "alert_response_time",
+            "refId": "A",
+            "legendFormat": "Avg Response Time"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "minutes",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 15},
+                {"color": "red", "value": 30}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "tag-accuracy",
+        "title": "Tag Application Accuracy",
+        "type": "gauge",
+        "gridPos": {
+          "x": 0,
+          "y": 24,
+          "w": 8,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "tag_application_accuracy",
+            "refId": "A",
+            "legendFormat": "Accuracy Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 90},
+                {"color": "green", "value": 98}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "bounce-rates",
+        "title": "Bounce Rates",
+        "type": "stat",
+        "gridPos": {
+          "x": 8,
+          "y": 24,
+          "w": 8,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "email_bounce_rate",
+            "refId": "A",
+            "legendFormat": "Bounce Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 3},
+                {"color": "red", "value": 5}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "spam-complaints",
+        "title": "Spam Complaint Rate",
+        "type": "stat",
+        "gridPos": {
+          "x": 16,
+          "y": 24,
+          "w": 8,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "spam_complaint_rate",
+            "refId": "A",
+            "legendFormat": "Spam Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 0.1},
+                {"color": "red", "value": 0.3}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "error-rate-heatmap",
+        "title": "Error Rate by Hour",
+        "type": "heatmap",
+        "gridPos": {
+          "x": 0,
+          "y": 32,
+          "w": 24,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "error_rate_by_hour",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "hideFrom": {"tooltip": false, "vis": false, "legend": false}
+            }
+          }
+        }
+      },
+      {
+        "id": "workflow-execution-status",
+        "title": "n8n Workflow Execution Status",
+        "type": "table",
+        "gridPos": {
+          "x": 0,
+          "y": 40,
+          "w": 24,
+          "h": 8
+        },
+        "targets": [
+          {
+            "metric": "workflow_execution_status",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "displayMode": "list",
+              "filterable": true
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {"id": "byName", "options": "Status"},
+              "properties": [
+                {
+                  "id": "custom.displayMode",
+                  "value": "color-background"
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {"options": {"success": {"color": "green", "index": 0}}, "type": "value"},
+                    {"options": {"error": {"color": "red", "index": 1}}, "type": "value"},
+                    {"options": {"running": {"color": "yellow", "index": 2}}, "type": "value"}
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "environment",
+          "type": "custom",
+          "options": [
+            {"text": "Production", "value": "prod"},
+            {"text": "Staging", "value": "staging"},
+            {"text": "Development", "value": "dev"}
+          ],
+          "current": {"text": "Production", "value": "prod"}
+        },
+        {
+          "name": "time_range",
+          "type": "interval",
+          "options": [
+            {"text": "5m", "value": "5m"},
+            {"text": "15m", "value": "15m"},
+            {"text": "1h", "value": "1h"},
+            {"text": "6h", "value": "6h"},
+            {"text": "12h", "value": "12h"},
+            {"text": "24h", "value": "24h"}
+          ],
+          "current": {"text": "1h", "value": "1h"}
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "system",
+          "enable": true,
+          "iconColor": "blue",
+          "lineColor": "blue",
+          "tags": ["deployment"]
+        },
+        {
+          "name": "Incidents",
+          "datasource": "system",
+          "enable": true,
+          "iconColor": "red",
+          "lineColor": "red",
+          "tags": ["incident"]
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "collection_interval": "30s",
+    "retention_period": "90d",
+    "aggregation_windows": ["1m", "5m", "15m", "1h", "24h"],
+    "metric_definitions": [
+      {
+        "name": "email_delivery_rate",
+        "type": "gauge",
+        "description": "Email delivery success rate by user type",
+        "labels": ["user_type", "email_type", "environment"],
+        "unit": "percent"
+      },
+      {
+        "name": "automation_trigger_success_rate",
+        "type": "gauge",
+        "description": "Success rate of automation triggers",
+        "labels": ["trigger_type", "workflow_id", "environment"],
+        "unit": "percent"
+      },
+      {
+        "name": "api_response_time",
+        "type": "histogram",
+        "description": "API response times for external services",
+        "labels": ["service", "endpoint", "method", "status_code"],
+        "unit": "milliseconds",
+        "buckets": [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000]
+      },
+      {
+        "name": "alert_response_time",
+        "type": "histogram",
+        "description": "Time for co-founders to respond to alerts",
+        "labels": ["alert_type", "severity", "responder"],
+        "unit": "minutes",
+        "buckets": [1, 5, 10, 15, 30, 60, 120, 240]
+      },
+      {
+        "name": "tag_application_accuracy",
+        "type": "gauge",
+        "description": "Accuracy of automated tag application",
+        "labels": ["tag_type", "source", "environment"],
+        "unit": "percent"
+      },
+      {
+        "name": "email_bounce_rate",
+        "type": "gauge",
+        "description": "Email bounce rate",
+        "labels": ["bounce_type", "user_type", "environment"],
+        "unit": "percent"
+      },
+      {
+        "name": "spam_complaint_rate",
+        "type": "gauge",
+        "description": "Spam complaint rate",
+        "labels": ["email_type", "user_type", "environment"],
+        "unit": "percent"
+      },
+      {
+        "name": "workflow_execution_count",
+        "type": "counter",
+        "description": "Number of workflow executions",
+        "labels": ["workflow_id", "status", "environment"]
+      },
+      {
+        "name": "error_rate",
+        "type": "gauge",
+        "description": "Error rate by component",
+        "labels": ["component", "error_type", "environment"],
+        "unit": "percent"
+      },
+      {
+        "name": "user_engagement_rate",
+        "type": "gauge",
+        "description": "Email engagement rate by user type",
+        "labels": ["user_type", "engagement_type", "environment"],
+        "unit": "percent"
+      }
+    ]
+  }
+}

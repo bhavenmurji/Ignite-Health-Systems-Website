@@ -1,0 +1,152 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+ignite-health-systems/node_modules
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+ignite-health-systems/.next/
+ignite-health-systems/out/
+
+# production
+/build
+ignite-health-systems/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Files - NEVER commit these files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+ignite-health-systems/.env*
+scripts/.env
+
+# Allow .env.example and .env.template to be committed
+!.env.example
+!.env.template
+!scripts/.env.template
+
+# vercel (removed - no longer using)
+# .vercel
+# ignite-health-systems/.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+ignite-health-systems/*.tsbuildinfo
+ignite-health-systems/next-env.d.ts
+
+# Claude Flow
+.claude-flow/
+.swarm/
+.hive-mind/
+memory/
+.claude/
+
+# API Keys and secrets
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Backup files
+*.backup
+*.bak
+package.json.bak
+pnpm-lock.yaml.bak
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Performance reports
+lighthouse-report.json
+performance-reports/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Deployment artifacts
+dist/
+build/
+.cache/
+.temp/
+
+# Cache directories
+.npm
+.eslintcache
+.stylelintcache
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.nyc_output
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Claude Flow generated files
+.claude/settings.local.json
+.mcp.json
+claude-flow.config.json
+.swarm/
+.hive-mind/
+memory/claude-flow-data.json
+memory/sessions/*
+!memory/sessions/README.md
+memory/agents/*
+!memory/agents/README.md
+coordination/memory_bank/*
+coordination/subtasks/*
+coordination/orchestration/*
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+claude-flow
+claude-flow.bat
+claude-flow.ps1
+hive-mind-prompt-*.txt

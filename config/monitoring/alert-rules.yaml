@@ -1,0 +1,324 @@
+apiVersion: monitoring.ignite-health.com/v1
+kind: AlertRule
+metadata:
+  name: email-automation-alerts
+  namespace: monitoring
+  labels:
+    app: ignite-health-email-automation
+    component: monitoring
+spec:
+  groups:
+    - name: email_delivery_critical
+      interval: 30s
+      rules:
+        - alert: EmailDeliveryRateCritical
+          expr: email_delivery_rate < 85
+          for: 5m
+          labels:
+            severity: critical
+            component: email_delivery
+            team: ignite-health
+          annotations:
+            summary: "Critical email delivery rate detected"
+            description: "Email delivery rate is {{ $value }}% which is below the critical threshold of 85%"
+            runbook_url: "https://docs.ignite-health.com/runbooks/email-delivery"
+            dashboard_url: "https://monitoring.ignite-health.com/d/email-automation"
+
+        - alert: EmailDeliveryRateWarning
+          expr: email_delivery_rate < 95 and email_delivery_rate >= 85
+          for: 10m
+          labels:
+            severity: warning
+            component: email_delivery
+            team: ignite-health
+          annotations:
+            summary: "Email delivery rate below optimal"
+            description: "Email delivery rate is {{ $value }}% which is below the optimal threshold of 95%"
+
+    - name: automation_triggers
+      interval: 1m
+      rules:
+        - alert: AutomationTriggerFailure
+          expr: automation_trigger_success_rate < 90
+          for: 3m
+          labels:
+            severity: critical
+            component: n8n_automation
+            team: ignite-health
+          annotations:
+            summary: "Automation trigger failure rate high"
+            description: "Automation trigger success rate is {{ $value }}% for trigger type {{ $labels.trigger_type }}"
+            action_required: "Check n8n workflow status and logs"
+
+        - alert: WorkflowExecutionStuck
+          expr: increase(workflow_execution_count[5m]) == 0
+          for: 15m
+          labels:
+            severity: warning
+            component: n8n_automation
+            team: ignite-health
+          annotations:
+            summary: "No workflow executions detected"
+            description: "No workflow executions have been recorded in the last 15 minutes"
+
+    - name: api_performance
+      interval: 30s
+      rules:
+        - alert: APIResponseTimeCritical
+          expr: histogram_quantile(0.95, api_response_time_bucket) > 5000
+          for: 5m
+          labels:
+            severity: critical
+            component: api_integration
+            team: ignite-health
+          annotations:
+            summary: "API response time critical"
+            description: "95th percentile API response time is {{ $value }}ms for service {{ $labels.service }}"
+
+        - alert: APIResponseTimeWarning
+          expr: histogram_quantile(0.95, api_response_time_bucket) > 2000
+          for: 10m
+          labels:
+            severity: warning
+            component: api_integration
+            team: ignite-health
+          annotations:
+            summary: "API response time elevated"
+            description: "95th percentile API response time is {{ $value }}ms for service {{ $labels.service }}"
+
+        - alert: APIErrorRateHigh
+          expr: rate(api_response_time_bucket{status_code=~"5.."}[5m]) / rate(api_response_time_bucket[5m]) > 0.05
+          for: 3m
+          labels:
+            severity: critical
+            component: api_integration
+            team: ignite-health
+          annotations:
+            summary: "High API error rate detected"
+            description: "API error rate is {{ $value | humanizePercentage }} for service {{ $labels.service }}"
+
+    - name: co_founder_alerts
+      interval: 1m
+      rules:
+        - alert: CoFounderResponseTimeExceeded
+          expr: histogram_quantile(0.75, alert_response_time_bucket) > 30
+          for: 0m
+          labels:
+            severity: warning
+            component: alert_response
+            team: ignite-health
+          annotations:
+            summary: "Co-founder alert response time exceeded"
+            description: "75th percentile alert response time is {{ $value }} minutes"
+            escalation_policy: "page_backup_contact"
+
+        - alert: UnacknowledgedCriticalAlert
+          expr: count(ALERTS{severity="critical", alertstate="firing"}) > 0
+          for: 15m
+          labels:
+            severity: critical
+            component: alert_response
+            team: ignite-health
+          annotations:
+            summary: "Critical alert unacknowledged"
+            description: "{{ $value }} critical alerts have been unacknowledged for 15+ minutes"
+            escalation_policy: "emergency_contact"
+
+    - name: tag_accuracy
+      interval: 5m
+      rules:
+        - alert: TagAccuracyLow
+          expr: tag_application_accuracy < 95
+          for: 10m
+          labels:
+            severity: warning
+            component: tag_automation
+            team: ignite-health
+          annotations:
+            summary: "Tag application accuracy below threshold"
+            description: "Tag accuracy is {{ $value }}% for tag type {{ $labels.tag_type }}"
+
+        - alert: TagAccuracyCritical
+          expr: tag_application_accuracy < 90
+          for: 5m
+          labels:
+            severity: critical
+            component: tag_automation
+            team: ignite-health
+          annotations:
+            summary: "Tag application accuracy critically low"
+            description: "Tag accuracy is {{ $value }}% for tag type {{ $labels.tag_type }}"
+
+    - name: email_reputation
+      interval: 5m
+      rules:
+        - alert: BounceRateHigh
+          expr: email_bounce_rate > 5
+          for: 10m
+          labels:
+            severity: critical
+            component: email_reputation
+            team: ignite-health
+          annotations:
+            summary: "Email bounce rate too high"
+            description: "Bounce rate is {{ $value }}% which may impact sender reputation"
+            action_required: "Review email list quality and clean bounce addresses"
+
+        - alert: SpamComplaintRateHigh
+          expr: spam_complaint_rate > 0.3
+          for: 5m
+          labels:
+            severity: critical
+            component: email_reputation
+            team: ignite-health
+          annotations:
+            summary: "Spam complaint rate too high"
+            description: "Spam complaint rate is {{ $value }}% which may impact deliverability"
+            action_required: "Review email content and segmentation"
+
+        - alert: BounceRateWarning
+          expr: email_bounce_rate > 3 and email_bounce_rate <= 5
+          for: 15m
+          labels:
+            severity: warning
+            component: email_reputation
+            team: ignite-health
+          annotations:
+            summary: "Email bounce rate elevated"
+            description: "Bounce rate is {{ $value }}% and trending upward"
+
+    - name: system_health
+      interval: 1m
+      rules:
+        - alert: ComponentErrorRateHigh
+          expr: error_rate > 5
+          for: 5m
+          labels:
+            severity: warning
+            component: system_health
+            team: ignite-health
+          annotations:
+            summary: "Component error rate elevated"
+            description: "Error rate is {{ $value }}% for component {{ $labels.component }}"
+
+        - alert: ComponentErrorRateCritical
+          expr: error_rate > 10
+          for: 3m
+          labels:
+            severity: critical
+            component: system_health
+            team: ignite-health
+          annotations:
+            summary: "Component error rate critical"
+            description: "Error rate is {{ $value }}% for component {{ $labels.component }}"
+
+    - name: data_quality
+      interval: 5m
+      rules:
+        - alert: MissingEmailData
+          expr: increase(workflow_execution_count{status="error"}[5m]) > 5
+          for: 0m
+          labels:
+            severity: warning
+            component: data_quality
+            team: ignite-health
+          annotations:
+            summary: "Multiple workflow execution errors"
+            description: "{{ $value }} workflow execution errors in the last 5 minutes"
+
+        - alert: GoogleSheetsConnectionFailed
+          expr: api_response_time{service="google_sheets", status_code=~"4..|5.."} > 0
+          for: 2m
+          labels:
+            severity: critical
+            component: google_sheets
+            team: ignite-health
+          annotations:
+            summary: "Google Sheets API connection failed"
+            description: "Google Sheets API returning {{ $labels.status_code }} errors"
+
+notification_config:
+  routes:
+    - match:
+        severity: critical
+      receiver: critical_alerts
+      group_wait: 10s
+      group_interval: 5m
+      repeat_interval: 12h
+
+    - match:
+        severity: warning
+      receiver: warning_alerts
+      group_wait: 30s
+      group_interval: 10m
+      repeat_interval: 24h
+
+  receivers:
+    - name: critical_alerts
+      email_configs:
+        - to: 'founders@ignite-health.com'
+          from: 'monitoring@ignite-health.com'
+          subject: '[CRITICAL] Ignite Health Email Automation Alert'
+          body: |
+            Alert: {{ .GroupLabels.alertname }}
+
+            {{ range .Alerts }}
+            Summary: {{ .Annotations.summary }}
+            Description: {{ .Annotations.description }}
+            {% if .Annotations.action_required %}
+            Action Required: {{ .Annotations.action_required }}
+            {% endif %}
+
+            Labels:
+            {{ range .Labels.SortedPairs }}  {{ .Name }}: {{ .Value }}
+            {{ end }}
+
+            Dashboard: {{ .Annotations.dashboard_url }}
+            {% if .Annotations.runbook_url %}
+            Runbook: {{ .Annotations.runbook_url }}
+            {% endif %}
+            {{ end }}
+
+      slack_configs:
+        - api_url: 'SLACK_WEBHOOK_URL'
+          channel: '#alerts-critical'
+          title: 'Critical Alert: {{ .GroupLabels.alertname }}'
+          text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+
+    - name: warning_alerts
+      email_configs:
+        - to: 'team@ignite-health.com'
+          from: 'monitoring@ignite-health.com'
+          subject: '[WARNING] Ignite Health Email Automation Alert'
+          body: |
+            Alert: {{ .GroupLabels.alertname }}
+
+            {{ range .Alerts }}
+            Summary: {{ .Annotations.summary }}
+            Description: {{ .Annotations.description }}
+            {{ end }}
+
+      slack_configs:
+        - api_url: 'SLACK_WEBHOOK_URL'
+          channel: '#alerts-warning'
+          title: 'Warning: {{ .GroupLabels.alertname }}'
+
+  inhibit_rules:
+    - source_match:
+        severity: critical
+      target_match:
+        severity: warning
+      equal: ['component', 'instance']
+
+escalation_policies:
+  - name: emergency_contact
+    steps:
+      - duration: 0m
+        contacts: ['founders@ignite-health.com']
+      - duration: 15m
+        contacts: ['backup-contact@ignite-health.com']
+
+  - name: page_backup_contact
+    steps:
+      - duration: 30m
+        contacts: ['backup-contact@ignite-health.com']

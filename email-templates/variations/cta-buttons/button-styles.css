@@ -1,0 +1,289 @@
+/* CTA Button Variations for A/B Testing */
+
+/* Variation 1: Gradient Orange (Control) */
+.cta-button.gradient-orange {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b35, #ff4500);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button.gradient-orange:hover {
+    background: linear-gradient(135deg, #ff4500, #8b0000);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Variation 2: Solid Blue */
+.cta-button.solid-blue {
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button.solid-blue:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Variation 3: Outline Red */
+.cta-button.outline-red {
+    display: inline-block;
+    background: transparent;
+    color: #dc2626 !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: 2px solid #dc2626;
+    cursor: pointer;
+}
+
+.cta-button.outline-red:hover {
+    background: #dc2626;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+}
+
+/* Variation 4: Solid Green */
+.cta-button.solid-green {
+    display: inline-block;
+    background: #059669;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button.solid-green:hover {
+    background: #047857;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+}
+
+/* Variation 5: Animated Red (Pulsing) */
+.cta-button.animated-red {
+    display: inline-block;
+    background: #dc2626;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    border: none;
+    cursor: pointer;
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    }
+    100% {
+        box-shadow: 0 4px 25px rgba(220, 38, 38, 0.6);
+    }
+}
+
+.cta-button.animated-red:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+    animation: none;
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+}
+
+/* Variation 6: Pulsing Orange (High Urgency) */
+.cta-button.pulsing-orange {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b35, #ff4500);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    animation: pulse-scale 1.5s ease-in-out infinite alternate;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+@keyframes pulse-scale {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+    }
+}
+
+.cta-button.pulsing-orange:hover {
+    background: linear-gradient(135deg, #ff4500, #8b0000);
+    animation: none;
+    transform: translateY(-2px) scale(1);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Variation 7: Gradient Purple */
+.cta-button.gradient-purple {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button.gradient-purple:hover {
+    background: linear-gradient(135deg, #5b21b6, #4c1d95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+/* Variation 8: Outline Blue */
+.cta-button.outline-blue {
+    display: inline-block;
+    background: transparent;
+    color: #2563eb !important;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: 2px solid #2563eb;
+    cursor: pointer;
+}
+
+.cta-button.outline-blue:hover {
+    background: #2563eb;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Button Text Variations */
+.cta-button.urgent-text::before {
+    content: "🚨 ";
+}
+
+.cta-button.fire-text::before {
+    content: "🔥 ";
+}
+
+.cta-button.rocket-text::before {
+    content: "🚀 ";
+}
+
+.cta-button.target-text::before {
+    content: "🎯 ";
+}
+
+/* Size Variations */
+.cta-button.large {
+    padding: 18px 35px;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.cta-button.small {
+    padding: 12px 25px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.cta-button.extra-large {
+    padding: 22px 45px;
+    font-size: 20px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 600px) {
+    .cta-button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+
+    .cta-button.large,
+    .cta-button.extra-large {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .cta-button.animated-red,
+    .cta-button.pulsing-orange {
+        animation: none;
+    }
+}
+
+/* Focus states for accessibility */
+.cta-button:focus {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .cta-button {
+        border-width: 2px;
+        border-style: solid;
+    }
+
+    .cta-button.gradient-orange {
+        border-color: #ff6b35;
+    }
+
+    .cta-button.solid-blue {
+        border-color: #2563eb;
+    }
+
+    .cta-button.solid-green {
+        border-color: #059669;
+    }
+}

@@ -1,0 +1,60 @@
+{
+  "category": "investment",
+  "audience": "investor",
+  "variations": [
+    {
+      "id": "investor_traction_01",
+      "subject": "500+ physicians, 89% adoption, $2.4M ARR pipeline",
+      "tone": "data_driven",
+      "emotional_trigger": "traction_proof",
+      "personalization": "none",
+      "character_count": 44,
+      "emoji_count": 0
+    },
+    {
+      "id": "investor_market_01",
+      "subject": "Healthcare AI Investment Opportunity - $4.1T Market",
+      "tone": "opportunity_focused",
+      "emotional_trigger": "market_size",
+      "personalization": "none",
+      "character_count": 46,
+      "emoji_count": 0
+    },
+    {
+      "id": "investor_urgency_01",
+      "subject": "🚀 Series A closing fast: 10x ROI in physician-AI disruption",
+      "tone": "urgent",
+      "emotional_trigger": "scarcity",
+      "personalization": "none",
+      "character_count": 59,
+      "emoji_count": 1
+    },
+    {
+      "id": "investor_validation_01",
+      "subject": "Physician-founded AI: 73% time reduction, 12 patents pending",
+      "tone": "credibility_focused",
+      "emotional_trigger": "validation",
+      "personalization": "none",
+      "character_count": 58,
+      "emoji_count": 0
+    },
+    {
+      "id": "investor_personal_01",
+      "subject": "{{FNAME}}, exclusive access to healthcare's next unicorn",
+      "tone": "exclusive",
+      "emotional_trigger": "exclusivity",
+      "personalization": "name",
+      "character_count": 52,
+      "emoji_count": 0
+    },
+    {
+      "id": "investor_comparison_01",
+      "subject": "💡 Why Ignite beats Epic: 70% lower cost, 1-day deployment",
+      "tone": "competitive",
+      "emotional_trigger": "superiority",
+      "personalization": "none",
+      "character_count": 60,
+      "emoji_count": 1
+    }
+  ]
+}

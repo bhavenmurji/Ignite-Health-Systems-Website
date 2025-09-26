@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignite Health Systems Newsletter Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            max-width: 120px;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.3));
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .form-title {
+            color: #ff6b35;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b35, #ff4500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .form-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .required {
+            color: #ff6b35;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        select {
+            cursor: pointer;
+        }
+        
+        select option {
+            background: #2d2d2d;
+            color: #ffffff;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .checkbox-item:hover {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 0.75rem;
+            accent-color: #ff6b35;
+            transform: scale(1.2);
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(45deg, #ff6b35, #ff4500);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .success-message h3 {
+            color: #22c55e;
+            margin-bottom: 1rem;
+        }
+        
+        .success-message p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="logo">
+            <img src="../assets/images/Ignite Logo.png" alt="Ignite Health Systems">
+        </div>
+        
+        <div class="form-header">
+            <h1 class="form-title">🚀 AI Health Research Newsletter</h1>
+            <p class="form-subtitle">
+                Stay ahead of the curve with monthly insights on groundbreaking AI health technology research. 
+                Get exclusive access to our curated analysis of the latest academic papers and innovations transforming healthcare.
+            </p>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            <h3>✅ Welcome to the Future of Health!</h3>
+            <p>Thank you for joining our AI health research community. You'll receive your first monthly insight soon!</p>
+        </div>
+        
+        <form id="newsletterForm" action="#" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="EMAIL" required placeholder="your.email@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" name="FNAME" required placeholder="Dr. Jane Smith">
+            </div>
+            
+            <div class="form-group">
+                <label for="professionalRole">Professional Role</label>
+                <select id="professionalRole" name="ROLE">
+                    <option value="">Select your role...</option>
+                    <option value="Healthcare Professional">Healthcare Professional</option>
+                    <option value="Researcher/Academic">Researcher/Academic</option>
+                    <option value="Technology Developer">Technology Developer</option>
+                    <option value="Healthcare Administrator">Healthcare Administrator</option>
+                    <option value="Student">Student</option>
+                    <option value="Investor/Business Leader">Investor/Business Leader</option>
+                    <option value="Patient/Healthcare Consumer">Patient/Healthcare Consumer</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Which AI health technology areas interest you most? (Select all that apply)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="diagnostic" name="INTERESTS" value="Diagnostic AI & Medical Imaging">
+                        <label for="diagnostic">Diagnostic AI & Medical Imaging</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="drugDiscovery" name="INTERESTS" value="Drug Discovery & Development">
+                        <label for="drugDiscovery">Drug Discovery & Development</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="personalizedMed" name="INTERESTS" value="Personalized Medicine">
+                        <label for="personalizedMed">Personalized Medicine</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="remoteMonitoring" name="INTERESTS" value="Remote Patient Monitoring">
+                        <label for="remoteMonitoring">Remote Patient Monitoring</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="operations" name="INTERESTS" value="Healthcare Operations & Efficiency">
+                        <label for="operations">Healthcare Operations & Efficiency</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="medDevice" name="INTERESTS" value="Medical Device Innovation">
+                        <label for="medDevice">Medical Device Innovation</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="clinicalDecision" name="INTERESTS" value="Clinical Decision Support">
+                        <label for="clinicalDecision">Clinical Decision Support</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="digitalTherapeutics" name="INTERESTS" value="Digital Therapeutics">
+                        <label for="digitalTherapeutics">Digital Therapeutics</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dataAnalytics" name="INTERESTS" value="Health Data Analytics">
+                        <label for="dataAnalytics">Health Data Analytics</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="regulatory" name="INTERESTS" value="Regulatory & Ethics in AI Health">
+                        <label for="regulatory">Regulatory & Ethics in AI Health</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="organization">Organization/Institution (Optional)</label>
+                <input type="text" id="organization" name="ORG" placeholder="Hospital, University, Company, etc.">
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                Join the Revolution
+            </button>
+        </form>
+        
+        <div class="form-footer">
+            <p>We respect your privacy and will never share your email address. Unsubscribe anytime.</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Collect multiple checkbox values
+            const interests = [];
+            document.querySelectorAll('input[name="INTERESTS"]:checked').forEach(checkbox => {
+                interests.push(checkbox.value);
+            });
+            
+            // Create the submission data
+            const submissionData = {
+                email: formData.get('EMAIL'),
+                firstName: formData.get('FNAME'),
+                role: formData.get('ROLE'),
+                interests: interests.join(', '),
+                organization: formData.get('ORG'),
+                source: 'Website Form',
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('Form submission data:', submissionData);
+            
+            // Redirect to Mailchimp signup (opens in new tab)
+            window.open('http://eepurl.com/jnVYX-/', '_blank');
+            
+            // Show success message
+            document.getElementById('newsletterForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Optional: Store data locally or send to your backend for analytics
+            localStorage.setItem('newsletterSignup', JSON.stringify(submissionData));
+        });
+        
+        // Add form validation
+        document.querySelectorAll('input[required]').forEach(input => {
+            input.addEventListener('invalid', function() {
+                this.style.borderColor = '#ef4444';
+                this.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.3)';
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.validity.valid) {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    this.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

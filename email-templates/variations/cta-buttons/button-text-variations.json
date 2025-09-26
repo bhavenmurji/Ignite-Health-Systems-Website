@@ -1,0 +1,269 @@
+{
+  "cta_text_variations": {
+    "physician_audience": [
+      {
+        "id": "phys_cta_01",
+        "text": "Schedule Your Private Demo",
+        "tone": "professional",
+        "urgency": "low",
+        "action_clarity": "high",
+        "character_count": 26
+      },
+      {
+        "id": "phys_cta_02",
+        "text": "Book 15-Min Demo",
+        "tone": "concise",
+        "urgency": "medium",
+        "action_clarity": "high",
+        "character_count": 16
+      },
+      {
+        "id": "phys_cta_03",
+        "text": "🚨 Save 2+ Hours Daily - See How",
+        "tone": "urgent",
+        "urgency": "high",
+        "action_clarity": "medium",
+        "character_count": 30
+      },
+      {
+        "id": "phys_cta_04",
+        "text": "Get Instant Access",
+        "tone": "immediate",
+        "urgency": "high",
+        "action_clarity": "medium",
+        "character_count": 18
+      },
+      {
+        "id": "phys_cta_05",
+        "text": "🔥 Transform My Practice Now",
+        "tone": "transformational",
+        "urgency": "high",
+        "action_clarity": "high",
+        "character_count": 27
+      },
+      {
+        "id": "phys_cta_06",
+        "text": "Claim Your Free Demo",
+        "tone": "benefit_focused",
+        "urgency": "medium",
+        "action_clarity": "high",
+        "character_count": 20
+      },
+      {
+        "id": "phys_cta_07",
+        "text": "Start Saving Time Today",
+        "tone": "immediate_benefit",
+        "urgency": "medium",
+        "action_clarity": "medium",
+        "character_count": 23
+      },
+      {
+        "id": "phys_cta_08",
+        "text": "🎯 Book My Demo",
+        "tone": "personal",
+        "urgency": "medium",
+        "action_clarity": "high",
+        "character_count": 14
+      }
+    ],
+    "investor_audience": [
+      {
+        "id": "inv_cta_01",
+        "text": "Schedule Investor Meeting",
+        "tone": "professional",
+        "urgency": "low",
+        "action_clarity": "high",
+        "character_count": 25
+      },
+      {
+        "id": "inv_cta_02",
+        "text": "Download Pitch Deck",
+        "tone": "informational",
+        "urgency": "low",
+        "action_clarity": "high",
+        "character_count": 19
+      },
+      {
+        "id": "inv_cta_03",
+        "text": "🚀 Join Series A - Limited Spots",
+        "tone": "exclusive",
+        "urgency": "high",
+        "action_clarity": "medium",
+        "character_count": 31
+      },
+      {
+        "id": "inv_cta_04",
+        "text": "Access Investment Details",
+        "tone": "professional",
+        "urgency": "low",
+        "action_clarity": "medium",
+        "character_count": 25
+      },
+      {
+        "id": "inv_cta_05",
+        "text": "🔥 Secure Your Position",
+        "tone": "urgent",
+        "urgency": "high",
+        "action_clarity": "medium",
+        "character_count": 22
+      },
+      {
+        "id": "inv_cta_06",
+        "text": "Review Financial Projections",
+        "tone": "analytical",
+        "urgency": "low",
+        "action_clarity": "high",
+        "character_count": 28
+      },
+      {
+        "id": "inv_cta_07",
+        "text": "Book Due Diligence Call",
+        "tone": "professional",
+        "urgency": "medium",
+        "action_clarity": "high",
+        "character_count": 23
+      },
+      {
+        "id": "inv_cta_08",
+        "text": "⚡ Act Fast - Closing Soon",
+        "tone": "urgent",
+        "urgency": "high",
+        "action_clarity": "low",
+        "character_count": 24
+      }
+    ],
+    "cofounder_audience": [
+      {
+        "id": "cof_cta_01",
+        "text": "📄 Download CV Now",
+        "tone": "immediate",
+        "urgency": "high",
+        "action_clarity": "high",
+        "character_count": 18
+      },
+      {
+        "id": "cof_cta_02",
+        "text": "📅 Schedule Call",
+        "tone": "professional",
+        "urgency": "medium",
+        "action_clarity": "high",
+        "character_count": 16
+      },
+      {
+        "id": "cof_cta_03",
+        "text": "✉️ Send Personal Email",
+        "tone": "personal",
+        "urgency": "medium",
+        "action_clarity": "high",
+        "character_count": 22
+      },
+      {
+        "id": "cof_cta_04",
+        "text": "🔍 Research LinkedIn",
+        "tone": "investigative",
+        "urgency": "low",
+        "action_clarity": "high",
+        "character_count": 19
+      },
+      {
+        "id": "cof_cta_05",
+        "text": "🚨 URGENT: Respond Now",
+        "tone": "urgent",
+        "urgency": "high",
+        "action_clarity": "medium",
+        "character_count": 21
+      },
+      {
+        "id": "cof_cta_06",
+        "text": "⚡ Take Action Immediately",
+        "tone": "urgent",
+        "urgency": "high",
+        "action_clarity": "low",
+        "character_count": 25
+      }
+    ]
+  },
+  "button_placement_variations": [
+    {
+      "id": "placement_center",
+      "position": "center",
+      "alignment": "center",
+      "margin": "30px 0"
+    },
+    {
+      "id": "placement_left",
+      "position": "left",
+      "alignment": "left",
+      "margin": "30px 0"
+    },
+    {
+      "id": "placement_right",
+      "position": "right",
+      "alignment": "right",
+      "margin": "30px 0"
+    },
+    {
+      "id": "placement_multiple",
+      "position": "multiple",
+      "alignment": "center",
+      "margin": "20px 0",
+      "description": "Multiple buttons in a row"
+    },
+    {
+      "id": "placement_sticky",
+      "position": "sticky",
+      "alignment": "center",
+      "margin": "0",
+      "description": "Floating button that follows scroll"
+    }
+  ],
+  "button_size_variations": [
+    {
+      "id": "size_small",
+      "padding": "12px 25px",
+      "font_size": "14px",
+      "border_radius": "6px"
+    },
+    {
+      "id": "size_medium",
+      "padding": "15px 30px",
+      "font_size": "16px",
+      "border_radius": "8px"
+    },
+    {
+      "id": "size_large",
+      "padding": "18px 35px",
+      "font_size": "18px",
+      "border_radius": "10px"
+    },
+    {
+      "id": "size_extra_large",
+      "padding": "22px 45px",
+      "font_size": "20px",
+      "border_radius": "12px"
+    }
+  ],
+  "testing_guidelines": {
+    "character_limits": {
+      "mobile_optimal": "20 characters or less",
+      "desktop_optimal": "30 characters or less",
+      "maximum_recommended": "40 characters"
+    },
+    "a_b_test_metrics": [
+      "click_through_rate",
+      "conversion_rate",
+      "time_to_click",
+      "bounce_rate_after_click",
+      "completion_rate"
+    ],
+    "best_practices": [
+      "Use action verbs (Book, Schedule, Download, Get, Start)",
+      "Create urgency without being pushy",
+      "Make value proposition clear",
+      "Test with and without emojis",
+      "Consider audience-specific language",
+      "Test button color contrast with email theme",
+      "Ensure mobile responsiveness"
+    ]
+  }
+}

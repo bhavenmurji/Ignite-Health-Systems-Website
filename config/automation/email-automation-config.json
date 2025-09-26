@@ -1,0 +1,375 @@
+{
+  "emailAutomation": {
+    "version": "1.0",
+    "lastUpdated": "2025-01-15",
+    "description": "Email automation configuration for Ignite Health Systems audience segmentation and personalized messaging",
+    "workflows": [
+      {
+        "id": "physician_welcome_sequence",
+        "name": "Physician Welcome Email Sequence",
+        "description": "Personalized welcome sequence for physicians based on practice model and specialty",
+        "triggers": [
+          {
+            "type": "form_submission",
+            "conditions": {
+              "form_id": "join-form",
+              "council_interest": "any",
+              "practice_model": ["fee-for-service", "direct-primary-care", "concierge", "hybrid", "other"],
+              "required_fields": ["full-name", "email", "specialty", "practice", "challenge"]
+            },
+            "exclusions": {
+              "email_contains": ["@investor", "@vc", "@fund", "@capital"],
+              "specialty_contains": ["investor", "venture", "capital", "funding"]
+            }
+          }
+        ],
+        "actions": [
+          {
+            "delay": "immediate",
+            "type": "send_email",
+            "template": "/email-templates/physician/welcome-physician.html",
+            "personalization": {
+              "merge_tags": {
+                "FNAME": "$.full-name | extract_first_name",
+                "EMAIL": "$.email",
+                "SPECIALTY": "$.specialty",
+                "PRACTICE_MODEL": "$.practice-model | capitalize",
+                "CHALLENGE": "$.challenge",
+                "COUNCIL_INTEREST": "$.council | equals:yes"
+              },
+              "conditional_content": [
+                {
+                  "condition": "$.council === 'yes'",
+                  "show_section": "council_invitation"
+                }
+              ]
+            },
+            "tracking": {
+              "utm_source": "email",
+              "utm_medium": "physician_welcome",
+              "utm_campaign": "waitlist"
+            }
+          },
+          {
+            "delay": "3_days",
+            "type": "send_email",
+            "template": "/email-templates/physician/follow-up-demo.html",
+            "conditions": {
+              "previous_email_opened": true,
+              "demo_not_scheduled": true
+            }
+          }
+        ],
+        "segmentation": {
+          "primary_care": {
+            "specialties": ["Family Medicine", "Internal Medicine", "General Practice"],
+            "custom_messaging": "primary_care_focus"
+          },
+          "specialists": {
+            "specialties": ["Cardiology", "Dermatology", "Neurology", "Orthopedics", "Psychiatry"],
+            "redirect_to": "specialist_welcome_sequence"
+          },
+          "dpc_physicians": {
+            "practice_models": ["direct-primary-care"],
+            "custom_messaging": "dpc_specific_benefits"
+          }
+        }
+      },
+      {
+        "id": "investor_welcome_sequence",
+        "name": "Investor Welcome Email Sequence",
+        "description": "Professional investor outreach with market opportunity and traction data",
+        "triggers": [
+          {
+            "type": "form_submission",
+            "conditions": {
+              "OR": [
+                {"email_contains": ["@investor", "@vc", "@fund", "@capital", "@ventures"]},
+                {"specialty_contains": ["investor", "venture", "capital", "funding", "investment"]},
+                {"practice_contains": ["investment", "fund", "capital", "ventures", "equity"]}
+              ]
+            }
+          },
+          {
+            "type": "manual_trigger",
+            "source": "investor_identification_webhook"
+          }
+        ],
+        "actions": [
+          {
+            "delay": "immediate",
+            "type": "send_email",
+            "template": "/email-templates/investor/welcome-investor.html",
+            "personalization": {
+              "merge_tags": {
+                "FNAME": "$.full-name | extract_first_name",
+                "EMAIL": "$.email"
+              }
+            },
+            "tracking": {
+              "utm_source": "email",
+              "utm_medium": "investor_welcome",
+              "utm_campaign": "series_a"
+            }
+          },
+          {
+            "delay": "1_day",
+            "type": "internal_notification",
+            "template": "/email-templates/internal/investor-lead-notification.html",
+            "recipients": ["bhaven@ignitehealthsystems.com"],
+            "priority": "high"
+          }
+        ],
+        "lead_scoring": {
+          "high_value_indicators": [
+            "healthcare_focused_fund",
+            "series_a_stage_investor",
+            "physician_founded_investments"
+          ]
+        }
+      },
+      {
+        "id": "specialist_welcome_sequence",
+        "name": "Specialist Welcome Email Sequence",
+        "description": "Specialty-focused welcome sequence with tailored clinical AI benefits",
+        "triggers": [
+          {
+            "type": "form_submission",
+            "conditions": {
+              "specialty_in": [
+                "Cardiology", "Dermatology", "Neurology", "Orthopedics", "Psychiatry",
+                "Radiology", "Pathology", "Anesthesiology", "Surgery", "Emergency Medicine",
+                "Pediatrics", "Obstetrics", "Gynecology", "Urology", "Ophthalmology",
+                "ENT", "Rheumatology", "Endocrinology", "Gastroenterology", "Pulmonology"
+              ]
+            }
+          },
+          {
+            "type": "redirect_from",
+            "source": "physician_welcome_sequence",
+            "condition": "specialist_detected"
+          }
+        ],
+        "actions": [
+          {
+            "delay": "immediate",
+            "type": "send_email",
+            "template": "/email-templates/specialist/welcome-specialist.html",
+            "personalization": {
+              "merge_tags": {
+                "FNAME": "$.full-name | extract_first_name",
+                "EMAIL": "$.email",
+                "SPECIALTY": "$.specialty",
+                "CHALLENGE": "$.challenge",
+                "COUNCIL_INTEREST": "$.council | equals:yes"
+              },
+              "specialty_customization": {
+                "dynamic_content": true,
+                "specialty_specific_features": true
+              }
+            },
+            "tracking": {
+              "utm_source": "email",
+              "utm_medium": "specialist_welcome",
+              "utm_campaign": "waitlist"
+            }
+          }
+        ],
+        "specialty_mapping": {
+          "cardiology": {
+            "icon": "❤️",
+            "focus_areas": ["ECG analysis", "procedure documentation", "cardiac risk assessment"]
+          },
+          "dermatology": {
+            "icon": "🔬",
+            "focus_areas": ["image analysis", "biopsy tracking", "cosmetic procedures"]
+          },
+          "neurology": {
+            "icon": "🧠",
+            "focus_areas": ["neurological assessments", "EEG interpretation", "cognitive testing"]
+          }
+        }
+      },
+      {
+        "id": "cofounder_priority_alert",
+        "name": "Co-founder Interest Priority Notification",
+        "description": "Immediate high-priority alert for potential co-founder candidates",
+        "triggers": [
+          {
+            "type": "form_submission",
+            "conditions": {
+              "council_interest": "yes",
+              "cv_uploaded": true,
+              "AND": [
+                {"challenge_length": ">100"},
+                {"specialty_not_empty": true},
+                {"practice_established": true}
+              ]
+            },
+            "priority_indicators": [
+              "physician_title_detected",
+              "independent_practice_owner",
+              "innovation_keywords_in_challenge",
+              "leadership_experience_indicators"
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "delay": "immediate",
+            "type": "send_internal_alert",
+            "template": "/email-templates/cofounder/priority-notification.html",
+            "recipients": ["bhaven@ignitehealthsystems.com"],
+            "priority": "critical",
+            "personalization": {
+              "merge_tags": {
+                "FULL_NAME": "$.full-name",
+                "FNAME": "$.full-name | extract_first_name",
+                "LNAME": "$.full-name | extract_last_name",
+                "FNAME_INITIAL": "$.full-name | extract_first_name | first_char",
+                "LNAME_INITIAL": "$.full-name | extract_last_name | first_char",
+                "EMAIL": "$.email",
+                "SPECIALTY": "$.specialty",
+                "PRACTICE_NAME": "$.practice | extract_practice_name",
+                "PRACTICE_LOCATION": "$.practice | extract_location",
+                "PRACTICE_MODEL": "$.practice-model | capitalize",
+                "CHALLENGE": "$.challenge",
+                "CV_STATUS": "$.cv | file_uploaded ? 'Uploaded' : 'Not Uploaded'",
+                "CV_DOWNLOAD_LINK": "$.cv | generate_download_link",
+                "SUBMISSION_TIME": "$.timestamp | format_datetime",
+                "CURRENT_TIMESTAMP": "now() | format_datetime"
+              }
+            },
+            "sla": {
+              "response_required_within": "24_hours",
+              "escalation_if_no_response": "48_hours"
+            }
+          },
+          {
+            "delay": "4_hours",
+            "type": "follow_up_reminder",
+            "condition": "no_action_taken",
+            "message": "Co-founder candidate requires immediate attention"
+          }
+        ],
+        "scoring_algorithm": {
+          "base_score": 50,
+          "score_modifiers": {
+            "council_interest_yes": "+20",
+            "cv_uploaded": "+15",
+            "established_practice": "+10",
+            "innovation_keywords": "+15",
+            "leadership_indicators": "+10",
+            "specialty_alignment": "+10"
+          },
+          "threshold_for_alert": 80
+        }
+      }
+    ],
+    "global_settings": {
+      "from_email": "hello@ignitehealthsystems.com",
+      "from_name": "Ignite Health Systems",
+      "reply_to": "bhaven@ignitehealthsystems.com",
+      "unsubscribe_link": "https://ignitehealthsystems.com/unsubscribe?email={{EMAIL}}",
+      "tracking": {
+        "open_tracking": true,
+        "click_tracking": true,
+        "utm_tracking": true,
+        "pixel_tracking": true
+      },
+      "compliance": {
+        "gdpr_compliant": true,
+        "can_spam_compliant": true,
+        "double_opt_in": false,
+        "unsubscribe_required": true
+      }
+    },
+    "merge_tag_functions": {
+      "extract_first_name": {
+        "description": "Extract first name from full name",
+        "function": "split(' ')[0]"
+      },
+      "extract_last_name": {
+        "description": "Extract last name from full name",
+        "function": "split(' ').slice(-1)[0]"
+      },
+      "first_char": {
+        "description": "Get first character",
+        "function": "charAt(0).toUpperCase()"
+      },
+      "capitalize": {
+        "description": "Capitalize first letter of each word",
+        "function": "split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')"
+      },
+      "extract_practice_name": {
+        "description": "Extract practice name from practice field",
+        "function": "split(',')[0].trim()"
+      },
+      "extract_location": {
+        "description": "Extract location from practice field",
+        "function": "split(',').slice(1).join(',').trim()"
+      },
+      "format_datetime": {
+        "description": "Format datetime for display",
+        "function": "new Date().toLocaleString('en-US', {timeZone: 'America/Chicago'})"
+      },
+      "file_uploaded": {
+        "description": "Check if file was uploaded",
+        "function": "value && value.size > 0"
+      },
+      "generate_download_link": {
+        "description": "Generate secure download link for uploaded file",
+        "function": "generateSecureFileLink(value)"
+      }
+    },
+    "webhook_endpoints": {
+      "form_submission": "https://bhavenmurji.app.n8n.cloud/webhook/ignite-contact-form",
+      "email_opened": "https://bhavenmurji.app.n8n.cloud/webhook/email-opened",
+      "email_clicked": "https://bhavenmurji.app.n8n.cloud/webhook/email-clicked",
+      "unsubscribe": "https://bhavenmurji.app.n8n.cloud/webhook/unsubscribe"
+    },
+    "testing": {
+      "test_mode": false,
+      "test_email": "test@ignitehealthsystems.com",
+      "test_data_sets": [
+        {
+          "name": "physician_primary_care",
+          "data": {
+            "full-name": "Dr. Sarah Johnson",
+            "email": "sarah.johnson@familymed.com",
+            "specialty": "Family Medicine",
+            "practice": "Johnson Family Medicine, Austin, TX",
+            "practice-model": "direct-primary-care",
+            "council": "yes",
+            "challenge": "EHR documentation takes 25+ minutes per patient visit, leaving me exhausted and reducing quality time with patients."
+          }
+        },
+        {
+          "name": "specialist_cardiology",
+          "data": {
+            "full-name": "Dr. Michael Chen",
+            "email": "m.chen@cardiocare.com",
+            "specialty": "Cardiology",
+            "practice": "Austin Cardiology Associates, Austin, TX",
+            "practice-model": "fee-for-service",
+            "council": "no",
+            "challenge": "Complex procedure documentation and insurance pre-authorizations consume 3+ hours daily."
+          }
+        },
+        {
+          "name": "potential_cofounder",
+          "data": {
+            "full-name": "Dr. Jennifer Martinez",
+            "email": "jennifer.martinez@innovativecare.com",
+            "specialty": "Emergency Medicine",
+            "practice": "Martinez Emergency Innovation Center, San Antonio, TX",
+            "practice-model": "hybrid",
+            "council": "yes",
+            "challenge": "As an emergency physician and practice owner, I struggle with integrating AI tools that actually understand the fast-paced, decision-critical nature of emergency medicine workflows.",
+            "cv": "uploaded_file.pdf"
+          }
+        }
+      ]
+    }
+  }
+}

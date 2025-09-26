@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start: Reclaim Your Practice</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #0d0d0d;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            padding: 25px;
+            text-align: center;
+        }
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+        .header-title {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 15px 0 0 0;
+        }
+        .content {
+            padding: 30px 25px;
+            color: #ffffff;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ff6b35;
+            margin-bottom: 15px;
+        }
+        .intro-text {
+            font-size: 15px;
+            color: #cccccc;
+            margin-bottom: 20px;
+        }
+        .quick-benefits {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 69, 0, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .benefits-title {
+            color: #ff6b35;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .benefit-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .benefit-list li {
+            padding: 5px 0;
+            color: #cccccc;
+            font-size: 14px;
+        }
+        .benefit-list li::before {
+            content: '✓';
+            color: #ff6b35;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .stat-item {
+            flex: 1;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b35;
+            display: block;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #999999;
+            text-transform: uppercase;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        .footer {
+            background: #111111;
+            padding: 20px;
+            text-align: center;
+            color: #666666;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        @media screen and (max-width: 500px) {
+            .stats-row {
+                flex-direction: column;
+            }
+            .stat-item {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://ignitehealthsystems.com/assets/images/Ignite Logo.png" alt="Ignite Health Systems" />
+            </div>
+            <h1 class="header-title">Welcome, Dr. {{FNAME}}</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">Ready to reclaim your practice?</div>
+
+            <p class="intro-text">
+                You're 30 seconds away from seeing how to save 2+ hours daily and reduce documentation burden by 73%.
+            </p>
+
+            <div class="quick-benefits">
+                <div class="benefits-title">🎯 What You Get:</div>
+                <ul class="benefit-list">
+                    <li>10-minute clinical documentation</li>
+                    <li>$180K annual savings vs Epic</li>
+                    <li>1-day deployment (not 18 months)</li>
+                    <li>{{SPECIALTY}}-optimized workflows</li>
+                </ul>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-number">73%</span>
+                    <span class="stat-label">Time Saved</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">89%</span>
+                    <span class="stat-label">Adoption Rate</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2.3h</span>
+                    <span class="stat-label">Daily Recovery</span>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p style="color: #cccccc; margin-bottom: 15px; font-size: 14px;">
+                    See the Clinical Co-Pilot in action:
+                </p>
+                <a href="https://calendar.app/ignite-health-demo?utm_source=email&utm_medium=physician_welcome_concise&utm_campaign=waitlist" class="cta-button">
+                    Book 15-Min Demo
+                </a>
+            </div>
+
+            <p style="color: #cccccc; font-size: 13px; margin-top: 25px; text-align: center;">
+                Perfect for {{PRACTICE_MODEL}} practices struggling with {{CHALLENGE}}.
+            </p>
+
+            <p style="color: #ff6b35; font-weight: 600; margin-top: 20px; text-align: center; font-size: 14px;">
+                Dr. Bhaven Murji<br>
+                <span style="color: #cccccc; font-weight: normal; font-size: 12px;">Founder, Ignite Health Systems</span>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                © 2025 Ignite Health Systems<br>
+                <a href="https://ignitehealthsystems.com/unsubscribe?email={{EMAIL}}">Unsubscribe</a> |
+                <a href="https://ignitehealthsystems.com/privacy">Privacy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

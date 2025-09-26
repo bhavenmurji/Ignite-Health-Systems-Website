@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Advanced Personalization</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #0d0d0d;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            padding: 30px;
+            text-align: center;
+        }
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        .header-title {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 20px 0 0 0;
+        }
+        .content {
+            padding: 40px 30px;
+            color: #ffffff;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+        .personalized-section {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 69, 0, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        .section-title {
+            color: #ff6b35;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .challenge-quote {
+            background: rgba(20, 20, 20, 0.8);
+            border-left: 4px solid #ff6b35;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .challenge-text {
+            color: #ffffff;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .specialty-benefits {
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+        .specialty-benefits li {
+            position: relative;
+            padding: 8px 0 8px 30px;
+            color: #cccccc;
+            font-size: 15px;
+        }
+        .specialty-benefits li::before {
+            content: '🎯';
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        .practice-insights {
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .insight-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 6px;
+        }
+        .insight-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff6b35;
+            display: block;
+        }
+        .insight-label {
+            font-size: 12px;
+            color: #999999;
+            text-transform: uppercase;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 25px;
+            background: rgba(255, 107, 53, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        .footer {
+            background: #111111;
+            padding: 30px;
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        @media screen and (max-width: 600px) {
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://ignitehealthsystems.com/assets/images/Ignite Logo.png" alt="Ignite Health Systems" />
+            </div>
+            <h1 class="header-title">Welcome to the Revolution</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Advanced Personalization: Full Profile -->
+            <div class="greeting">Hello Dr. {{FNAME}},</div>
+
+            <p class="intro-text">
+                Thank you for joining the movement to reclaim {{SPECIALTY}} medicine from administrative burden.
+                As a {{SPECIALTY}} specialist in a {{PRACTICE_MODEL}} practice, you understand the unique challenges
+                we're solving better than anyone.
+            </p>
+
+            <!-- Personalized Challenge Section -->
+            <div class="challenge-quote">
+                <div style="color: #ff6b35; font-weight: 600; margin-bottom: 10px;">Your Challenge:</div>
+                <div class="challenge-text">"{{CHALLENGE}}"</div>
+            </div>
+
+            <p style="color: #cccccc; margin: 20px 0;">
+                This exact challenge is why we built the Clinical Co-Pilot. Every feature addresses real pain points
+                experienced by {{SPECIALTY}} physicians like yourself.
+            </p>
+
+            <!-- Specialty-Specific Benefits -->
+            <div class="personalized-section">
+                <div class="section-title">🎯 Built for {{SPECIALTY}} Practices</div>
+                <p style="color: #cccccc; margin-bottom: 15px;">
+                    Our AI understands {{SPECIALTY}}-specific workflows and integrates seamlessly with {{EMR_SYSTEM}}:
+                </p>
+                <ul class="specialty-benefits">
+                    <li><strong>{{SPECIALTY}} Templates:</strong> Pre-built note templates for common {{SPECIALTY}} procedures</li>
+                    <li><strong>{{EMR_SYSTEM}} Integration:</strong> Direct integration reduces {{EMR_SYSTEM}} friction by 70%</li>
+                    <li><strong>{{PRACTICE_MODEL}} Optimization:</strong> Workflows designed for {{PRACTICE_MODEL}} practice efficiency</li>
+                    <li><strong>Specialty Coding:</strong> Automated {{SPECIALTY}} billing codes and documentation</li>
+                </ul>
+            </div>
+
+            <!-- Practice-Specific Insights -->
+            <div class="practice-insights">
+                <div class="section-title">📊 Impact for Your Practice Type</div>
+                <p style="color: #cccccc; margin-bottom: 15px;">
+                    Based on our data from similar {{PRACTICE_MODEL}} {{SPECIALTY}} practices:
+                </p>
+                <div class="insights-grid">
+                    <div class="insight-item">
+                        <span class="insight-value">{{TIME_SAVINGS_PERCENT}}%</span>
+                        <span class="insight-label">Time Reduction</span>
+                    </div>
+                    <div class="insight-item">
+                        <span class="insight-value">${{COST_SAVINGS_AMOUNT}}</span>
+                        <span class="insight-label">Annual Savings</span>
+                    </div>
+                    <div class="insight-item">
+                        <span class="insight-value">{{PATIENT_INCREASE}}+</span>
+                        <span class="insight-label">Extra Patients/Day</span>
+                    </div>
+                    <div class="insight-item">
+                        <span class="insight-value">{{ROI_MULTIPLE}}x</span>
+                        <span class="insight-label">ROI in Year 1</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personalized CTA -->
+            <div class="cta-section">
+                <p style="color: #cccccc; margin-bottom: 20px;">
+                    Ready to see how the Clinical Co-Pilot solves "{{CHALLENGE}}" for {{SPECIALTY}} practices?
+                </p>
+                <p style="color: #ff6b35; font-size: 14px; margin-bottom: 25px;">
+                    We'll show you the {{SPECIALTY}}-specific features and {{EMR_SYSTEM}} integration in action.
+                </p>
+                <a href="https://calendar.app/ignite-health-demo?specialty={{SPECIALTY}}&practice={{PRACTICE_MODEL}}&challenge={{CHALLENGE_ENCODED}}&utm_source=email&utm_medium=advanced_personalization&utm_campaign=waitlist" class="cta-button">
+                    Book {{SPECIALTY}} Demo
+                </a>
+            </div>
+
+            <!-- Behavioral Trigger Based on Submission Time -->
+            {{#if RECENT_SUBMISSION}}
+            <div style="background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 8px; padding: 20px; margin: 25px 0;">
+                <p style="color: #ff6b35; font-weight: 600; margin-bottom: 10px;">
+                    ⚡ Strike While the Iron Is Hot
+                </p>
+                <p style="color: #cccccc; font-size: 14px;">
+                    Since you just submitted your information, your challenges with {{CHALLENGE}} are fresh on your mind.
+                    This is the perfect time to see exactly how we solve this for {{SPECIALTY}} practices.
+                </p>
+            </div>
+            {{/if}}
+
+            <p style="color: #cccccc; margin-top: 30px;">
+                Over the next few days, you'll receive {{SPECIALTY}}-specific insights about the 10-minute revolution
+                and early access to features designed specifically for {{PRACTICE_MODEL}} practices.
+            </p>
+
+            <p style="color: #ff6b35; font-weight: 600; margin-top: 20px;">
+                Dr. Bhaven Murji<br>
+                <span style="color: #cccccc; font-weight: normal;">Founder & CEO, Ignite Health Systems</span><br>
+                <span style="color: #999999; font-weight: normal; font-size: 12px;">Fellow physician who understands your daily struggles</span>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                © 2025 Ignite Health Systems. All rights reserved.<br>
+                <a href="https://ignitehealthsystems.com/unsubscribe?email={{EMAIL}}&specialty={{SPECIALTY}}">Unsubscribe</a> |
+                <a href="https://ignitehealthsystems.com/privacy">Privacy Policy</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 12px; color: #555;">
+                This email was personalized for {{SPECIALTY}} specialists in {{PRACTICE_MODEL}} practices
+            </p>
+        </div>
+    </div>
+</body>
+</html>

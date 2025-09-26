@@ -1,0 +1,270 @@
+/**
+ * Ignite Health Systems - Performance Enhancements
+ * Core Web Vitals Optimizations and Fire Theme Performance Boost
+ */
+
+/* Critical CSS for above-the-fold content */
+.critical-styles {
+    /* Fire theme base colors loaded first */
+    --primary: #ff6b35;
+    --accent: #ff4500;
+    --gold: #ffb347;
+    --ember: #8b0000;
+    --dark: #1a0f0a;
+    --background: #0d0d0d;
+    --white: #ffffff;
+    --text-primary: #ffffff;
+}
+
+/* Prevent layout shift (CLS optimization) */
+.intro-overlay {
+    contain: layout style paint;
+    will-change: opacity, transform;
+}
+
+.hero {
+    contain: layout;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.navbar {
+    contain: layout;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Performance optimizations for fire theme */
+.fire-optimized {
+    /* Hardware acceleration for smooth animations */
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+}
+
+/* Efficient gradient animations */
+.fire-gradient {
+    background: linear-gradient(45deg, var(--primary), var(--accent), var(--gold));
+    background-size: 400% 400%;
+    animation: fireGlow 4s ease-in-out infinite;
+}
+
+@keyframes fireGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Optimized hover effects */
+.card-optimized {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.card-optimized:hover {
+    transform: translateY(-4px) scale(1.02);
+}
+
+/* Image loading optimization */
+.optimized-image {
+    object-fit: cover;
+    object-position: center;
+    transition: opacity 0.3s ease;
+}
+
+.optimized-image[data-loaded="false"] {
+    opacity: 0;
+}
+
+.optimized-image[data-loaded="true"] {
+    opacity: 1;
+}
+
+/* Mobile-first responsive optimizations */
+@media (max-width: 768px) {
+    .intro-overlay {
+        /* Reduce complexity on mobile */
+        background: linear-gradient(to bottom, var(--dark), var(--background));
+    }
+    
+    .hero {
+        min-height: 80vh;
+        padding: 2rem 1rem;
+    }
+    
+    /* Disable expensive effects on mobile */
+    .fire-gradient {
+        animation: none;
+        background: var(--primary);
+    }
+}
+
+/* Preloader styles for smooth loading */
+.content-loader {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.content-loader.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Critical font loading */
+@font-display swap;
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus management for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary);
+    color: var(--white);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Performance monitoring styles */
+.perf-indicator {
+    position: fixed;
+    z-index: 50;
+    top: 10px;
+    right: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00ff00;
+    opacity: 0.7;
+    z-index: 9999;
+    transition: background 0.3s ease;
+}
+
+.perf-indicator.warning { background: #ffff00; }
+.perf-indicator.error { background: #ff0000; }
+
+/* Fire particle optimizations */
+.fire-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, var(--primary) 0%, var(--accent) 50%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fireParticle 3s linear infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes fireParticle {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.5);
+    }
+}
+
+/* Efficient text effects */
+.fire-text {
+    background: linear-gradient(45deg, var(--primary), var(--gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+}
+
+/* Button performance optimizations */
+.btn-fire {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    border: none;
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    will-change: transform;
+}
+
+.btn-fire::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-fire:hover::before {
+    left: 100%;
+}
+
+.btn-fire:hover {
+    transform: translateY(-2px);
+}
+
+/* Loading skeleton for better perceived performance */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+.skeleton.dark {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Memory usage optimization */
+.memory-efficient {
+    contain: strict;
+    content-visibility: auto;
+    contain-intrinsic-size: 300px;
+}
+
+/* GPU acceleration for smooth scrolling */
+.smooth-scroll {
+    scroll-behavior: smooth;
+    will-change: scroll-position;
+}
+
+/* Enhanced focus indicators */
+.focus-ring:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Progressive enhancement markers */
+.js .no-js-only { display: none; }
+.no-js .js-only { display: none; }

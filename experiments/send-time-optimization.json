@@ -1,0 +1,306 @@
+{
+  "send_time_optimization": {
+    "framework_version": "1.0",
+    "description": "Comprehensive send time optimization testing framework for email campaigns",
+    "target_audiences": ["physician", "investor", "specialist", "cofounder"],
+
+    "time_slots": {
+      "early_morning": {
+        "time": "08:00",
+        "timezone": "recipient_local",
+        "hypothesis": "Physicians check email before rounds, investors before meetings",
+        "expected_performance": {
+          "physician": "high",
+          "investor": "medium",
+          "specialist": "medium"
+        }
+      },
+      "mid_morning": {
+        "time": "10:00",
+        "timezone": "recipient_local",
+        "hypothesis": "Professional peak productivity time, break between meetings",
+        "expected_performance": {
+          "physician": "high",
+          "investor": "high",
+          "specialist": "high"
+        }
+      },
+      "lunch_hour": {
+        "time": "12:00",
+        "timezone": "recipient_local",
+        "hypothesis": "Mobile checking during lunch break",
+        "expected_performance": {
+          "physician": "medium",
+          "investor": "low",
+          "specialist": "medium"
+        }
+      },
+      "early_afternoon": {
+        "time": "14:00",
+        "timezone": "recipient_local",
+        "hypothesis": "Post-lunch energy, before afternoon appointments",
+        "expected_performance": {
+          "physician": "medium",
+          "investor": "high",
+          "specialist": "high"
+        }
+      },
+      "late_afternoon": {
+        "time": "16:00",
+        "timezone": "recipient_local",
+        "hypothesis": "End of business day email clearing",
+        "expected_performance": {
+          "physician": "low",
+          "investor": "medium",
+          "specialist": "medium"
+        }
+      },
+      "early_evening": {
+        "time": "18:00",
+        "timezone": "recipient_local",
+        "hypothesis": "Personal time email checking, mobile-heavy",
+        "expected_performance": {
+          "physician": "medium",
+          "investor": "low",
+          "specialist": "low"
+        }
+      }
+    },
+
+    "day_of_week_optimization": {
+      "monday": {
+        "performance_hypothesis": "Inbox overload, lower open rates",
+        "recommended_content": "concise",
+        "optimal_times": ["10:00", "14:00"]
+      },
+      "tuesday": {
+        "performance_hypothesis": "Peak professional engagement",
+        "recommended_content": "detailed",
+        "optimal_times": ["08:00", "10:00", "14:00"]
+      },
+      "wednesday": {
+        "performance_hypothesis": "Consistent mid-week performance",
+        "recommended_content": "moderate",
+        "optimal_times": ["10:00", "14:00"]
+      },
+      "thursday": {
+        "performance_hypothesis": "Good engagement, decision-making day",
+        "recommended_content": "detailed",
+        "optimal_times": ["08:00", "10:00", "14:00"]
+      },
+      "friday": {
+        "performance_hypothesis": "Lower engagement, weekend mindset",
+        "recommended_content": "concise",
+        "optimal_times": ["08:00", "10:00"]
+      },
+      "saturday": {
+        "performance_hypothesis": "Personal time, very low professional engagement",
+        "recommended_content": "personal",
+        "optimal_times": ["10:00", "14:00"]
+      },
+      "sunday": {
+        "performance_hypothesis": "Personal time, email prep for week",
+        "recommended_content": "personal",
+        "optimal_times": ["18:00", "19:00"]
+      }
+    },
+
+    "audience_specific_optimization": {
+      "physician": {
+        "peak_times": ["08:00", "12:00", "18:00"],
+        "avoid_times": ["09:00-11:00", "14:00-17:00"],
+        "reasoning": "Avoid patient care hours, target administrative time",
+        "timezone_considerations": {
+          "est": "Account for East Coast hospital schedules",
+          "pst": "Later morning sends for West Coast",
+          "cst": "Standard business hours alignment"
+        },
+        "seasonal_factors": {
+          "medical_conference_season": "Increase frequency during major conferences",
+          "flu_season": "Avoid peak patient volume periods",
+          "summer": "Account for vacation schedules"
+        }
+      },
+      "investor": {
+        "peak_times": ["08:00", "10:00", "14:00"],
+        "avoid_times": ["12:00-13:00", "17:00+"],
+        "reasoning": "Standard business hours, avoid meal times",
+        "timezone_considerations": {
+          "est": "NYC/Boston financial center timing",
+          "pst": "Silicon Valley tech investor schedules",
+          "global": "Consider international investor time zones"
+        },
+        "seasonal_factors": {
+          "fundraising_seasons": "Q1 and Q3 peak activity",
+          "holiday_seasons": "Reduced activity in December/January",
+          "conference_season": "HIMSS, HLTH, other healthcare events"
+        }
+      },
+      "specialist": {
+        "peak_times": ["10:00", "14:00", "16:00"],
+        "avoid_times": ["early_morning", "evening"],
+        "reasoning": "Standard professional hours, knowledge worker schedule",
+        "timezone_considerations": {
+          "distributed_teams": "Account for global tech teams",
+          "client_focus": "Align with their client interaction times"
+        },
+        "seasonal_factors": {
+          "technology_conferences": "RSA, Black Hat, healthcare IT events",
+          "fiscal_year_ends": "Q4 budget and planning seasons"
+        }
+      },
+      "cofounder": {
+        "peak_times": ["immediate"],
+        "reasoning": "Time-sensitive alerts require immediate delivery",
+        "timezone_considerations": {
+          "founder_timezone": "Use Dr. Murji's timezone for immediate alerts"
+        }
+      }
+    },
+
+    "test_framework": {
+      "sample_size_per_slot": 300,
+      "minimum_test_duration": "2_weeks",
+      "maximum_test_duration": "6_weeks",
+      "significance_threshold": 0.05,
+      "minimum_detectable_effect": 0.15,
+
+      "metrics_tracked": {
+        "primary": [
+          "open_rate",
+          "click_through_rate"
+        ],
+        "secondary": [
+          "time_to_open",
+          "mobile_vs_desktop_opens",
+          "forward_rate",
+          "unsubscribe_rate"
+        ],
+        "conversion": [
+          "demo_booking_rate",
+          "meeting_scheduled_rate",
+          "download_completion_rate"
+        ]
+      },
+
+      "segmentation_analysis": {
+        "by_device": ["mobile", "desktop", "tablet"],
+        "by_timezone": ["EST", "CST", "MST", "PST", "international"],
+        "by_industry": ["healthcare", "technology", "finance", "other"],
+        "by_seniority": ["junior", "mid", "senior", "executive"]
+      }
+    },
+
+    "automation_rules": {
+      "dynamic_send_optimization": {
+        "enabled": true,
+        "description": "Automatically adjust send times based on recipient engagement patterns",
+        "learning_period": "30_days",
+        "minimum_data_points": 5,
+        "adjustment_threshold": 0.2
+      },
+
+      "timezone_intelligence": {
+        "enabled": true,
+        "description": "Automatically detect and adjust for recipient time zones",
+        "fallback_timezone": "EST",
+        "international_handling": "business_hours_local"
+      },
+
+      "frequency_capping": {
+        "max_emails_per_day": 1,
+        "max_emails_per_week": 3,
+        "respect_unsubscribe": true,
+        "honor_preferences": true
+      }
+    },
+
+    "holiday_calendar": {
+      "major_holidays": [
+        {
+          "name": "New Year's Day",
+          "date": "2025-01-01",
+          "impact": "no_sends",
+          "duration": "1_day"
+        },
+        {
+          "name": "Memorial Day",
+          "date": "2025-05-26",
+          "impact": "reduced_sends",
+          "duration": "3_days"
+        },
+        {
+          "name": "Independence Day",
+          "date": "2025-07-04",
+          "impact": "no_sends",
+          "duration": "1_day"
+        },
+        {
+          "name": "Labor Day",
+          "date": "2025-09-01",
+          "impact": "reduced_sends",
+          "duration": "3_days"
+        },
+        {
+          "name": "Thanksgiving",
+          "date": "2025-11-27",
+          "impact": "no_sends",
+          "duration": "4_days"
+        },
+        {
+          "name": "Christmas",
+          "date": "2025-12-25",
+          "impact": "no_sends",
+          "duration": "7_days"
+        }
+      ],
+
+      "healthcare_specific": [
+        {
+          "name": "HIMSS Conference",
+          "dates": "2025-03-03 to 2025-03-07",
+          "impact": "increased_physician_engagement",
+          "audience": "physician"
+        },
+        {
+          "name": "HLTH Conference",
+          "dates": "2025-10-20 to 2025-10-23",
+          "impact": "increased_investor_engagement",
+          "audience": "investor"
+        }
+      ]
+    },
+
+    "monitoring_and_alerts": {
+      "performance_thresholds": {
+        "open_rate_warning": 0.15,
+        "open_rate_critical": 0.10,
+        "ctr_warning": 0.03,
+        "ctr_critical": 0.01,
+        "unsubscribe_warning": 0.02,
+        "unsubscribe_critical": 0.05
+      },
+
+      "automated_adjustments": {
+        "poor_performance_actions": [
+          "test_different_time_slot",
+          "adjust_subject_line",
+          "reduce_frequency",
+          "segment_audience_further"
+        ],
+        "high_performance_actions": [
+          "increase_send_volume",
+          "replicate_successful_pattern",
+          "test_adjacent_time_slots"
+        ]
+      },
+
+      "reporting_schedule": {
+        "daily_monitoring": true,
+        "weekly_performance_report": true,
+        "monthly_optimization_review": true,
+        "quarterly_strategy_review": true
+      }
+    }
+  }
+}

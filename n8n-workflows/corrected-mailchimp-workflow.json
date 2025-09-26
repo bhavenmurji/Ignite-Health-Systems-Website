@@ -1,0 +1,316 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ignite-interest-form",
+        "responseMode": "onReceived",
+        "responseData": "allEntries",
+        "options": {
+          "cors": true
+        }
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Form Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-950, 128],
+      "webhookId": "ignite-interest-form"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo",
+          "mode": "list",
+          "cachedResultName": "Ignite Health Systems Website",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Ignite Sign ups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now.toISO() }}",
+            "User Type": "={{ $json.userType }}",
+            "First Name": "={{ $json.firstName }}",
+            "Last Name": "={{ $json.lastName }}",
+            "Email": "={{ $json.email }}",
+            "Specialty": "={{ $json.specialty || '' }}",
+            "Practice Model": "={{ $json.practiceModel || '' }}",
+            "EMR System": "={{ $json.emrSystem || '' }}",
+            "LinkedIn": "={{ $json.linkedin || '' }}",
+            "Involvement": "={{ $json.involvement || '' }}",
+            "Challenge": "={{ $json.challenge || '' }}",
+            "Co-Founder Interest": "={{ $json.cofounder ? 'Yes' : 'No' }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "google-sheets-log",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [-750, 128],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "yFyCTZ00zZlR9X8F",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "list": "9884a65adf",
+        "email": "={{ $json.email }}",
+        "status": "subscribed",
+        "options": {
+          "emailType": "html"
+        },
+        "mergeFieldsUi": {
+          "mergeFieldsValues": [
+            {
+              "name": "FNAME",
+              "value": "={{ $json.firstName }}"
+            },
+            {
+              "name": "LNAME",
+              "value": "={{ $json.lastName }}"
+            },
+            {
+              "name": "USERTYPE",
+              "value": "={{ $json.userType }}"
+            },
+            {
+              "name": "SPECIALTY",
+              "value": "={{ $json.specialty || '' }}"
+            },
+            {
+              "name": "PRACTICE",
+              "value": "={{ $json.practiceModel || '' }}"
+            },
+            {
+              "name": "EMR",
+              "value": "={{ $json.emrSystem || '' }}"
+            },
+            {
+              "name": "CHALLENGE",
+              "value": "={{ $json.challenge || '' }}"
+            },
+            {
+              "name": "COFOUNDER",
+              "value": "={{ $json.cofounder ? 'Yes' : 'No' }}"
+            },
+            {
+              "name": "LINKEDIN",
+              "value": "={{ $json.linkedin || '' }}"
+            }
+          ]
+        },
+        "groupsUi": {
+          "groupsValues": []
+        },
+        "tagsUi": {
+          "tagsValues": [
+            "={{ $json.userType }}",
+            "={{ $json.cofounder ? 'cofounder-interest' : 'standard' }}",
+            "={{ $json.userType === 'physician' && $json.practiceModel === 'independent' ? 'high-priority' : '' }}"
+          ]
+        }
+      },
+      "id": "add-to-mailchimp",
+      "name": "Add to Mailchimp with Tags",
+      "type": "n8n-nodes-base.mailchimp",
+      "typeVersion": 1,
+      "position": [-550, 128],
+      "credentials": {
+        "mailchimpOAuth2Api": {
+          "id": "mD3c9ewb75w4RmDw",
+          "name": "Mailchimp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.userType }}",
+              "rightValue": "investor",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "leftValue": "={{ $json.userType }}",
+              "rightValue": "specialist",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "if-high-value",
+      "name": "If High Value Lead",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-350, 128]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.cofounder }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-cofounder",
+      "name": "If Co-founder Interest",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-350, 280]
+    },
+    {
+      "parameters": {
+        "chatId": "5407628621",
+        "text": "=🚨 <b>New {{ $json.userType === 'investor' ? 'INVESTOR' : 'SPECIALIST' }} Lead!</b>\n\n<b>Name:</b> {{ $json.firstName }} {{ $json.lastName }}\n<b>Email:</b> {{ $json.email }}\n<b>Type:</b> {{ $json.userType }}\n{{ $json.specialty ? '<b>Specialty:</b> ' + $json.specialty + '\\n' : '' }}{{ $json.challenge ? '<b>Challenge:</b> ' + $json.challenge + '\\n' : '' }}{{ $json.cofounder ? '⚡ <b>CO-FOUNDER INTEREST</b>\\n' : '' }}\n\n<i>Lead added to Mailchimp with tags and will receive automated welcome email</i>\n\n<a href=\"https://docs.google.com/spreadsheets/d/1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo/edit#gid=0\">View in Spreadsheet</a>",
+        "additionalFields": {
+          "disable_web_page_preview": true,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "telegram-notify",
+      "name": "Notify Telegram - High Value",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [-150, 32],
+      "credentials": {
+        "telegramApi": {
+          "id": "LiDIXl97CJSudS2F",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "5407628621",
+        "text": "=🔥🔥🔥 <b>URGENT: CO-FOUNDER CANDIDATE</b> 🔥🔥🔥\n\n🎯 <b>IMMEDIATE ACTION REQUIRED</b>\n\n<b>Name:</b> {{ $json.firstName }} {{ $json.lastName }}\n<b>Email:</b> {{ $json.email }}\n<b>Type:</b> {{ $json.userType }}\n{{ $json.specialty ? '<b>Specialty:</b> ' + $json.specialty + '\\n' : '' }}{{ $json.practiceModel ? '<b>Practice:</b> ' + $json.practiceModel + '\\n' : '' }}\n<b>Challenge/Interest:</b>\n{{ $json.challenge || 'Not specified' }}\n\n⚡ <b>This lead expressed CO-FOUNDER INTEREST</b>\n⏰ <b>Contact within 24 hours!</b>\n\n<i>Priority automation triggered in Mailchimp</i>\n\n<a href=\"https://docs.google.com/spreadsheets/d/1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo/edit#gid=0\">View in Spreadsheet</a>",
+        "additionalFields": {
+          "disable_web_page_preview": true,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "telegram-priority",
+      "name": "Priority Alert - Co-founder",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [-150, 280],
+      "credentials": {
+        "telegramApi": {
+          "id": "LiDIXl97CJSudS2F",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Add to Mailchimp with Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Mailchimp with Tags": {
+      "main": [
+        [
+          {
+            "node": "If High Value Lead",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Co-founder Interest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If High Value Lead": {
+      "main": [
+        [
+          {
+            "node": "Notify Telegram - High Value",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "If Co-founder Interest": {
+      "main": [
+        [
+          {
+            "node": "Priority Alert - Co-founder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a43ca2736ddb39f355513dbd120d11033264a0ea81da2aeace493312264a7ee7"
+  }
+}

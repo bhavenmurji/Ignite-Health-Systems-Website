@@ -1,0 +1,60 @@
+{
+  "category": "value",
+  "audience": "physician",
+  "variations": [
+    {
+      "id": "value_01",
+      "subject": "Save $180K annually + reclaim 2 hours daily",
+      "tone": "value_focused",
+      "emotional_trigger": "financial_benefit",
+      "personalization": "none",
+      "character_count": 39,
+      "emoji_count": 0
+    },
+    {
+      "id": "value_02",
+      "subject": "💰 Cut {{EMR_SYSTEM}} costs by 70% (proven results inside)",
+      "tone": "value_focused",
+      "emotional_trigger": "cost_savings",
+      "personalization": "emr_system",
+      "character_count": 56,
+      "emoji_count": 1
+    },
+    {
+      "id": "value_03",
+      "subject": "{{SPECIALTY}} practices: 73% time reduction guaranteed",
+      "tone": "value_focused",
+      "emotional_trigger": "time_savings",
+      "personalization": "specialty",
+      "character_count": 50,
+      "emoji_count": 0
+    },
+    {
+      "id": "value_04",
+      "subject": "Dr. {{FNAME}}: Transform your practice in 1 day (not 18 months)",
+      "tone": "value_focused",
+      "emotional_trigger": "speed",
+      "personalization": "name",
+      "character_count": 58,
+      "emoji_count": 0
+    },
+    {
+      "id": "value_05",
+      "subject": "🎯 ROI Calculator: See your {{PRACTICE_MODEL}} practice savings",
+      "tone": "value_focused",
+      "emotional_trigger": "personalized_value",
+      "personalization": "practice_model",
+      "character_count": 59,
+      "emoji_count": 1
+    },
+    {
+      "id": "value_06",
+      "subject": "Free: Clinical Co-Pilot that pays for itself in 30 days",
+      "tone": "value_focused",
+      "emotional_trigger": "free_value",
+      "personalization": "none",
+      "character_count": 54,
+      "emoji_count": 0
+    }
+  ]
+}

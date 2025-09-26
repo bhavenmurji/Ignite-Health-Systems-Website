@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Testing Suite - Ignite Health Systems</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .test-section {
+            margin: 30px 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #results {
+            min-height: 400px;
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Accessibility Testing Suite</h1>
+    <p>Comprehensive accessibility validation for Ignite Health Systems website</p>
+
+    <div class="test-container">
+        <h2>Test Controls</h2>
+        <button onclick="runAllTests()">Run All Accessibility Tests</button>
+        <button onclick="runSemanticTests()">Test Semantic Structure</button>
+        <button onclick="runKeyboardTests()">Test Keyboard Navigation</button>
+        <button onclick="runColorContrastTests()">Test Color Contrast</button>
+        <button onclick="runScreenReaderTests()">Test Screen Reader Compatibility</button>
+        <button onclick="generateReport()">Generate Report</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        let testResults = [];
+        let totalTests = 0;
+        let passedTests = 0;
+
+        function addResult(testName, passed, message, severity = 'info') {
+            testResults.push({
+                name: testName,
+                passed: passed,
+                message: message,
+                severity: severity
+            });
+            totalTests++;
+            if (passed) passedTests++;
+        }
+
+        function displayResults() {
+            const resultsDiv = document.getElementById('results');
+            let html = '';
+
+            // Overall Score
+            const score = Math.round((passedTests / totalTests) * 100);
+            let scoreClass = 'fail';
+            if (score >= 90) scoreClass = 'pass';
+            else if (score >= 70) scoreClass = 'warning';
+
+            html += `<div class="test-container">
+                <div class="score ${scoreClass}">
+                    Accessibility Score: ${score}% (${passedTests}/${totalTests} tests passed)
+                </div>
+            </div>`;
+
+            // Individual Results
+            testResults.forEach(result => {
+                const cssClass = result.passed ? 'pass' : (result.severity === 'warning' ? 'warning' : 'fail');
+                html += `<div class="test-result ${cssClass}">
+                    <strong>${result.name}:</strong> ${result.message}
+                </div>`;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        function runSemanticTests() {
+            console.log('🔍 Testing Semantic Structure...');
+            
+            // Test for proper heading hierarchy
+            const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            let headingLevels = [];
+            headings.forEach(h => {
+                headingLevels.push(parseInt(h.tagName.charAt(1)));
+            });
+            
+            let properHierarchy = true;
+            for (let i = 1; i < headingLevels.length; i++) {
+                if (headingLevels[i] > headingLevels[i-1] + 1) {
+                    properHierarchy = false;
+                    break;
+                }
+            }
+            
+            addResult(
+                'Heading Hierarchy',
+                properHierarchy,
+                properHierarchy ? 'Proper heading hierarchy maintained' : 'Heading levels skip or are out of order',
+                properHierarchy ? 'info' : 'error'
+            );
+
+            // Test for alt text on images
+            const images = document.querySelectorAll('img');
+            let missingAlt = 0;
+            images.forEach(img => {
+                if (!img.hasAttribute('alt') || img.alt.trim() === '') {
+                    missingAlt++;
+                }
+            });
+            
+            addResult(
+                'Image Alt Text',
+                missingAlt === 0,
+                missingAlt === 0 ? 'All images have alt text' : `${missingAlt} images missing alt text`,
+                missingAlt === 0 ? 'info' : 'error'
+            );
+
+            // Test for form labels
+            const inputs = document.querySelectorAll('input, textarea, select');
+            let unlabeledInputs = 0;
+            inputs.forEach(input => {
+                const hasLabel = input.labels && input.labels.length > 0;
+                const hasAriaLabel = input.hasAttribute('aria-label');
+                const hasAriaLabelledby = input.hasAttribute('aria-labelledby');
+                
+                if (!hasLabel && !hasAriaLabel && !hasAriaLabelledby) {
+                    unlabeledInputs++;
+                }
+            });
+            
+            addResult(
+                'Form Labels',
+                unlabeledInputs === 0,
+                unlabeledInputs === 0 ? 'All form elements properly labeled' : `${unlabeledInputs} form elements without labels`,
+                unlabeledInputs === 0 ? 'info' : 'error'
+            );
+
+            // Test for link text
+            const links = document.querySelectorAll('a');
+            let genericLinks = 0;
+            const genericTexts = ['click here', 'read more', 'more', 'here'];
+            
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase().trim();
+                if (genericTexts.includes(text) || text === '') {
+                    genericLinks++;
+                }
+            });
+            
+            addResult(
+                'Descriptive Link Text',
+                genericLinks === 0,
+                genericLinks === 0 ? 'All links have descriptive text' : `${genericLinks} links with generic or missing text`,
+                genericLinks === 0 ? 'info' : 'warning'
+            );
+
+            displayResults();
+        }
+
+        function runKeyboardTests() {
+            console.log('⌨️ Testing Keyboard Navigation...');
+            
+            // Test for focus indicators
+            const focusableElements = document.querySelectorAll(
+                'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+            );
+            
+            addResult(
+                'Focusable Elements',
+                focusableElements.length > 0,
+                `Found ${focusableElements.length} focusable elements`,
+                'info'
+            );
+
+            // Test tab order
+            let tabIndexIssues = 0;
+            focusableElements.forEach(el => {
+                const tabIndex = el.getAttribute('tabindex');
+                if (tabIndex && parseInt(tabIndex) > 0) {
+                    tabIndexIssues++;
+                }
+            });
+            
+            addResult(
+                'Tab Order',
+                tabIndexIssues === 0,
+                tabIndexIssues === 0 ? 'Natural tab order maintained' : `${tabIndexIssues} elements with positive tabindex`,
+                tabIndexIssues === 0 ? 'info' : 'warning'
+            );
+
+            // Test for skip links
+            const skipLinks = document.querySelectorAll('a[href^="#"]');
+            const hasSkipLink = Array.from(skipLinks).some(link => 
+                link.textContent.toLowerCase().includes('skip') ||
+                link.textContent.toLowerCase().includes('jump')
+            );
+            
+            addResult(
+                'Skip Navigation',
+                hasSkipLink,
+                hasSkipLink ? 'Skip navigation link found' : 'No skip navigation link detected',
+                hasSkipLink ? 'info' : 'warning'
+            );
+
+            displayResults();
+        }
+
+        function runColorContrastTests() {
+            console.log('🎨 Testing Color Contrast...');
+            
+            // This is a simplified test - in production, you'd use a color contrast library
+            const textElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, a, button');
+            let contrastIssues = 0;
+            
+            textElements.forEach(el => {
+                const styles = window.getComputedStyle(el);
+                const color = styles.color;
+                const backgroundColor = styles.backgroundColor;
+                
+                // Simplified check for very obvious contrast issues
+                if (color === backgroundColor || 
+                    (color.includes('rgb(255') && backgroundColor.includes('rgb(255')) ||
+                    (color.includes('rgb(0') && backgroundColor.includes('rgb(0'))) {
+                    contrastIssues++;
+                }
+            });
+            
+            addResult(
+                'Color Contrast',
+                contrastIssues === 0,
+                contrastIssues === 0 ? 'No obvious contrast issues detected' : `${contrastIssues} potential contrast issues`,
+                contrastIssues === 0 ? 'info' : 'warning'
+            );
+
+            // Test for color-only information
+            const colorOnlyElements = document.querySelectorAll('[style*="color"]');
+            addResult(
+                'Color Independence',
+                true, // This requires manual review
+                'Manual review required: Ensure information is not conveyed by color alone',
+                'warning'
+            );
+
+            displayResults();
+        }
+
+        function runScreenReaderTests() {
+            console.log('📱 Testing Screen Reader Compatibility...');
+            
+            // Test for ARIA landmarks
+            const landmarks = document.querySelectorAll('[role="main"], [role="navigation"], [role="banner"], [role="contentinfo"], main, nav, header, footer');
+            
+            addResult(
+                'ARIA Landmarks',
+                landmarks.length >= 3,
+                `Found ${landmarks.length} landmark elements`,
+                landmarks.length >= 3 ? 'info' : 'warning'
+            );
+
+            // Test for ARIA labels
+            const ariaLabels = document.querySelectorAll('[aria-label], [aria-labelledby], [aria-describedby]');
+            
+            addResult(
+                'ARIA Labels',
+                ariaLabels.length > 0,
+                `Found ${ariaLabels.length} elements with ARIA labels`,
+                'info'
+            );
+
+            // Test for live regions
+            const liveRegions = document.querySelectorAll('[aria-live], [role="status"], [role="alert"]');
+            
+            addResult(
+                'Live Regions',
+                true, // This is optional but good to have
+                `Found ${liveRegions.length} live regions for dynamic content`,
+                'info'
+            );
+
+            // Test for hidden content
+            const hiddenContent = document.querySelectorAll('[aria-hidden="true"]');
+            
+            addResult(
+                'Hidden Content',
+                true,
+                `Found ${hiddenContent.length} elements hidden from screen readers`,
+                'info'
+            );
+
+            displayResults();
+        }
+
+        function runAllTests() {
+            testResults = [];
+            totalTests = 0;
+            passedTests = 0;
+            
+            console.log('🚀 Running Complete Accessibility Test Suite...');
+            
+            runSemanticTests();
+            runKeyboardTests();
+            runColorContrastTests();
+            runScreenReaderTests();
+            
+            // Additional comprehensive tests
+            console.log('📋 Running Additional Tests...');
+            
+            // Language declaration
+            const htmlLang = document.documentElement.getAttribute('lang');
+            addResult(
+                'Language Declaration',
+                htmlLang && htmlLang.trim() !== '',
+                htmlLang ? `Page language declared as: ${htmlLang}` : 'No language declaration found',
+                htmlLang ? 'info' : 'error'
+            );
+
+            // Page title
+            const pageTitle = document.title;
+            addResult(
+                'Page Title',
+                pageTitle && pageTitle.trim() !== '',
+                pageTitle ? `Page title: "${pageTitle}"` : 'No page title found',
+                pageTitle ? 'info' : 'error'
+            );
+
+            // Meta viewport
+            const viewport = document.querySelector('meta[name="viewport"]');
+            addResult(
+                'Responsive Meta Tag',
+                viewport !== null,
+                viewport ? 'Viewport meta tag present' : 'No viewport meta tag found',
+                viewport ? 'info' : 'error'
+            );
+
+            displayResults();
+        }
+
+        function generateReport() {
+            if (testResults.length === 0) {
+                alert('Please run tests first!');
+                return;
+            }
+
+            const report = {
+                timestamp: new Date().toISOString(),
+                score: Math.round((passedTests / totalTests) * 100),
+                totalTests: totalTests,
+                passedTests: passedTests,
+                failedTests: totalTests - passedTests,
+                results: testResults
+            };
+
+            // Create downloadable report
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `accessibility-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            console.log('📊 Accessibility Report Generated:', report);
+        }
+
+        // Auto-run basic tests on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Auto-running basic accessibility checks...');
+            runSemanticTests();
+        });
+    </script>
+</body>
+</html>

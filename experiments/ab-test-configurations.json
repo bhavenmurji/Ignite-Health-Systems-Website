@@ -1,0 +1,272 @@
+{
+  "experiments": {
+    "physician-welcome-v1": {
+      "id": "exp_physician_welcome_001",
+      "name": "Physician Welcome Email Optimization",
+      "description": "Testing subject lines, content length, and CTA effectiveness for physician welcome emails",
+      "status": "active",
+      "target_audience": "physician",
+      "start_date": "2025-01-01",
+      "end_date": "2025-02-28",
+      "sample_size": 1000,
+      "confidence_level": 95,
+      "statistical_power": 80,
+      "primary_metric": "email_open_rate",
+      "secondary_metrics": ["click_through_rate", "calendar_booking_rate", "unsubscribe_rate"],
+      "variations": {
+        "control": {
+          "name": "Original Welcome Email",
+          "weight": 25,
+          "subject_line": "Welcome to the Ignite Health Revolution",
+          "template": "physician/welcome-physician.html",
+          "content_length": "detailed",
+          "personalization_level": "basic",
+          "cta_style": "gradient_orange",
+          "send_time": "morning"
+        },
+        "urgency_subject": {
+          "name": "Urgency-focused Subject Line",
+          "weight": 25,
+          "subject_line": "🚨 Dr. {{FNAME}}, Your Practice Is Burning Out - Here's the Solution",
+          "template": "physician/welcome-physician-urgency.html",
+          "content_length": "detailed",
+          "personalization_level": "basic",
+          "cta_style": "gradient_orange",
+          "send_time": "morning"
+        },
+        "curiosity_subject": {
+          "name": "Curiosity-driven Subject Line",
+          "weight": 25,
+          "subject_line": "The 10-minute secret that saved Dr. Smith 3 hours daily",
+          "template": "physician/welcome-physician-curiosity.html",
+          "content_length": "concise",
+          "personalization_level": "advanced",
+          "cta_style": "solid_blue",
+          "send_time": "afternoon"
+        },
+        "value_subject": {
+          "name": "Value-proposition Subject Line",
+          "weight": 25,
+          "subject_line": "Save $180K annually + reclaim 2 hours daily",
+          "template": "physician/welcome-physician-value.html",
+          "content_length": "concise",
+          "personalization_level": "advanced",
+          "cta_style": "outline_red",
+          "send_time": "evening"
+        }
+      }
+    },
+    "investor-welcome-v1": {
+      "id": "exp_investor_welcome_001",
+      "name": "Investor Welcome Email Optimization",
+      "description": "Testing investment-focused messaging and visual design variations",
+      "status": "active",
+      "target_audience": "investor",
+      "start_date": "2025-01-01",
+      "end_date": "2025-03-31",
+      "sample_size": 500,
+      "confidence_level": 95,
+      "statistical_power": 80,
+      "primary_metric": "pitch_deck_download_rate",
+      "secondary_metrics": ["meeting_booking_rate", "email_forward_rate", "engagement_time"],
+      "variations": {
+        "control": {
+          "name": "Original Investment Pitch",
+          "weight": 50,
+          "subject_line": "Healthcare AI Investment Opportunity - $4.1T Market",
+          "template": "investor/welcome-investor.html",
+          "content_length": "detailed",
+          "personalization_level": "basic",
+          "cta_style": "gradient_orange",
+          "send_time": "morning"
+        },
+        "traction_focused": {
+          "name": "Traction-focused Variation",
+          "weight": 50,
+          "subject_line": "500+ physicians, 89% adoption, $2.4M ARR pipeline",
+          "template": "investor/welcome-investor-traction.html",
+          "content_length": "concise",
+          "personalization_level": "advanced",
+          "cta_style": "solid_green",
+          "send_time": "afternoon"
+        }
+      }
+    },
+    "cofounder-alert-v1": {
+      "id": "exp_cofounder_alert_001",
+      "name": "Co-founder Alert Email Testing",
+      "description": "Testing urgency indicators and action-oriented messaging",
+      "status": "active",
+      "target_audience": "internal",
+      "start_date": "2025-01-01",
+      "end_date": "2025-12-31",
+      "sample_size": 100,
+      "confidence_level": 90,
+      "statistical_power": 80,
+      "primary_metric": "response_time",
+      "secondary_metrics": ["action_completion_rate", "cv_download_rate", "meeting_scheduled_rate"],
+      "variations": {
+        "control": {
+          "name": "Standard Priority Alert",
+          "weight": 50,
+          "subject_line": "🚨 High Priority: Co-founder Interest Detected",
+          "template": "cofounder/priority-notification.html",
+          "content_length": "detailed",
+          "personalization_level": "advanced",
+          "cta_style": "animated_red",
+          "send_time": "immediate"
+        },
+        "action_focused": {
+          "name": "Action-focused Alert",
+          "weight": 50,
+          "subject_line": "⚡ ACTION REQUIRED: Co-founder candidate needs response in 4 hours",
+          "template": "cofounder/priority-notification-action.html",
+          "content_length": "concise",
+          "personalization_level": "advanced",
+          "cta_style": "pulsing_orange",
+          "send_time": "immediate"
+        }
+      }
+    },
+    "send-time-optimization": {
+      "id": "exp_send_time_001",
+      "name": "Send Time Optimization Study",
+      "description": "Testing optimal send times across different audience segments",
+      "status": "active",
+      "target_audience": "all",
+      "start_date": "2025-01-15",
+      "end_date": "2025-04-15",
+      "sample_size": 2000,
+      "confidence_level": 95,
+      "statistical_power": 80,
+      "primary_metric": "email_open_rate",
+      "secondary_metrics": ["click_through_rate", "response_rate"],
+      "variations": {
+        "morning_8am": {
+          "name": "Early Morning (8:00 AM)",
+          "weight": 16.67,
+          "send_time": "08:00",
+          "time_zone": "recipient_local"
+        },
+        "morning_10am": {
+          "name": "Mid Morning (10:00 AM)",
+          "weight": 16.67,
+          "send_time": "10:00",
+          "time_zone": "recipient_local"
+        },
+        "lunch_12pm": {
+          "name": "Lunch Time (12:00 PM)",
+          "weight": 16.67,
+          "send_time": "12:00",
+          "time_zone": "recipient_local"
+        },
+        "afternoon_2pm": {
+          "name": "Early Afternoon (2:00 PM)",
+          "weight": 16.67,
+          "send_time": "14:00",
+          "time_zone": "recipient_local"
+        },
+        "afternoon_4pm": {
+          "name": "Late Afternoon (4:00 PM)",
+          "weight": 16.67,
+          "send_time": "16:00",
+          "time_zone": "recipient_local"
+        },
+        "evening_6pm": {
+          "name": "Early Evening (6:00 PM)",
+          "weight": 16.66,
+          "send_time": "18:00",
+          "time_zone": "recipient_local"
+        }
+      }
+    },
+    "personalization-depth": {
+      "id": "exp_personalization_001",
+      "name": "Personalization Depth Testing",
+      "description": "Testing different levels of email personalization effectiveness",
+      "status": "active",
+      "target_audience": "physician",
+      "start_date": "2025-02-01",
+      "end_date": "2025-05-01",
+      "sample_size": 1500,
+      "confidence_level": 95,
+      "statistical_power": 80,
+      "primary_metric": "engagement_score",
+      "secondary_metrics": ["read_time", "click_through_rate", "reply_rate"],
+      "variations": {
+        "basic": {
+          "name": "Basic Personalization (Name only)",
+          "weight": 25,
+          "personalization_fields": ["FNAME"],
+          "dynamic_content": false,
+          "behavioral_triggers": false
+        },
+        "moderate": {
+          "name": "Moderate Personalization (Name + Specialty)",
+          "weight": 25,
+          "personalization_fields": ["FNAME", "SPECIALTY", "PRACTICE_MODEL"],
+          "dynamic_content": true,
+          "behavioral_triggers": false
+        },
+        "advanced": {
+          "name": "Advanced Personalization (Full Profile)",
+          "weight": 25,
+          "personalization_fields": ["FNAME", "SPECIALTY", "PRACTICE_MODEL", "CHALLENGE", "EMR_SYSTEM", "PRACTICE_SIZE"],
+          "dynamic_content": true,
+          "behavioral_triggers": true
+        },
+        "hyper": {
+          "name": "Hyper-personalized (AI-generated content)",
+          "weight": 25,
+          "personalization_fields": ["ALL_AVAILABLE"],
+          "dynamic_content": true,
+          "behavioral_triggers": true,
+          "ai_content_generation": true
+        }
+      }
+    }
+  },
+  "global_settings": {
+    "tracking": {
+      "open_pixel": true,
+      "click_tracking": true,
+      "utm_parameters": true,
+      "conversion_tracking": true,
+      "heatmap_tracking": false
+    },
+    "statistical_settings": {
+      "minimum_sample_size": 100,
+      "maximum_test_duration_days": 90,
+      "early_stopping_threshold": 0.01,
+      "bonferroni_correction": true
+    },
+    "audience_segments": {
+      "physician": {
+        "specialty_groups": ["primary_care", "specialist", "surgeon", "emergency", "radiology"],
+        "practice_models": ["solo", "small_group", "large_group", "hospital_employed"],
+        "experience_levels": ["resident", "early_career", "mid_career", "senior", "near_retirement"]
+      },
+      "investor": {
+        "types": ["angel", "vc", "pe", "strategic", "family_office"],
+        "focus_areas": ["healthcare", "ai", "saas", "medtech", "digital_health"],
+        "check_sizes": ["under_100k", "100k_500k", "500k_2m", "2m_10m", "10m_plus"]
+      },
+      "specialist": {
+        "roles": ["cto", "ciso", "product_manager", "data_scientist", "healthcare_consultant"],
+        "industries": ["healthcare", "technology", "consulting", "government", "academic"]
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created_date": "2025-01-01",
+    "last_updated": "2025-01-01",
+    "created_by": "A/B Testing Specialist Agent",
+    "tool_integration": {
+      "email_platform": "mailchimp",
+      "analytics": "google_analytics",
+      "automation": "n8n",
+      "database": "google_sheets"
+    }
+  }
+}

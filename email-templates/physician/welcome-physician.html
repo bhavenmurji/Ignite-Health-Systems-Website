@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Ignite Health Revolution</title>
+    <style>
+        /* Email-safe CSS Reset and Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #0d0d0d;
+            width: 100% !important;
+            min-width: 100%;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            border: 0;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Layout */
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+            background-size: 20px 20px;
+        }
+
+        .logo {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-title {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 20px 0 0 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px 30px;
+            color: #ffffff;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 69, 0, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .highlight-title {
+            color: #ff6b35;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .benefit-list {
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .benefit-list li {
+            position: relative;
+            padding: 8px 0 8px 30px;
+            color: #cccccc;
+            font-size: 15px;
+        }
+
+        .benefit-list li::before {
+            content: '🔥';
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #ff4500, #8b0000);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ff6b35;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111111;
+            padding: 30px;
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+            border-top: 1px solid #333333;
+        }
+
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #ff6b35;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /* Mobile Responsive */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                margin: 0 10px;
+            }
+
+            .content,
+            .header,
+            .footer {
+                padding: 20px;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .greeting {
+                font-size: 20px;
+            }
+
+            .stats-grid {
+                flex-direction: column;
+            }
+
+            .stat-item {
+                margin: 15px 0;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .content {
+                background-color: #1a1a1a;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://ignitehealthsystems.com/assets/images/Ignite Logo.png" alt="Ignite Health Systems" />
+            </div>
+            <h1 class="header-title">Welcome to the Revolution</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">Hello Dr. {{FNAME}},</div>
+
+            <p class="intro-text">
+                Thank you for joining the movement to reclaim medicine from administrative burden.
+                You've just taken the first step toward transforming your practice and rediscovering
+                the joy of patient care.
+            </p>
+
+            <div class="highlight-box">
+                <div class="highlight-title">🎯 What's Next for Your Practice</div>
+                <p style="color: #cccccc; margin-bottom: 15px;">
+                    The Ignite Clinical Co-Pilot is designed specifically for physicians like you who are
+                    {{SPECIALTY}} practicing in {{PRACTICE_MODEL}} models. Here's what you can expect:
+                </p>
+                <ul class="benefit-list">
+                    <li><strong>10-Minute Documentation:</strong> AI-powered clinical notes that capture your voice</li>
+                    <li><strong>Intelligent Workflows:</strong> Automated care coordination that thinks ahead</li>
+                    <li><strong>Burnout Prevention:</strong> Reclaim 2+ hours daily for actual patient care</li>
+                    <li><strong>Revenue Optimization:</strong> Smart billing that maximizes legitimate reimbursement</li>
+                </ul>
+            </div>
+
+            <div class="stats-section">
+                <h3 style="color: #ffffff; margin-bottom: 20px;">Early Results from Beta Practices</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">73%</span>
+                        <span class="stat-label">Time Savings</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">89%</span>
+                        <span class="stat-label">Accuracy Rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2.3hrs</span>
+                        <span class="stat-label">Daily Recovery</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p style="color: #cccccc; margin-bottom: 20px;">
+                    Ready to see how the Clinical Co-Pilot addresses your biggest challenge?
+                </p>
+                <p style="color: #ff6b35; font-style: italic; margin-bottom: 25px;">
+                    "{{CHALLENGE}}"
+                </p>
+                <a href="https://calendar.app/ignite-health-demo?utm_source=email&utm_medium=physician_welcome&utm_campaign=waitlist" class="cta-button">
+                    Schedule Your Private Demo
+                </a>
+            </div>
+
+            {{#if COUNCIL_INTEREST}}
+            <div class="highlight-box">
+                <div class="highlight-title">🏆 Clinical Innovation Council Invitation</div>
+                <p style="color: #cccccc;">
+                    Thank you for your interest in shaping the future of healthcare technology.
+                    Our team will review your CV and reach out within 48 hours to discuss your
+                    role in validating our AI models and optimizing clinical workflows.
+                </p>
+            </div>
+            {{/if}}
+
+            <p style="color: #cccccc; margin-top: 30px;">
+                Over the next few days, you'll receive exclusive insights about the 10-minute revolution
+                and early access to our Clinical Co-Pilot beta. Welcome to the future of independent practice.
+            </p>
+
+            <p style="color: #ff6b35; font-weight: 600; margin-top: 20px;">
+                Dr. Bhaven Murji<br>
+                <span style="color: #cccccc; font-weight: normal;">Founder & CEO, Ignite Health Systems</span>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="social-links">
+                <a href="https://linkedin.com/company/ignite-health-systems">LinkedIn</a>
+                <a href="https://twitter.com/ignitehealthsys">Twitter</a>
+                <a href="https://ignitehealthsystems.com">Website</a>
+            </div>
+            <p>
+                © 2025 Ignite Health Systems. All rights reserved.<br>
+                <a href="https://ignitehealthsystems.com/unsubscribe?email={{EMAIL}}">Unsubscribe</a> |
+                <a href="https://ignitehealthsystems.com/privacy">Privacy Policy</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 12px; color: #555;">
+                Ignite Health Systems<br>
+                Innovation Drive, Austin, TX 78701
+            </p>
+        </div>
+    </div>
+</body>
+</html>

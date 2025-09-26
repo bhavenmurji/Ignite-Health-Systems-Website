@@ -1,0 +1,371 @@
+{
+  "testSuite": "Ignite Health Systems Load Testing",
+  "version": "1.0.0",
+  "description": "Comprehensive load testing configuration for form submissions, API endpoints, and workflow automation",
+  "environment": {
+    "production": {
+      "baseUrl": "https://ignitehealthsystems.com",
+      "webhookUrl": "https://n8n.ignitehealthsystems.com/webhook/ignite-interest-form",
+      "apiUrl": "https://api.ignitehealthsystems.com",
+      "mailchimpUrl": "https://us18.api.mailchimp.com/3.0"
+    },
+    "staging": {
+      "baseUrl": "https://staging.ignitehealthsystems.com",
+      "webhookUrl": "https://staging-n8n.ignitehealthsystems.com/webhook/ignite-interest-form",
+      "apiUrl": "https://staging-api.ignitehealthsystems.com",
+      "mailchimpUrl": "https://us18.api.mailchimp.com/3.0"
+    },
+    "test": {
+      "baseUrl": "http://localhost:3000",
+      "webhookUrl": "https://test-n8n.example.com/webhook/ignite-interest-form",
+      "apiUrl": "http://localhost:8080",
+      "mailchimpUrl": "https://us18.api.mailchimp.com/3.0"
+    }
+  },
+  "testScenarios": {
+    "baseline": {
+      "name": "Baseline Performance Test",
+      "description": "Establish baseline performance metrics under normal load",
+      "duration": "5m",
+      "virtualUsers": 10,
+      "rampUp": "1m",
+      "rampDown": "1m",
+      "thresholds": {
+        "http_req_duration": ["p(95)<2000"],
+        "http_req_failed": ["rate<0.05"],
+        "http_reqs": ["rate>5"]
+      }
+    },
+    "normalLoad": {
+      "name": "Normal Load Test",
+      "description": "Simulate expected production traffic patterns",
+      "duration": "10m",
+      "virtualUsers": 50,
+      "rampUp": "2m",
+      "rampDown": "2m",
+      "thresholds": {
+        "http_req_duration": ["p(95)<3000"],
+        "http_req_failed": ["rate<0.02"],
+        "http_reqs": ["rate>20"]
+      }
+    },
+    "peakLoad": {
+      "name": "Peak Load Test",
+      "description": "Test system under peak traffic conditions",
+      "duration": "15m",
+      "virtualUsers": 100,
+      "rampUp": "3m",
+      "rampDown": "3m",
+      "thresholds": {
+        "http_req_duration": ["p(95)<5000"],
+        "http_req_failed": ["rate<0.03"],
+        "http_reqs": ["rate>40"]
+      }
+    },
+    "stressTest": {
+      "name": "Stress Test",
+      "description": "Push system beyond normal capacity to find breaking point",
+      "duration": "20m",
+      "virtualUsers": 200,
+      "rampUp": "5m",
+      "rampDown": "5m",
+      "thresholds": {
+        "http_req_duration": ["p(95)<8000"],
+        "http_req_failed": ["rate<0.10"],
+        "http_reqs": ["rate>60"]
+      }
+    },
+    "spikeTest": {
+      "name": "Spike Test",
+      "description": "Test system response to sudden traffic spikes",
+      "stages": [
+        { "duration": "2m", "target": 10 },
+        { "duration": "1m", "target": 200 },
+        { "duration": "3m", "target": 200 },
+        { "duration": "1m", "target": 10 },
+        { "duration": "2m", "target": 10 }
+      ],
+      "thresholds": {
+        "http_req_duration": ["p(95)<10000"],
+        "http_req_failed": ["rate<0.15"]
+      }
+    },
+    "volumeTest": {
+      "name": "Volume Test",
+      "description": "Test system with large amounts of data over extended period",
+      "duration": "60m",
+      "virtualUsers": 75,
+      "rampUp": "10m",
+      "rampDown": "10m",
+      "thresholds": {
+        "http_req_duration": ["p(95)<4000"],
+        "http_req_failed": ["rate<0.02"],
+        "http_reqs": ["rate>30"]
+      }
+    },
+    "enduranceTest": {
+      "name": "Endurance Test",
+      "description": "Test system stability over extended period",
+      "duration": "120m",
+      "virtualUsers": 30,
+      "rampUp": "5m",
+      "rampDown": "5m",
+      "thresholds": {
+        "http_req_duration": ["p(95)<3000"],
+        "http_req_failed": ["rate<0.01"],
+        "http_reqs": ["rate>15"]
+      }
+    }
+  },
+  "testData": {
+    "userTypes": ["physician", "investor", "specialist", "technologist"],
+    "specialties": [
+      "Family Medicine",
+      "Internal Medicine",
+      "Pediatrics",
+      "Emergency Medicine",
+      "Cardiology",
+      "Dermatology",
+      "Psychiatry",
+      "Radiology",
+      "Surgery",
+      "Health Tech AI"
+    ],
+    "practiceModels": [
+      "independent",
+      "hospital",
+      "group_practice",
+      "dpc",
+      "telehealth",
+      "academic"
+    ],
+    "emrSystems": [
+      "Epic",
+      "Cerner",
+      "Allscripts",
+      "athenahealth",
+      "eClinicalWorks",
+      "NextGen",
+      "AmazingCharts",
+      "DrChrono",
+      "Practice Fusion",
+      "Other"
+    ],
+    "challenges": [
+      "Spending too much time on documentation",
+      "EHR system is slow and inefficient",
+      "Lack of AI-powered clinical decision support",
+      "Difficult patient communication and follow-up",
+      "Administrative burden reducing patient care time",
+      "Poor integration between systems",
+      "Need better analytics and reporting",
+      "Want to improve patient outcomes with technology",
+      "Looking for workflow automation solutions",
+      "Interested in innovative healthcare technology"
+    ]
+  },
+  "k6Configuration": {
+    "scriptPath": "./stress-test-script.js",
+    "outputConfig": {
+      "influxdb": {
+        "enabled": false,
+        "url": "http://localhost:8086",
+        "database": "k6_results"
+      },
+      "prometheus": {
+        "enabled": false,
+        "namespace": "k6_",
+        "subsystem": "ignite_health"
+      },
+      "json": {
+        "enabled": true,
+        "filename": "./results/load-test-results.json"
+      },
+      "csv": {
+        "enabled": true,
+        "filename": "./results/load-test-metrics.csv"
+      }
+    },
+    "options": {
+      "noConnectionReuse": false,
+      "userAgent": "IgniteHealthSystems-LoadTest/1.0",
+      "batch": 20,
+      "batchPerHost": 10,
+      "httpDebug": "full",
+      "insecureSkipTLSVerify": false,
+      "maxRedirects": 3,
+      "timeout": "30s"
+    }
+  },
+  "endpoints": {
+    "formSubmission": {
+      "path": "/webhook/ignite-interest-form",
+      "method": "POST",
+      "weight": 70,
+      "expectedStatusCodes": [200, 201],
+      "headers": {
+        "Content-Type": "application/json",
+        "User-Agent": "IgniteHealthSystems-LoadTest/1.0"
+      }
+    },
+    "websitePages": {
+      "homepage": {
+        "path": "/",
+        "method": "GET",
+        "weight": 15,
+        "expectedStatusCodes": [200]
+      },
+      "about": {
+        "path": "/about",
+        "method": "GET",
+        "weight": 5,
+        "expectedStatusCodes": [200]
+      },
+      "contact": {
+        "path": "/contact",
+        "method": "GET",
+        "weight": 5,
+        "expectedStatusCodes": [200]
+      },
+      "technology": {
+        "path": "/technology",
+        "method": "GET",
+        "weight": 5,
+        "expectedStatusCodes": [200]
+      }
+    },
+    "apiEndpoints": {
+      "healthCheck": {
+        "path": "/api/health",
+        "method": "GET",
+        "weight": 0,
+        "expectedStatusCodes": [200],
+        "description": "Health check endpoint for monitoring"
+      },
+      "waitlist": {
+        "path": "/api/waitlist",
+        "method": "POST",
+        "weight": 0,
+        "expectedStatusCodes": [200, 201],
+        "description": "Legacy waitlist endpoint"
+      }
+    }
+  },
+  "monitors": {
+    "responseTime": {
+      "percentiles": [50, 90, 95, 99],
+      "thresholds": {
+        "p50": 500,
+        "p90": 1500,
+        "p95": 2000,
+        "p99": 5000
+      }
+    },
+    "errorRate": {
+      "maxAllowed": 0.05,
+      "criticalThreshold": 0.10
+    },
+    "throughput": {
+      "minRequestsPerSecond": 10,
+      "targetRequestsPerSecond": 50
+    },
+    "concurrency": {
+      "maxVirtualUsers": 500,
+      "recommendedVirtualUsers": 200
+    }
+  },
+  "alerting": {
+    "webhooks": {
+      "slack": {
+        "enabled": false,
+        "url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+        "channel": "#alerts"
+      },
+      "teams": {
+        "enabled": false,
+        "url": "https://YOUR-TENANT.webhook.office.com/webhookb2/YOUR-WEBHOOK"
+      }
+    },
+    "email": {
+      "enabled": false,
+      "recipients": ["devops@ignitehealthsystems.com", "bhaven@ignitehealthsystems.com"]
+    },
+    "thresholds": {
+      "responseTimeP95": 3000,
+      "errorRate": 0.05,
+      "throughputDrop": 0.20
+    }
+  },
+  "reporting": {
+    "htmlReport": {
+      "enabled": true,
+      "templatePath": "./templates/load-test-report.html",
+      "outputPath": "./results/load-test-report.html"
+    },
+    "metricsToCapture": [
+      "http_req_duration",
+      "http_req_waiting",
+      "http_req_connecting",
+      "http_req_receiving",
+      "http_req_failed",
+      "http_reqs",
+      "vus",
+      "vus_max",
+      "iterations",
+      "iteration_duration",
+      "data_received",
+      "data_sent"
+    ],
+    "customMetrics": {
+      "form_submission_success_rate": "Rate of successful form submissions",
+      "mailchimp_integration_latency": "Time taken for Mailchimp integration",
+      "n8n_workflow_execution_time": "Time for n8n workflow completion",
+      "telegram_notification_delay": "Delay in Telegram notifications"
+    }
+  },
+  "cleanup": {
+    "enabled": true,
+    "cleanupAfterTest": true,
+    "testDataRetentionDays": 7,
+    "mailchimpTestAudience": "test_audience_id",
+    "cleanupEndpoints": {
+      "removeTestSubscribers": "/api/cleanup/test-subscribers",
+      "clearTestWorkflows": "/api/cleanup/test-workflows"
+    }
+  },
+  "security": {
+    "rateLimiting": {
+      "enabled": true,
+      "maxRequestsPerMinute": 100,
+      "burstLimit": 20
+    },
+    "authenticationRequired": false,
+    "ipWhitelisting": {
+      "enabled": false,
+      "allowedIPs": []
+    },
+    "headers": {
+      "X-Load-Test": "true",
+      "X-Test-Run-ID": "{{TEST_RUN_ID}}"
+    }
+  },
+  "ci_cd": {
+    "githubActions": {
+      "enabled": true,
+      "triggerOnPR": true,
+      "triggerOnMerge": true,
+      "scheduleDaily": true,
+      "failureThreshold": 0.05
+    },
+    "performanceBaseline": {
+      "enabled": true,
+      "baselineFile": "./baselines/performance-baseline.json",
+      "allowedRegression": 0.10
+    }
+  },
+  "documentation": {
+    "runbook": "./docs/load-testing-runbook.md",
+    "troubleshooting": "./docs/load-testing-troubleshooting.md",
+    "metricsDefinitions": "./docs/load-testing-metrics.md"
+  }
+}

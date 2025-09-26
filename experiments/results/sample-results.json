@@ -1,0 +1,74 @@
+{
+  "control": {
+    "email_open_rate": {
+      "total": 312,
+      "conversions": 78
+    },
+    "click_through_rate": {
+      "total": 312,
+      "conversions": 23
+    },
+    "calendar_booking_rate": {
+      "total": 312,
+      "conversions": 9
+    },
+    "unsubscribe_rate": {
+      "total": 312,
+      "conversions": 3
+    }
+  },
+  "urgency_subject": {
+    "email_open_rate": {
+      "total": 315,
+      "conversions": 110
+    },
+    "click_through_rate": {
+      "total": 315,
+      "conversions": 35
+    },
+    "calendar_booking_rate": {
+      "total": 315,
+      "conversions": 18
+    },
+    "unsubscribe_rate": {
+      "total": 315,
+      "conversions": 8
+    }
+  },
+  "curiosity_subject": {
+    "email_open_rate": {
+      "total": 308,
+      "conversions": 95
+    },
+    "click_through_rate": {
+      "total": 308,
+      "conversions": 31
+    },
+    "calendar_booking_rate": {
+      "total": 308,
+      "conversions": 15
+    },
+    "unsubscribe_rate": {
+      "total": 308,
+      "conversions": 4
+    }
+  },
+  "value_subject": {
+    "email_open_rate": {
+      "total": 312,
+      "conversions": 121
+    },
+    "click_through_rate": {
+      "total": 312,
+      "conversions": 42
+    },
+    "calendar_booking_rate": {
+      "total": 312,
+      "conversions": 22
+    },
+    "unsubscribe_rate": {
+      "total": 312,
+      "conversions": 5
+    }
+  }
+}

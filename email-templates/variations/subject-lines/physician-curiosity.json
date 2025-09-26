@@ -1,0 +1,60 @@
+{
+  "category": "curiosity",
+  "audience": "physician",
+  "variations": [
+    {
+      "id": "curiosity_01",
+      "subject": "The 10-minute secret that saved Dr. Smith 3 hours daily",
+      "tone": "curious",
+      "emotional_trigger": "mystery",
+      "personalization": "none",
+      "character_count": 50,
+      "emoji_count": 0
+    },
+    {
+      "id": "curiosity_02",
+      "subject": "What do 89% of physicians know that you don't?",
+      "tone": "curious",
+      "emotional_trigger": "social_proof",
+      "personalization": "none",
+      "character_count": 44,
+      "emoji_count": 0
+    },
+    {
+      "id": "curiosity_03",
+      "subject": "The {{SPECIALTY}} practice secret Epic doesn't want you to know",
+      "tone": "curious",
+      "emotional_trigger": "insider_knowledge",
+      "personalization": "specialty",
+      "character_count": 58,
+      "emoji_count": 0
+    },
+    {
+      "id": "curiosity_04",
+      "subject": "🤔 Why {{PRACTICE_MODEL}} physicians are switching to this...",
+      "tone": "curious",
+      "emotional_trigger": "trend",
+      "personalization": "practice_model",
+      "character_count": 56,
+      "emoji_count": 1
+    },
+    {
+      "id": "curiosity_05",
+      "subject": "Dr. {{FNAME}}, the question every physician is asking",
+      "tone": "curious",
+      "emotional_trigger": "relevance",
+      "personalization": "name",
+      "character_count": 49,
+      "emoji_count": 0
+    },
+    {
+      "id": "curiosity_06",
+      "subject": "How one physician solved {{CHALLENGE}} in 30 days",
+      "tone": "curious",
+      "emotional_trigger": "solution_story",
+      "personalization": "challenge",
+      "character_count": 47,
+      "emoji_count": 0
+    }
+  ]
+}

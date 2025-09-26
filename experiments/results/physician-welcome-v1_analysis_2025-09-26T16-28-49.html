@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A/B Test Analysis: Physician Welcome Email Optimization</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #ff6b35; color: white; padding: 20px; border-radius: 8px; }
+        .summary { background: #f5f5f5; padding: 15px; margin: 20px 0; border-radius: 8px; }
+        .variation { border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 8px; }
+        .significant { border-left: 5px solid #28a745; }
+        .not-significant { border-left: 5px solid #dc3545; }
+        .metric { display: inline-block; margin: 10px 15px 10px 0; }
+        .recommendations { background: #e8f4f8; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Physician Welcome Email Optimization</h1>
+        <p>Analysis Date: 9/26/2025, 12:28:49 PM</p>
+    </div>
+
+    <div class="summary">
+        <h2>Summary</h2>
+        <p><strong>Total Variations:</strong> 4</p>
+        <p><strong>Significant Results:</strong> 2</p>
+        <p><strong>Best Performing:</strong> Value-proposition Subject Line</p>
+        <p><strong>Total Sample Size:</strong> 1,247</p>
+    </div>
+
+    <h2>Variation Results</h2>
+    
+        <div class="variation not-significant">
+            <h3>Original Welcome Email</h3>
+            <div class="metric"><strong>Sample Size:</strong> 312</div>
+            <p>No metric data available</p>
+        </div>
+        
+        <div class="variation significant">
+            <h3>Urgency-focused Subject Line</h3>
+            <div class="metric"><strong>Sample Size:</strong> 315</div>
+            
+            <div class="metric"><strong>Conversion Rate:</strong> 34.92%</div>
+            <div class="metric"><strong>Lift:</strong> 39.68%</div>
+            <div class="metric"><strong>Significance:</strong> Yes</div>
+            <div class="metric"><strong>Confidence:</strong> 99.3%</div>
+            
+        </div>
+        
+        <div class="variation not-significant">
+            <h3>Curiosity-driven Subject Line</h3>
+            <div class="metric"><strong>Sample Size:</strong> 308</div>
+            
+            <div class="metric"><strong>Conversion Rate:</strong> 30.84%</div>
+            <div class="metric"><strong>Lift:</strong> 23.38%</div>
+            <div class="metric"><strong>Significance:</strong> No</div>
+            <div class="metric"><strong>Confidence:</strong> 89.5%</div>
+            
+        </div>
+        
+        <div class="variation significant">
+            <h3>Value-proposition Subject Line</h3>
+            <div class="metric"><strong>Sample Size:</strong> 312</div>
+            
+            <div class="metric"><strong>Conversion Rate:</strong> 38.78%</div>
+            <div class="metric"><strong>Lift:</strong> 55.13%</div>
+            <div class="metric"><strong>Significance:</strong> Yes</div>
+            <div class="metric"><strong>Confidence:</strong> 100.0%</div>
+            
+        </div>
+        
+
+    <div class="recommendations">
+        <h2>Recommendations</h2>
+        
+        <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 4px;">
+            <strong>WINNER:</strong> Urgency-focused Subject Line shows significant improvement (39.7% lift) in email_open_rate
+        </div>
+        
+        <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 4px;">
+            <strong>WINNER:</strong> Value-proposition Subject Line shows significant improvement (55.1% lift) in email_open_rate
+        </div>
+        
+        <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 4px;">
+            <strong>SAMPLE_SIZE:</strong> Consider increasing sample size. Current: 315, Recommended: 14735
+        </div>
+        
+        <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 4px;">
+            <strong>STATISTICAL:</strong> Multiple metrics being tested. Consider Bonferroni correction for p-values.
+        </div>
+        
+    </div>
+</body>
+</html>
+        

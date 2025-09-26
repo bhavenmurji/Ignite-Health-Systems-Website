@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Ignite Health Systems - Investigator Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #0a0e27;
+            width: 100% !important;
+            min-width: 100%;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            border: 0;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Layout */
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #141932;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+            background-size: 20px 20px;
+        }
+
+        .logo {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-title {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 20px 0 0 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px 30px;
+            color: #ffffff;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05));
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .highlight-title {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .benefit-list {
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .benefit-list li {
+            position: relative;
+            padding: 8px 0 8px 30px;
+            color: #cccccc;
+            font-size: 15px;
+        }
+
+        .benefit-list li::before {
+            content: '🔬';
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #764ba2, #f093fb);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: rgba(40, 40, 60, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Requirements Section */
+        .requirements-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .requirements-title {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .requirements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .requirements-list li {
+            color: #cccccc;
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .requirements-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0d1024;
+            padding: 30px;
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+            border-top: 1px solid #333333;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /* Mobile Responsive */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                margin: 0 10px;
+            }
+
+            .content,
+            .header,
+            .footer {
+                padding: 20px;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .greeting {
+                font-size: 20px;
+            }
+
+            .stats-grid {
+                flex-direction: column;
+            }
+
+            .stat-item {
+                margin: 15px 0;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .content {
+                background-color: #141932;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://ignitehealthsystems.com/assets/images/Ignite Logo.png" alt="Ignite Health Systems" />
+            </div>
+            <h1 class="header-title">Welcome to Our Research Network</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">Hello {{FNAME}},</div>
+
+            <p class="intro-text">
+                Welcome to the Ignite Health Systems Research Network. Your expertise as a {{SPECIALTY}}
+                investigator makes you an invaluable part of our mission to revolutionize healthcare
+                through innovative clinical research and intelligent automation.
+            </p>
+
+            <div class="highlight-box">
+                <div class="highlight-title">🔬 Your Research Journey Begins</div>
+                <p style="color: #cccccc; margin-bottom: 15px;">
+                    As a {{ROLE}} in our network, you'll have access to cutting-edge research opportunities
+                    that align with your specialization in {{SPECIALTY}}. Here's what sets us apart:
+                </p>
+                <ul class="benefit-list">
+                    <li><strong>Streamlined Protocols:</strong> AI-assisted protocol design and management</li>
+                    <li><strong>Automated Compliance:</strong> Real-time regulatory tracking and alerts</li>
+                    <li><strong>Smart Recruitment:</strong> Intelligent patient matching and enrollment</li>
+                    <li><strong>Advanced Analytics:</strong> Real-time data insights and safety monitoring</li>
+                    <li><strong>Collaborative Platform:</strong> Connect with leading investigators globally</li>
+                </ul>
+            </div>
+
+            <div class="stats-section">
+                <h3 style="color: #ffffff; margin-bottom: 20px;">Our Research Impact</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">127</span>
+                        <span class="stat-label">Active Studies</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">42K</span>
+                        <span class="stat-label">Enrolled Patients</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Compliance Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            {{#if CHALLENGE}}
+            <div class="highlight-box">
+                <div class="highlight-title">🎯 Addressing Your Research Challenges</div>
+                <p style="color: #cccccc;">
+                    You mentioned: "{{CHALLENGE}}"<br><br>
+                    Our platform is specifically designed to address these challenges through
+                    intelligent automation and collaborative research tools. Let's discuss how
+                    we can support your specific research needs.
+                </p>
+            </div>
+            {{/if}}
+
+            {{#if COMPLIANCE_STATUS}}
+            <div class="requirements-section">
+                <div class="requirements-title">📋 Next Steps for Onboarding</div>
+                <ul class="requirements-list">
+                    <li>Complete investigator profile verification</li>
+                    <li>Review and sign master service agreement</li>
+                    <li>Complete GCP and protocol-specific training</li>
+                    <li>Submit CV and regulatory documents</li>
+                    <li>Participate in site qualification visit</li>
+                </ul>
+                <p style="color: #667eea; margin-top: 15px; font-weight: 600;">
+                    Your compliance status: {{COMPLIANCE_STATUS}}
+                </p>
+            </div>
+            {{/if}}
+
+            <div class="cta-section">
+                <p style="color: #cccccc; margin-bottom: 20px;">
+                    Ready to explore research opportunities that match your expertise?
+                </p>
+                <a href="https://calendar.app/ignite-health-research?utm_source=email&utm_medium=investigator_welcome&utm_campaign=research_network" class="cta-button">
+                    Schedule Research Consultation
+                </a>
+            </div>
+
+            {{#if PRINCIPAL_INVESTIGATOR}}
+            <div class="highlight-box">
+                <div class="highlight-title">🏆 Principal Investigator Benefits</div>
+                <p style="color: #cccccc;">
+                    As a Principal Investigator, you'll have access to:
+                </p>
+                <ul style="list-style: none; padding: 10px 0;">
+                    <li style="color: #cccccc; padding: 5px 0;">• Priority study selection and site designation</li>
+                    <li style="color: #cccccc; padding: 5px 0;">• Enhanced research support and resources</li>
+                    <li style="color: #cccccc; padding: 5px 0;">• Leadership opportunities in protocol development</li>
+                    <li style="color: #cccccc; padding: 5px 0;">• Direct sponsor communication channels</li>
+                    <li style="color: #cccccc; padding: 5px 0;">• Performance-based incentive programs</li>
+                </ul>
+            </div>
+            {{/if}}
+
+            <p style="color: #cccccc; margin-top: 30px;">
+                Over the coming weeks, you'll receive:
+            </p>
+            <ul style="list-style: none; padding: 10px 0 20px 0;">
+                <li style="color: #cccccc; padding: 5px 0;">📊 Weekly study matching alerts based on your expertise</li>
+                <li style="color: #cccccc; padding: 5px 0;">📚 Monthly research methodology webinars</li>
+                <li style="color: #cccccc; padding: 5px 0;">🔔 Real-time protocol and regulatory updates</li>
+                <li style="color: #cccccc; padding: 5px 0;">🏅 Performance reports and recognition opportunities</li>
+            </ul>
+
+            <p style="color: #667eea; font-weight: 600; margin-top: 20px;">
+                Dr. Bhaven Murji<br>
+                <span style="color: #cccccc; font-weight: normal;">Founder & CEO, Ignite Health Systems</span>
+            </p>
+
+            <p style="color: #999999; font-size: 14px; margin-top: 10px; font-style: italic;">
+                "Empowering investigators to advance medical science through intelligent research automation."
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="social-links">
+                <a href="https://linkedin.com/company/ignite-health-systems">LinkedIn</a>
+                <a href="https://twitter.com/ignitehealthsys">Twitter</a>
+                <a href="https://ignitehealthsystems.com/research">Research Portal</a>
+            </div>
+            <p>
+                © 2025 Ignite Health Systems. All rights reserved.<br>
+                <a href="https://ignitehealthsystems.com/unsubscribe?email={{EMAIL}}">Unsubscribe</a> |
+                <a href="https://ignitehealthsystems.com/privacy">Privacy Policy</a> |
+                <a href="https://ignitehealthsystems.com/compliance">Compliance</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 12px; color: #555;">
+                Ignite Health Systems Research Network<br>
+                Innovation Drive, Austin, TX 78701<br>
+                Research Support: research@ignitehealthsystems.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>

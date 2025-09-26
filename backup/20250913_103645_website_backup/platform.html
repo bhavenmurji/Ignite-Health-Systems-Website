@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform - The OS for Independent Healthcare | Ignite Health Systems</title>
+    <meta name="description" content="Discover Ignite's revolutionary healthcare platform - the OS for independent practices. Voice-enabled AI, clinical decision support, and end-to-end practice growth tools designed by physicians.">
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <meta name="keywords" content="healthcare platform, medical software, EHR system, clinical AI, voice-enabled documentation, practice management, independent healthcare, physician tools, clinical decision support">
+    <meta name="author" content="Dr. Bhaven Murji, Ignite Health Systems">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ignitehealthsystems.com/platform">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Platform - The OS for Independent Healthcare | Ignite Health Systems">
+    <meta property="og:description" content="Revolutionary healthcare platform with voice-enabled AI, clinical decision support, and practice growth tools designed by physicians for physicians.">
+    <meta property="og:image" content="https://ignitehealthsystems.com/IgniteARevolution.png">
+    <meta property="og:url" content="https://ignitehealthsystems.com/platform">
+    <meta property="og:site_name" content="Ignite Health Systems">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Platform - The OS for Independent Healthcare">
+    <meta name="twitter:description" content="Revolutionary healthcare platform with voice-enabled AI and clinical decision support.">
+    <meta name="twitter:image" content="https://ignitehealthsystems.com/IgniteARevolution.png">
+    <meta name="twitter:creator" content="@IgniteHealthSys">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#ff6b35">
+    <meta name="msapplication-TileColor" content="#ff6b35">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <!-- Font Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset and Fire Theme Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Fire Theme Colors */
+            --primary: #ff6b35;
+            --accent: #ff4500;
+            --gold: #ffb347;
+            --ember: #8b0000;
+            --dark: #1a0f0a;
+            --background: #0d0d0d;
+            --card-background: #1a1a1a;
+            --white: #ffffff;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #999999;
+            --border-light: rgba(255, 107, 53, 0.2);
+            --shadow-sm: 0 1px 3px rgba(255, 107, 53, 0.1);
+            --shadow-md: 0 4px 6px rgba(255, 107, 53, 0.15);
+            --shadow-lg: 0 10px 20px rgba(255, 107, 53, 0.2);
+            --max-width: 1320px;
+            --radius: 1rem;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            background: var(--background);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Music Element */
+        #background-music {
+            display: none;
+        }
+        
+        /* Animated Background Elements */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .fire-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up 8s infinite linear;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(100vh) scale(1);
+                background: var(--primary);
+            }
+            25% {
+                background: var(--accent);
+            }
+            50% {
+                background: var(--gold);
+                transform: translateY(50vh) scale(1.2);
+            }
+            75% {
+                background: var(--ember);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10vh) scale(0.5);
+                background: transparent;
+            }
+        }
+
+        /* Grid Pattern Background */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 107, 53, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 53, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+        
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+        
+        h4 {
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--primary);
+        }
+        
+        p {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Container */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            background: rgba(13, 13, 13, 0.98);
+            box-shadow: var(--shadow-md);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .logo span {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--accent), var(--ember));
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 120px 0 80px;
+            background: 
+                linear-gradient(135deg, rgba(13, 13, 13, 0.75) 0%, rgba(26, 15, 10, 0.65) 100%),
+                url('./IgniteARevolution.png') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg width="100%" height="100%" viewBox="0 0 1220 810" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="%23ff6b35" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>') center/cover;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Section Spacing */
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Three Pillars Section */
+        .pillars-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .pillar-card {
+            background: var(--card-background);
+            padding: 3rem 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .pillar-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .pillar-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .pillar-features {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .pillar-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .pillar-features li::before {
+            content: '🔥';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+        }
+
+        /* Adjacent Markets Section */
+        .markets-section {
+            padding: 8rem 0;
+            background: var(--card-background);
+        }
+
+        .markets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .market-card {
+            background: var(--background);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .market-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .market-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .market-card h4 {
+            margin-bottom: 1rem;
+        }
+
+        /* Feature Showcase */
+        .feature-showcase {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .showcase-image {
+            position: relative;
+        }
+
+        .showcase-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .feature-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .feature-list li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            top: 1rem;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 179, 71, 0.05) 100%);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--text-secondary);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .markets-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .demo-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .demo-iframe-container {
+                height: 400px;
+            }
+            
+            .demo-iframe-container iframe {
+                width: 180%;
+                height: 180%;
+                transform: scale(0.56);
+            }
+
+            .demo-header {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .demo-controls {
+                align-self: flex-start;
+            }
+
+            .demo-fullscreen {
+                align-self: flex-end;
+            }
+
+            .modal-content {
+                width: 98%;
+                height: 95%;
+            }
+
+            .modal-header {
+                padding: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .animate-fade-left {
+            animation: fadeInLeft 0.8s ease-out;
+        }
+
+        .animate-fade-right {
+            animation: fadeInRight 0.8s ease-out;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, rgba(255, 179, 71, 0.05) 0%, rgba(255, 107, 53, 0.1) 100%);
+        }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 4rem;
+        }
+
+        .demo-preview {
+            background: var(--card-background);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .demo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .demo-dot--red { background: #ff5f57; }
+        .demo-dot--yellow { background: #ffbd2e; }
+        .demo-dot--green { background: #28ca42; }
+
+        .demo-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .demo-fullscreen {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-iframe-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .demo-iframe-container iframe {
+            width: 150%;
+            height: 150%;
+            border: none;
+            display: block;
+            transform: scale(0.67);
+            transform-origin: top left;
+        }
+
+        .demo-features h3 {
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .demo-feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .demo-feature-list li {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-background);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+        }
+
+        .demo-feature-list strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-feature-list p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Fullscreen Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            width: 95%;
+            height: 90%;
+            max-width: 1400px;
+            background: var(--background);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: var(--card-background);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--border-light);
+            color: var(--text-primary);
+        }
+
+        .modal-iframe {
+            width: 100%;
+            height: calc(100% - 70px);
+            border: none;
+        }
+
+        .btn--sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .arrow-icon {
+            display: inline-block;
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover .arrow-icon {
+            transform: translateX(4px);
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .loading.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="background-music" loop>
+        <source src="Backing music.mov" type="audio/mp4">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Animated Background Elements -->
+    <div class="animated-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Navigation -->
+    <header id="header">
+        <nav class="container">
+            <a href="index.html" class="logo">
+                <img src="Ignite Logo.png" alt="Ignite Health Systems Logo">
+                <span>Ignite Health Systems</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="problem.html">The Problem</a></li>
+                <li><a href="platform.html" class="active">Our Solution</a></li>
+                <li><a href="approach.html">Our Mission</a></li>
+                <li><a href="founder.html">About</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="join.html" class="btn btn-primary">Join Movement</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="platform" class="hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content animate-fade-up">
+                <h1>🔥 The OS for Independent Healthcare</h1>
+                <p class="hero-subtitle">
+                    One unified platform to run your entire practice, from patient engagement to clinical documentation. Experience the future of medicine with voice-enabled AI and clinical decision support.
+                </p>
+                <div class="hero-actions">
+                    <a href="#demo" class="btn btn-primary">
+                        Try Live Demo
+                        <span class="arrow-icon">→</span>
+                    </a>
+                    <a href="join.html" class="btn btn-secondary">Join Waitlist</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three Pillars Section -->
+    <section class="pillars-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="text-gradient">Three Pillars of Excellence</h2>
+                <p>Our platform is built on three fundamental pillars that transform how independent practices operate</p>
+            </div>
+            
+            <div class="pillars-grid">
+                <div class="pillar-card animate-fade-up">
+                    <span class="pillar-icon">🎯</span>
+                    <h3>Clinical-Led User Experience</h3>
+                    <p>Experience an intuitive, voice-enabled platform designed by physicians for physicians. Every workflow is optimized to reduce clicks and cognitive load while adapting to your unique style of practice.</p>
+                    <ul class="pillar-features">
+                        <li>Voice-enabled documentation</li>
+                        <li>Intelligent workflow automation</li>
+                        <li>Personalized clinical interfaces</li>
+                        <li>Reduced click fatigue</li>
+                        <li>Cognitive load optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="pillar-card animate-fade-up">
+                    <span class="pillar-icon">📈</span>
+                    <h3>End-to-End Practice Growth</h3>
+                    <p>Ignite is more than an EHR. Our integrated ecosystem includes patient engagement tools, staff optimization, and business intelligence that drives practice growth and profitability.</p>
+                    <ul class="pillar-features">
+                        <li>Integrated Member App for patients</li>
+                        <li>Training-free Staff Tools</li>
+                        <li>Real-time Business Insights</li>
+                        <li>Practice analytics dashboard</li>
+                        <li>Revenue optimization tools</li>
+                    </ul>
+                </div>
+                
+                <div class="pillar-card animate-fade-up">
+                    <span class="pillar-icon">🔗</span>
+                    <h3>Universal Integration</h3>
+                    <p>Seamlessly connect with labs, pharmacies, specialty systems, and other healthcare providers. Our platform creates a unified hub for all patient information and workflows.</p>
+                    <ul class="pillar-features">
+                        <li>Laboratory system integration</li>
+                        <li>Pharmacy connectivity</li>
+                        <li>Specialty referral networks</li>
+                        <li>Imaging system connections</li>
+                        <li>Healthcare ecosystem sync</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="text-gradient">See IGNITE in Action</h2>
+                <p>Experience our revolutionary EHR platform with an interactive demo. Navigate through real clinical workflows and see how AI transforms healthcare documentation.</p>
+            </div>
+            
+            <div class="demo-container">
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-controls">
+                            <div class="demo-dot demo-dot--red"></div>
+                            <div class="demo-dot demo-dot--yellow"></div>
+                            <div class="demo-dot demo-dot--green"></div>
+                        </div>
+                        <span class="demo-title">IGNITE Health Systems - Live Demo</span>
+                        <button class="btn btn--sm btn--primary demo-fullscreen" id="fullscreenDemo">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <polyline points="9,21 3,21 3,15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                            Full Demo
+                        </button>
+                    </div>
+                    <div class="demo-iframe-container">
+                        <iframe 
+                            src="assets/ignite-ehr-websitepreview/index.html" 
+                            title="IGNITE EHR Interactive Demo"
+                            id="demoIframe"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="demo-features">
+                    <h3>Interactive Demo Features</h3>
+                    <ul class="demo-feature-list">
+                        <li>
+                            <span class="feature-icon">🎯</span>
+                            <div>
+                                <strong>Voice-Enabled Documentation</strong>
+                                <p>Click the voice dictation button to see AI-powered speech-to-text in action</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📋</span>
+                            <div>
+                                <strong>Smart Schedule Management</strong>
+                                <p>Navigate through appointment scheduling and patient workflow optimization</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon">🧠</span>
+                            <div>
+                                <strong>AI Clinical Insights</strong>
+                                <p>Explore the right panel for intelligent recommendations and clinical decision support</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon">⚡</span>
+                            <div>
+                                <strong>Real-Time Integration</strong>
+                                <p>Experience seamless data flow between different modules and workflows</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Showcase -->
+    <section class="feature-showcase">
+        <div class="container">
+            <div class="showcase-grid">
+                <div class="showcase-image animate-fade-left">
+                    <img src="NeuralNetwork.png" alt="Ignite Platform Neural Network">
+                </div>
+                <div class="animate-fade-right">
+                    <h2>Powered by Advanced AI</h2>
+                    <p>Our Mamba-based neural architecture provides real-time clinical decision support, automated documentation, and predictive analytics that learn from your practice patterns.</p>
+                    <ul class="feature-list">
+                        <li><strong>Synchronous Reasoning Engine:</strong> Real-time clinical analysis and recommendations</li>
+                        <li><strong>Automated Documentation:</strong> Voice-to-text with medical terminology recognition</li>
+                        <li><strong>Predictive Analytics:</strong> Early warning systems for patient risk assessment</li>
+                        <li><strong>Workflow Intelligence:</strong> Learns and adapts to your practice patterns</li>
+                        <li><strong>Clinical Decision Support:</strong> Evidence-based recommendations at point of care</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adjacent Markets Section -->
+    <section class="markets-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="text-gradient">Beyond Traditional Medicine</h2>
+                <p>The same administrative burdens plaguing physicians also affect independent practices across healthcare verticals. Our core automation engine is designed to solve these universal operational challenges.</p>
+            </div>
+            
+            <div class="markets-grid">
+                <div class="market-card animate-fade-up">
+                    <span class="market-icon">🦴</span>
+                    <h4>Chiropractic Care</h4>
+                    <p>Streamline patient intake, treatment planning, and progress tracking with specialized chiropractic workflows and billing optimization.</p>
+                </div>
+                
+                <div class="market-card animate-fade-up">
+                    <span class="market-icon">🐾</span>
+                    <h4>Veterinary Practice</h4>
+                    <p>Manage animal patient records, treatment protocols, and pet owner communication with veterinary-specific clinical tools.</p>
+                </div>
+                
+                <div class="market-card animate-fade-up">
+                    <span class="market-icon">🦷</span>
+                    <h4>Dental Practice</h4>
+                    <p>Integrate dental imaging, treatment planning, and patient scheduling with comprehensive dental practice management.</p>
+                </div>
+                
+                <div class="market-card animate-fade-up">
+                    <span class="market-icon">🏃‍♂️</span>
+                    <h4>Physical Therapy</h4>
+                    <p>Track patient progress, manage exercise protocols, and optimize rehabilitation outcomes with PT-focused tools.</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p style="font-size: 1.25rem; color: var(--text-secondary);">
+                    <strong>One Platform, Universal Solution:</strong> Ignite's core automation engine adapts to the unique needs of any independent healthcare practice, making it the definitive platform for all healthcare services.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Deep Dive -->
+    <section class="feature-showcase">
+        <div class="container">
+            <div class="showcase-grid">
+                <div class="animate-fade-left">
+                    <h2>The Technology Behind the Revolution</h2>
+                    <p>Built on cutting-edge AI architecture, Ignite represents the next generation of healthcare technology. Our platform combines the latest advances in machine learning with deep clinical expertise.</p>
+                    <ul class="feature-list">
+                        <li><strong>Mamba Architecture:</strong> State-of-the-art sequence modeling for clinical data</li>
+                        <li><strong>HIPAA-Compliant Cloud:</strong> Enterprise-grade security and privacy protection</li>
+                        <li><strong>Real-time Processing:</strong> Instant analysis and response for clinical workflows</li>
+                        <li><strong>Continuous Learning:</strong> AI models that improve with every interaction</li>
+                        <li><strong>API-First Design:</strong> Seamless integration with existing healthcare systems</li>
+                    </ul>
+                </div>
+                <div class="showcase-image animate-fade-right">
+                    <img src="ProofOfConceptFinalVision.png" alt="Technology Architecture">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="join" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="text-gradient">Ready to Transform Your Practice?</h2>
+                <p>Join the movement to reclaim medicine from administrative burden. Be among the first to experience the future of independent healthcare with Ignite's Clinical Co-Pilot.</p>
+                
+                <div class="cta-buttons">
+                    <a href="join.html" class="btn btn-primary">
+                        Join the Waitlist
+                        <span class="arrow-icon">→</span>
+                    </a>
+                    <a href="approach.html" class="btn btn-secondary">
+                        Our Approach
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fullscreen Demo Modal -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">IGNITE Health Systems - Interactive Demo</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <iframe 
+                src="" 
+                title="IGNITE EHR Full Demo"
+                id="modalIframe"
+                class="modal-iframe">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Ignite Health Systems. All rights reserved.</p>
+            <p>Building the future of independent healthcare, one practice at a time.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize background music (user interaction required)
+        const backgroundMusic = document.getElementById('background-music');
+        let musicStarted = false;
+
+        document.addEventListener('click', function() {
+            if (!musicStarted) {
+                backgroundMusic.play().catch(e => console.log('Audio autoplay prevented'));
+                musicStarted = true;
+            }
+        });
+
+        // Create floating fire particles
+        function createFireParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'fire-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            document.querySelector('.animated-bg').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Create particles periodically
+        setInterval(createFireParticle, 300);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('loaded');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.animate-fade-up, .animate-fade-left, .animate-fade-right, .pillar-card, .market-card').forEach(el => {
+            el.classList.add('loading');
+            observer.observe(el);
+        });
+
+        // Add dynamic hover effects
+        document.querySelectorAll('.pillar-card, .market-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Create dynamic gradient backgrounds on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach((section, index) => {
+                const rate = scrolled * -0.5;
+                const opacity = Math.max(0.05, 0.15 - (scrolled * 0.0001));
+                
+                if (index % 2 === 0) {
+                    section.style.background = `radial-gradient(ellipse at ${50 + rate * 0.01}% ${50 + rate * 0.005}%, rgba(255, 107, 53, ${opacity}) 0%, transparent 70%)`;
+                }
+            });
+        });
+
+        // Performance optimization: throttle scroll events
+        let ticking = false;
+        function updateAnimations() {
+            // Update scroll-based animations here
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateAnimations);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+        // Demo Modal functionality
+        const fullscreenDemo = document.getElementById('fullscreenDemo');
+        const demoModal = document.getElementById('demoModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalIframe = document.getElementById('modalIframe');
+
+        // Open modal
+        fullscreenDemo.addEventListener('click', function(e) {
+            e.preventDefault();
+            modalIframe.src = 'assets/ignite-ehr-websitepreview/index.html';
+            demoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close modal
+        function closeDemoModal() {
+            demoModal.classList.remove('active');
+            modalIframe.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModal.addEventListener('click', closeDemoModal);
+
+        // Close modal on backdrop click
+        demoModal.addEventListener('click', function(e) {
+            if (e.target === demoModal) {
+                closeDemoModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && demoModal.classList.contains('active')) {
+                closeDemoModal();
+            }
+        });
+
+        // Enhanced smooth scrolling for demo section
+        document.querySelectorAll('a[href="#demo"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector('#demo');
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive fire effects on click
+        document.addEventListener('click', function(e) {
+            // Create a small fire burst at click location
+            const burst = document.createElement('div');
+            burst.style.position = 'fixed';
+            burst.style.left = e.clientX + 'px';
+            burst.style.top = e.clientY + 'px';
+            burst.style.width = '10px';
+            burst.style.height = '10px';
+            burst.style.background = 'var(--primary)';
+            burst.style.borderRadius = '50%';
+            burst.style.pointerEvents = 'none';
+            burst.style.zIndex = '9999';
+            burst.style.animation = 'float-up 1s ease-out forwards';
+            document.body.appendChild(burst);
+            
+            setTimeout(() => {
+                burst.remove();
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Icon System -->
+    <script src="js/icon-system.js"></script>
+    <!-- Animations -->
+    <script src="js/animations.js"></script>
+    <!-- Music Player -->
+    <script src="js/music-player.js"></script></body>
+</html>

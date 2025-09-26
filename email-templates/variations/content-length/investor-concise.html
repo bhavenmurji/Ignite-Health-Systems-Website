@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare AI Investment - Key Metrics</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #0d0d0d;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 550px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            padding: 30px;
+            text-align: center;
+        }
+        .logo img {
+            height: 45px;
+            width: auto;
+        }
+        .header-title {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 20px 0 5px 0;
+        }
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .content {
+            padding: 35px 30px;
+            color: #ffffff;
+        }
+        .greeting {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+        .intro-text {
+            font-size: 16px;
+            color: #cccccc;
+            margin-bottom: 25px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .metric-card {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            padding: 20px 15px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b35;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .metric-label {
+            font-size: 11px;
+            color: #cccccc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .key-points {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 69, 0, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .points-title {
+            color: #ff6b35;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .point-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .point-list li {
+            padding: 8px 0;
+            color: #cccccc;
+            font-size: 14px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .point-list li::before {
+            content: '🚀';
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 107, 53, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+        .cta-text {
+            color: #cccccc;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .cta-button.primary {
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #ff6b35;
+            color: #ff6b35 !important;
+        }
+        .footer {
+            background: #111111;
+            padding: 25px;
+            text-align: center;
+            color: #666666;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+        @media screen and (max-width: 550px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .cta-buttons {
+                flex-direction: column;
+            }
+            .cta-button {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://ignitehealthsystems.com/assets/images/Ignite Logo.png" alt="Ignite Health Systems" />
+            </div>
+            <h1 class="header-title">Healthcare AI Investment</h1>
+            <div class="header-subtitle">$4.1T Market Disruption</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">Hello {{FNAME}},</div>
+
+            <p class="intro-text">
+                Physician-founded AI platform disrupting the $50B+ EMR market with proven traction and defensible IP.
+            </p>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-value">500+</span>
+                    <div class="metric-label">Physicians</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">89%</span>
+                    <div class="metric-label">Adoption</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-value">$2.4M</span>
+                    <div class="metric-label">ARR Pipeline</div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <div class="points-title">Investment Highlights</div>
+                <ul class="point-list">
+                    <li><strong>Market:</strong> 230K independent practices underserved</li>
+                    <li><strong>Traction:</strong> 73% time reduction, 12 patents pending</li>
+                    <li><strong>Moat:</strong> Physician-founded = insurmountable competitive advantage</li>
+                    <li><strong>Economics:</strong> 70% lower cost than Epic, 10x ROI potential</li>
+                </ul>
+            </div>
+
+            <div class="cta-section">
+                <p class="cta-text">
+                    Series A raising now. Limited spots for strategic investors.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://calendar.app/ignite-investor-meeting?utm_source=email&utm_medium=investor_concise&utm_campaign=series_a" class="cta-button primary">
+                        Schedule Meeting
+                    </a>
+                    <a href="https://ignitehealthsystems.com/investor-deck?utm_source=email&utm_medium=investor_concise&utm_campaign=series_a" class="cta-button secondary">
+                        Download Deck
+                    </a>
+                </div>
+            </div>
+
+            <p style="color: #cccccc; font-size: 13px; margin-top: 25px; text-align: center;">
+                Healthcare is at an inflection point. Independent practices need physician-led solutions, not more extractive technology.
+            </p>
+
+            <p style="color: #ff6b35; font-weight: 600; margin-top: 20px; text-align: center; font-size: 14px;">
+                Dr. Bhaven Murji, MD<br>
+                <span style="color: #cccccc; font-weight: normal; font-size: 12px;">Founder & CEO</span>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                <strong>Confidential Investment Opportunity</strong><br>
+                © 2025 Ignite Health Systems<br>
+                <a href="https://ignitehealthsystems.com/investor-unsubscribe?email={{EMAIL}}">Unsubscribe</a> |
+                <a href="https://ignitehealthsystems.com/privacy">Privacy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

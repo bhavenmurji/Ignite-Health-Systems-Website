@@ -1,0 +1,295 @@
+{
+  "name": "Ignite Health Systems - Form Handler",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ignite-interest-form",
+        "responseMode": "responseNode",
+        "options": {
+          "cors": {
+            "allowedOrigins": "*"
+          }
+        }
+      },
+      "id": "webhook_trigger",
+      "name": "Webhook - Form Submission",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "webhookId": "ignite-interest-form"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": "1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo"
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "Leads"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now.toISO() }}",
+            "User Type": "={{ $json.userType }}",
+            "First Name": "={{ $json.firstName }}",
+            "Last Name": "={{ $json.lastName }}",
+            "Email": "={{ $json.email }}",
+            "Specialty": "={{ $json.specialty || '' }}",
+            "Practice Model": "={{ $json.practiceModel || '' }}",
+            "EMR System": "={{ $json.emrSystem || '' }}",
+            "LinkedIn": "={{ $json.linkedin || '' }}",
+            "Involvement": "={{ $json.involvement || '' }}",
+            "Challenge": "={{ $json.challenge || '' }}",
+            "Co-Founder Interest": "={{ $json.cofounder || 'No' }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "google_sheets",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.userType }}",
+              "rightValue": "physician",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if_physician",
+      "name": "If Physician",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [650, 250]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.userType }}",
+              "rightValue": "investor",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "leftValue": "={{ $json.userType }}",
+              "rightValue": "specialist",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "if_investor_specialist",
+      "name": "If Investor or Specialist",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [650, 450]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "list": "9884a65adf",
+        "email": "={{ $json.email }}",
+        "mergeFields": {
+          "FNAME": "={{ $json.firstName }}",
+          "LNAME": "={{ $json.lastName }}"
+        },
+        "interestCategories": {},
+        "options": {
+          "emailType": "html",
+          "skipMergeValidation": true,
+          "status": "subscribed"
+        }
+      },
+      "id": "mailchimp_add",
+      "name": "Add to Mailchimp",
+      "type": "n8n-nodes-base.mailchimp",
+      "typeVersion": 2,
+      "position": [850, 150]
+    },
+    {
+      "parameters": {
+        "chatId": "5407628621",
+        "text": "=🚨 New {{ $json.userType === 'investor' ? 'Investor' : 'AI/ML Specialist' }} Lead!\n\nName: {{ $json.firstName }} {{ $json.lastName }}\nEmail: {{ $json.email }}\nLinkedIn: {{ $json.linkedin || 'Not provided' }}\n{{ $json.cofounder ? '✅ Interested in co-founder role' : '' }}\n\nChallenge/Interest: {{ $json.challenge || 'Not specified' }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "telegram_notify",
+      "name": "Notify Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [850, 350]
+    },
+    {
+      "parameters": {
+        "options": {},
+        "responseBody": {
+          "options": {}
+        },
+        "responseData": "={\"success\": true, \"message\": \"Thank you for joining Ignite Health Systems! Check your email for next steps.\"}",
+        "responseHeaders": {
+          "entries": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "id": "webhook_response",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {},
+      "id": "no_op_1",
+      "name": "Merge",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Form Submission": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "If Physician",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Investor or Specialist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Physician": {
+      "main": [
+        [
+          {
+            "node": "Add to Mailchimp",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Investor or Specialist": {
+      "main": [
+        [
+          {
+            "node": "Notify Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Mailchimp": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Telegram": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

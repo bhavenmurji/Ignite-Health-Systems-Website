@@ -1,0 +1,272 @@
+{
+  "name": "Mailchimp Interest Form Handler - Updated",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ignite-interest-form",
+        "responseMode": "onReceived",
+        "responseData": "allEntries",
+        "options": {
+          "cors": true
+        }
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kPYgthwKzREJYKjAnE4h1YFMRxg5ulynrbDYNRxb8Lo",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ new Date().toISOString() }}",
+            "User Type": "={{ $json.userType }}",
+            "First Name": "={{ $json.firstName }}",
+            "Last Name": "={{ $json.lastName }}",
+            "Email": "={{ $json.email }}",
+            "Specialty": "={{ $json.specialty || '' }}",
+            "Practice Model": "={{ $json.practiceModel || '' }}",
+            "EMR System": "={{ $json.emrSystem || '' }}",
+            "Involvement": "={{ $json.involvement || '' }}",
+            "Challenge": "={{ $json.challenge || '' }}",
+            "Co-founder Interest": "={{ $json.cofounder ? 'Yes' : 'No' }}",
+            "Status": "New",
+            "Source": "Website Form"
+          }
+        }
+      },
+      "id": "google-sheets-log",
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [450, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RpwWkALWCcn8Xnvw",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "member",
+        "operation": "create",
+        "list": "9884a65adf",
+        "email": "={{ $json.email }}",
+        "status": "subscribed",
+        "emailType": "html",
+        "mergeFields": {
+          "FNAME": "={{ $json.firstName }}",
+          "LNAME": "={{ $json.lastName }}",
+          "USERTYPE": "={{ $json.userType }}",
+          "SPECIALTY": "={{ $json.specialty || '' }}",
+          "PRACTICE": "={{ $json.practiceModel || '' }}",
+          "EMR": "={{ $json.emrSystem || '' }}",
+          "CHALLENGE": "={{ $json.challenge || '' }}",
+          "COFOUNDER": "={{ $json.cofounder ? 'Yes' : 'No' }}",
+          "LINKEDIN": "={{ $json.linkedin || '' }}"
+        },
+        "tags": [
+          "={{ $json.userType }}",
+          "={{ $json.cofounder ? 'cofounder-interest' : 'standard' }}",
+          "={{ $json.userType === 'physician' && $json.practiceModel === 'independent' ? 'high-priority' : '' }}"
+        ],
+        "vip": "={{ $json.cofounder ? true : false }}"
+      },
+      "id": "add-to-mailchimp",
+      "name": "Add to Mailchimp with Tags",
+      "type": "n8n-nodes-base.mailchimp",
+      "typeVersion": 2,
+      "position": [650, 300],
+      "credentials": {
+        "mailchimpOAuth2Api": {
+          "id": "YOUR_MAILCHIMP_OAUTH_ID",
+          "name": "Mailchimp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "high-value-check",
+              "leftValue": "={{ $json.userType }}",
+              "rightValue": "physician",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "if-high-value",
+      "name": "If High Value Lead",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 350]
+    },
+    {
+      "parameters": {
+        "chatId": "5407628621",
+        "text": "🚨 *New {{ $json.userType === 'investor' ? 'INVESTOR' : $json.userType === 'specialist' ? 'SPECIALIST' : 'HIGH-VALUE' }} Lead*\n\n👤 *Name:* {{ $json.firstName }} {{ $json.lastName }}\n📧 *Email:* {{ $json.email }}\n🏢 *Type:* {{ $json.userType }}\n{{ $json.specialty ? '🔬 *Specialty:* ' + $json.specialty + '\\n' : '' }}{{ $json.challenge ? '💬 *Interest:* ' + $json.challenge + '\\n' : '' }}{{ $json.cofounder ? '⚡ *CO-FOUNDER INTEREST*\\n' : '' }}\n\n_Lead added to Mailchimp with tags and will receive automated welcome email_",
+        "options": {
+          "parseMode": "Markdown"
+        }
+      },
+      "id": "telegram-notify",
+      "name": "Notify Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1050, 350],
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_TELEGRAM_BOT_ID",
+          "name": "IgniteSiteBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cofounder-check",
+              "leftValue": "={{ $json.cofounder }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-cofounder",
+      "name": "If Co-founder Interest",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 450]
+    },
+    {
+      "parameters": {
+        "chatId": "5407628621",
+        "text": "🔥🔥🔥 *URGENT: CO-FOUNDER CANDIDATE* 🔥🔥🔥\n\n🎯 *IMMEDIATE ACTION REQUIRED*\n\n👤 *Name:* {{ $json.firstName }} {{ $json.lastName }}\n📧 *Email:* {{ $json.email }}\n📱 *Type:* {{ $json.userType }}\n{{ $json.specialty ? '🔬 *Specialty:* ' + $json.specialty + '\\n' : '' }}\n{{ $json.practiceModel ? '🏥 *Practice:* ' + $json.practiceModel + '\\n' : '' }}\n💬 *Challenge/Interest:*\n{{ $json.challenge || 'Not specified' }}\n\n⚡ *This lead expressed CO-FOUNDER INTEREST*\n⏰ *Contact within 24 hours!*\n\n_Priority automation triggered in Mailchimp_",
+        "options": {
+          "parseMode": "Markdown"
+        }
+      },
+      "id": "telegram-priority",
+      "name": "Priority Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1050, 450],
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_TELEGRAM_BOT_ID",
+          "name": "IgniteSiteBot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Add to Mailchimp with Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Mailchimp with Tags": {
+      "main": [
+        [
+          {
+            "node": "If High Value Lead",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Co-founder Interest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If High Value Lead": {
+      "main": [
+        [
+          {
+            "node": "Notify Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Co-founder Interest": {
+      "main": [
+        [
+          {
+            "node": "Priority Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionId": "2",
+  "triggerCount": 0,
+  "tags": []
+}

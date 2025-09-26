@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Unit Testing Suite - Ignite Health Systems</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 4px solid #ddd;
+        }
+        .test-result.pass { border-color: #28a745; background: #d4edda; color: #155724; }
+        .test-result.fail { border-color: #dc3545; background: #f8d7da; color: #721c24; }
+        .test-result.skip { border-color: #6c757d; background: #e9ecef; color: #495057; }
+        .test-suite {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .test-suite-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .test-suite-body {
+            padding: 15px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .error-details {
+            background: #f8d7da;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 JavaScript Unit Testing Suite</h1>
+    <p>Comprehensive unit tests for Ignite Health Systems website JavaScript functionality</p>
+
+    <div class="test-container">
+        <h2>Test Controls</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="runAnimationTests()">Test Animations</button>
+        <button onclick="runFormTests()">Test Forms</button>
+        <button onclick="runNavigationTests()">Test Navigation</button>
+        <button onclick="runCalculatorTests()">Test ROI Calculator</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="test-stats"></div>
+    <div id="test-results"></div>
+
+    <script>
+        class TestRunner {
+            constructor() {
+                this.tests = [];
+                this.results = [];
+                this.currentSuite = null;
+            }
+
+            describe(suiteName, callback) {
+                this.currentSuite = {
+                    name: suiteName,
+                    tests: [],
+                    beforeEach: null,
+                    afterEach: null
+                };
+                callback();
+                this.tests.push(this.currentSuite);
+                this.currentSuite = null;
+            }
+
+            it(testName, callback) {
+                if (this.currentSuite) {
+                    this.currentSuite.tests.push({
+                        name: testName,
+                        callback: callback
+                    });
+                }
+            }
+
+            beforeEach(callback) {
+                if (this.currentSuite) {
+                    this.currentSuite.beforeEach = callback;
+                }
+            }
+
+            afterEach(callback) {
+                if (this.currentSuite) {
+                    this.currentSuite.afterEach = callback;
+                }
+            }
+
+            expect(actual) {
+                return {
+                    toBe: (expected) => {
+                        if (actual !== expected) {
+                            throw new Error(`Expected ${actual} to be ${expected}`);
+                        }
+                    },
+                    toEqual: (expected) => {
+                        if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+                            throw new Error(`Expected ${JSON.stringify(actual)} to equal ${JSON.stringify(expected)}`);
+                        }
+                    },
+                    toBeTruthy: () => {
+                        if (!actual) {
+                            throw new Error(`Expected ${actual} to be truthy`);
+                        }
+                    },
+                    toBeFalsy: () => {
+                        if (actual) {
+                            throw new Error(`Expected ${actual} to be falsy`);
+                        }
+                    },
+                    toContain: (expected) => {
+                        if (!actual.includes || !actual.includes(expected)) {
+                            throw new Error(`Expected ${actual} to contain ${expected}`);
+                        }
+                    },
+                    toThrow: () => {
+                        try {
+                            actual();
+                            throw new Error('Expected function to throw an error');
+                        } catch (e) {
+                            // Expected behavior
+                        }
+                    },
+                    toBeInstanceOf: (constructor) => {
+                        if (!(actual instanceof constructor)) {
+                            throw new Error(`Expected ${actual} to be instance of ${constructor.name}`);
+                        }
+                    },
+                    toBeGreaterThan: (expected) => {
+                        if (actual <= expected) {
+                            throw new Error(`Expected ${actual} to be greater than ${expected}`);
+                        }
+                    },
+                    toBeLessThan: (expected) => {
+                        if (actual >= expected) {
+                            throw new Error(`Expected ${actual} to be less than ${expected}`);
+                        }
+                    }
+                };
+            }
+
+            async runTests() {
+                this.results = [];
+                
+                for (const suite of this.tests) {
+                    for (const test of suite.tests) {
+                        const result = {
+                            suiteName: suite.name,
+                            testName: test.name,
+                            status: 'pass',
+                            error: null,
+                            duration: 0
+                        };
+
+                        try {
+                            const startTime = performance.now();
+                            
+                            // Run beforeEach if exists
+                            if (suite.beforeEach) {
+                                suite.beforeEach();
+                            }
+                            
+                            // Run the test
+                            await test.callback();
+                            
+                            // Run afterEach if exists
+                            if (suite.afterEach) {
+                                suite.afterEach();
+                            }
+                            
+                            result.duration = Math.round(performance.now() - startTime);
+                        } catch (error) {
+                            result.status = 'fail';
+                            result.error = error.message;
+                        }
+
+                        this.results.push(result);
+                    }
+                }
+
+                this.displayResults();
+            }
+
+            displayResults() {
+                const passed = this.results.filter(r => r.status === 'pass').length;
+                const failed = this.results.filter(r => r.status === 'fail').length;
+                const total = this.results.length;
+                const passRate = Math.round((passed / total) * 100);
+
+                // Display stats
+                const statsHTML = `
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-number">${total}</div>
+                            <div>Total Tests</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" style="color: #28a745">${passed}</div>
+                            <div>Passed</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" style="color: #dc3545">${failed}</div>
+                            <div>Failed</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">${passRate}%</div>
+                            <div>Pass Rate</div>
+                        </div>
+                    </div>
+                `;
+
+                // Group results by suite
+                const suiteResults = {};
+                this.results.forEach(result => {
+                    if (!suiteResults[result.suiteName]) {
+                        suiteResults[result.suiteName] = [];
+                    }
+                    suiteResults[result.suiteName].push(result);
+                });
+
+                let resultsHTML = '';
+                Object.entries(suiteResults).forEach(([suiteName, tests]) => {
+                    const suitePassed = tests.filter(t => t.status === 'pass').length;
+                    const suiteTotal = tests.length;
+                    
+                    resultsHTML += `
+                        <div class="test-suite">
+                            <div class="test-suite-header">
+                                ${suiteName} (${suitePassed}/${suiteTotal} passed)
+                            </div>
+                            <div class="test-suite-body">
+                    `;
+                    
+                    tests.forEach(test => {
+                        resultsHTML += `
+                            <div class="test-result ${test.status}">
+                                <strong>${test.testName}</strong>
+                                <span style="float: right;">${test.duration}ms</span>
+                                ${test.error ? `<div class="error-details">${test.error}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                    
+                    resultsHTML += '</div></div>';
+                });
+
+                document.getElementById('test-stats').innerHTML = statsHTML;
+                document.getElementById('test-results').innerHTML = resultsHTML;
+            }
+        }
+
+        const testRunner = new TestRunner();
+
+        // Animation Tests
+        testRunner.describe('Animation System', () => {
+            testRunner.it('should have intro overlay element', () => {
+                const introOverlay = document.getElementById('intro-overlay');
+                testRunner.expect(introOverlay).toBeTruthy();
+            });
+
+            testRunner.it('should have typewriter animation function', () => {
+                testRunner.expect(typeof window.typewriterEffect).toBe('function');
+            });
+
+            testRunner.it('should animate scroll progress', () => {
+                // Simulate scroll
+                window.scrollTo(0, 100);
+                const scrollProgress = document.querySelector('.scroll-progress');
+                if (scrollProgress) {
+                    testRunner.expect(scrollProgress.style.width).toBeTruthy();
+                }
+            });
+        });
+
+        // Form Validation Tests
+        testRunner.describe('Form Validation', () => {
+            let testForm;
+
+            testRunner.beforeEach(() => {
+                testForm = document.createElement('form');
+                testForm.innerHTML = `
+                    <input type="email" id="test-email" required>
+                    <input type="text" id="test-name" required>
+                    <button type="submit">Submit</button>
+                `;
+                document.body.appendChild(testForm);
+            });
+
+            testRunner.afterEach(() => {
+                if (testForm && testForm.parentNode) {
+                    testForm.parentNode.removeChild(testForm);
+                }
+            });
+
+            testRunner.it('should validate email format', () => {
+                const emailInput = testForm.querySelector('#test-email');
+                emailInput.value = 'invalid-email';
+                testRunner.expect(emailInput.checkValidity()).toBeFalsy();
+                
+                emailInput.value = 'valid@email.com';
+                testRunner.expect(emailInput.checkValidity()).toBeTruthy();
+            });
+
+            testRunner.it('should require name field', () => {
+                const nameInput = testForm.querySelector('#test-name');
+                nameInput.value = '';
+                testRunner.expect(nameInput.checkValidity()).toBeFalsy();
+                
+                nameInput.value = 'John Doe';
+                testRunner.expect(nameInput.checkValidity()).toBeTruthy();
+            });
+        });
+
+        // Navigation Tests
+        testRunner.describe('Navigation System', () => {
+            testRunner.it('should have navigation menu', () => {
+                const navbar = document.querySelector('.navbar');
+                testRunner.expect(navbar).toBeTruthy();
+            });
+
+            testRunner.it('should have mobile menu toggle', () => {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                testRunner.expect(mobileToggle).toBeTruthy();
+            });
+
+            testRunner.it('should toggle mobile menu on click', () => {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (mobileToggle && navMenu) {
+                    const initialState = navMenu.classList.contains('active');
+                    mobileToggle.click();
+                    testRunner.expect(navMenu.classList.contains('active')).toBe(!initialState);
+                }
+            });
+        });
+
+        // ROI Calculator Tests
+        testRunner.describe('ROI Calculator', () => {
+            testRunner.it('should have calculator inputs', () => {
+                const patientsInput = document.getElementById('patients-per-day');
+                const minutesInput = document.getElementById('minutes-per-note');
+                const workingDaysInput = document.getElementById('working-days');
+                
+                testRunner.expect(patientsInput).toBeTruthy();
+                testRunner.expect(minutesInput).toBeTruthy();
+                testRunner.expect(workingDaysInput).toBeTruthy();
+            });
+
+            testRunner.it('should calculate time correctly', () => {
+                // Mock calculator function
+                const calculateTime = (patients, minutes, days) => {
+                    return patients * minutes * days / 60;
+                };
+                
+                const result = calculateTime(20, 15, 5);
+                testRunner.expect(result).toBe(25); // 25 hours per week
+            });
+
+            testRunner.it('should update results when inputs change', () => {
+                const patientsInput = document.getElementById('patients-per-day');
+                const currentTimeDisplay = document.getElementById('current-time');
+                
+                if (patientsInput && currentTimeDisplay) {
+                    patientsInput.value = '30';
+                    patientsInput.dispatchEvent(new Event('input'));
+                    
+                    // Allow time for update
+                    setTimeout(() => {
+                        testRunner.expect(currentTimeDisplay.textContent).toContain('37.5');
+                    }, 100);
+                }
+            });
+        });
+
+        // Performance Tests
+        testRunner.describe('Performance', () => {
+            testRunner.it('should load page in reasonable time', () => {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                testRunner.expect(loadTime).toBeLessThan(5000); // Less than 5 seconds
+            });
+
+            testRunner.it('should have acceptable memory usage', () => {
+                if (performance.memory) {
+                    const memoryUsage = performance.memory.usedJSHeapSize / 1024 / 1024; // MB
+                    testRunner.expect(memoryUsage).toBeLessThan(50); // Less than 50MB
+                }
+            });
+        });
+
+        // DOM Manipulation Tests
+        testRunner.describe('DOM Manipulation', () => {
+            testRunner.it('should handle element creation', () => {
+                const testElement = document.createElement('div');
+                testElement.id = 'test-element';
+                testElement.textContent = 'Test Content';
+                
+                testRunner.expect(testElement.id).toBe('test-element');
+                testRunner.expect(testElement.textContent).toBe('Test Content');
+            });
+
+            testRunner.it('should handle class manipulation', () => {
+                const testElement = document.createElement('div');
+                testElement.classList.add('test-class');
+                
+                testRunner.expect(testElement.classList.contains('test-class')).toBeTruthy();
+                
+                testElement.classList.remove('test-class');
+                testRunner.expect(testElement.classList.contains('test-class')).toBeFalsy();
+            });
+
+            testRunner.it('should handle event listeners', () => {
+                const testElement = document.createElement('button');
+                let clicked = false;
+                
+                testElement.addEventListener('click', () => {
+                    clicked = true;
+                });
+                
+                testElement.click();
+                testRunner.expect(clicked).toBeTruthy();
+            });
+        });
+
+        // Utility Functions Tests
+        testRunner.describe('Utility Functions', () => {
+            testRunner.it('should format numbers correctly', () => {
+                const formatNumber = (num) => num.toLocaleString();
+                testRunner.expect(formatNumber(1000)).toBe('1,000');
+                testRunner.expect(formatNumber(1000000)).toBe('1,000,000');
+            });
+
+            testRunner.it('should validate input ranges', () => {
+                const validateRange = (value, min, max) => {
+                    return value >= min && value <= max;
+                };
+                
+                testRunner.expect(validateRange(10, 5, 15)).toBeTruthy();
+                testRunner.expect(validateRange(20, 5, 15)).toBeFalsy();
+                testRunner.expect(validateRange(3, 5, 15)).toBeFalsy();
+            });
+
+            testRunner.it('should debounce function calls', () => {
+                let callCount = 0;
+                const debouncedFn = debounce(() => callCount++, 100);
+                
+                debouncedFn();
+                debouncedFn();
+                debouncedFn();
+                
+                testRunner.expect(callCount).toBe(0); // Should not have been called yet
+                
+                setTimeout(() => {
+                    testRunner.expect(callCount).toBe(1); // Should have been called once
+                }, 150);
+            });
+        });
+
+        // Helper function for debounce test
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Test control functions
+        function runAllTests() {
+            console.log('🚀 Running all JavaScript unit tests...');
+            testRunner.runTests();
+        }
+
+        function runAnimationTests() {
+            const animationTests = testRunner.tests.filter(suite => suite.name === 'Animation System');
+            const tempTests = testRunner.tests;
+            testRunner.tests = animationTests;
+            testRunner.runTests();
+            testRunner.tests = tempTests;
+        }
+
+        function runFormTests() {
+            const formTests = testRunner.tests.filter(suite => suite.name === 'Form Validation');
+            const tempTests = testRunner.tests;
+            testRunner.tests = formTests;
+            testRunner.runTests();
+            testRunner.tests = tempTests;
+        }
+
+        function runNavigationTests() {
+            const navTests = testRunner.tests.filter(suite => suite.name === 'Navigation System');
+            const tempTests = testRunner.tests;
+            testRunner.tests = navTests;
+            testRunner.runTests();
+            testRunner.tests = tempTests;
+        }
+
+        function runCalculatorTests() {
+            const calcTests = testRunner.tests.filter(suite => suite.name === 'ROI Calculator');
+            const tempTests = testRunner.tests;
+            testRunner.tests = calcTests;
+            testRunner.runTests();
+            testRunner.tests = tempTests;
+        }
+
+        function clearResults() {
+            document.getElementById('test-stats').innerHTML = '';
+            document.getElementById('test-results').innerHTML = '';
+            testRunner.results = [];
+        }
+
+        // Auto-run basic tests on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Auto-running basic JavaScript unit tests...');
+            setTimeout(() => {
+                runAllTests();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

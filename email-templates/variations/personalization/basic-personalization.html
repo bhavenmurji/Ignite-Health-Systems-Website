@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Basic Personalization</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #0d0d0d;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            padding: 30px;
+            text-align: center;
+        }
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        .header-title {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 20px 0 0 0;
+        }
+        .content {
+            padding: 40px 30px;
+            color: #ffffff;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35, #ff4500);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        .footer {
+            background: #111111;
+            padding: 30px;
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://ignitehealthsystems.com/assets/images/Ignite Logo.png" alt="Ignite Health Systems" />
+            </div>
+            <h1 class="header-title">Welcome to Ignite Health</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Basic Personalization: Name Only -->
+            <div class="greeting">Hello {{FNAME}},</div>
+
+            <p class="intro-text">
+                Thank you for joining Ignite Health Systems. We're excited to help you transform healthcare delivery through innovative AI technology.
+            </p>
+
+            <p style="color: #cccccc; margin: 25px 0;">
+                Our Clinical Co-Pilot is designed to reduce administrative burden and help healthcare professionals focus on what matters most - patient care.
+            </p>
+
+            <div class="cta-section">
+                <p style="color: #cccccc; margin-bottom: 20px;">
+                    Ready to see how we can help your practice?
+                </p>
+                <a href="https://calendar.app/ignite-health-demo?utm_source=email&utm_medium=basic_personalization&utm_campaign=welcome" class="cta-button">
+                    Schedule a Demo
+                </a>
+            </div>
+
+            <p style="color: #cccccc; margin-top: 30px;">
+                We'll be in touch with more information about how Ignite Health Systems can benefit your practice.
+            </p>
+
+            <p style="color: #ff6b35; font-weight: 600; margin-top: 20px;">
+                Dr. Bhaven Murji<br>
+                <span style="color: #cccccc; font-weight: normal;">Founder & CEO, Ignite Health Systems</span>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                © 2025 Ignite Health Systems. All rights reserved.<br>
+                <a href="https://ignitehealthsystems.com/unsubscribe?email={{EMAIL}}">Unsubscribe</a> |
+                <a href="https://ignitehealthsystems.com/privacy">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
