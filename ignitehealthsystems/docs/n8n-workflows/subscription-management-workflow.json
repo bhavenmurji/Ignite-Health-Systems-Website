@@ -1,0 +1,497 @@
+{
+  "meta": {
+    "instanceId": "ignite-health-systems"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "/unsubscribe",
+        "responseMode": "responseNode",
+        "options": {
+          "noResponseBody": false
+        }
+      },
+      "id": "unsubscribe-webhook",
+      "name": "Unsubscribe Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "unsubscribe-handler"
+    },
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "/preferences",
+        "responseMode": "responseNode",
+        "options": {
+          "noResponseBody": false
+        }
+      },
+      "id": "preferences-webhook",
+      "name": "Preferences Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 500],
+      "webhookId": "preferences-handler"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/resubscribe",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "resubscribe-webhook",
+      "name": "Resubscribe Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 700],
+      "webhookId": "resubscribe-handler"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract token from query parameters\nconst queryParams = $input.first().json.query;\nconst token = queryParams.token;\n\nif (!token) {\n  return [{\n    json: {\n      error: 'Missing unsubscribe token',\n      status: 400\n    }\n  }];\n}\n\n// Parse token to extract user ID and timestamp\ntry {\n  const [userId, timestamp] = token.split('-');\n  \n  if (!userId || !timestamp) {\n    throw new Error('Invalid token format');\n  }\n  \n  // Check if token is not too old (30 days)\n  const tokenAge = Date.now() - parseInt(timestamp);\n  const maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds\n  \n  if (tokenAge > maxAge) {\n    return [{\n      json: {\n        error: 'Token expired',\n        status: 400\n      }\n    }];\n  }\n  \n  return [{\n    json: {\n      userId: userId,\n      timestamp: timestamp,\n      action: 'unsubscribe'\n    }\n  }];\n  \n} catch (error) {\n  return [{\n    json: {\n      error: 'Invalid token format',\n      status: 400\n    }\n  }];\n}"
+      },
+      "id": "parse-unsubscribe-token",
+      "name": "Parse Unsubscribe Token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract token from query parameters for preferences\nconst queryParams = $input.first().json.query;\nconst token = queryParams.token;\n\nif (!token) {\n  return [{\n    json: {\n      error: 'Missing preferences token',\n      status: 400\n    }\n  }];\n}\n\n// Parse token to extract user ID and timestamp\ntry {\n  const [userId, timestamp] = token.split('-');\n  \n  if (!userId || !timestamp) {\n    throw new Error('Invalid token format');\n  }\n  \n  return [{\n    json: {\n      userId: userId,\n      timestamp: timestamp,\n      action: 'preferences'\n    }\n  }];\n  \n} catch (error) {\n  return [{\n    json: {\n      error: 'Invalid token format',\n      status: 400\n    }\n  }];\n}"
+      },
+      "id": "parse-preferences-token",
+      "name": "Parse Preferences Token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 500]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "SELECT * FROM users WHERE id = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.userId]}}"
+        }
+      },
+      "id": "get-user-unsubscribe",
+      "name": "Get User for Unsubscribe",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "SELECT * FROM users WHERE id = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.userId]}}"
+        }
+      },
+      "id": "get-user-preferences",
+      "name": "Get User for Preferences",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [680, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.length}}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "user-exists-unsubscribe",
+      "name": "User Exists for Unsubscribe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.length}}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "user-exists-preferences",
+      "name": "User Exists for Preferences?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 500]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "UPDATE users SET subscription_status = 'unsubscribed', newsletter_subscribed = false, updated_at = NOW() WHERE id = $1 RETURNING *",
+        "additionalFields": {
+          "queryParameters": "={{[$('Parse Unsubscribe Token').first().json.userId]}}"
+        }
+      },
+      "id": "unsubscribe-user",
+      "name": "Unsubscribe User",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Unsubscribed - Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 40px; background-color: #f8f9fa; }\n    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }\n    .header { text-align: center; margin-bottom: 30px; }\n    .header h1 { color: #343a40; margin: 0 0 10px 0; }\n    .content { text-align: center; }\n    .success-icon { font-size: 48px; color: #28a745; margin-bottom: 20px; }\n    .resubscribe-form { margin: 30px 0; padding: 20px; background-color: #f8f9fa; border-radius: 6px; }\n    .btn { display: inline-block; padding: 12px 24px; background-color: #667eea; color: white; text-decoration: none; border-radius: 6px; margin: 10px; }\n    .btn:hover { background-color: #5a6fd8; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Ignite Health Systems</h1>\n    </div>\n    <div class=\"content\">\n      <div class=\"success-icon\">✓</div>\n      <h2>Successfully Unsubscribed</h2>\n      <p>You have been successfully unsubscribed from our mailing list.</p>\n      <p>We're sorry to see you go! If you change your mind, you can resubscribe at any time.</p>\n      \n      <div class=\"resubscribe-form\">\n        <h3>Changed your mind?</h3>\n        <p>Click below to resubscribe to our healthcare innovation insights:</p>\n        <a href=\"https://ignitehealthsystems.com/resubscribe?token={{$('Parse Unsubscribe Token').first().json.userId}}-{{Date.now()}}\" class=\"btn\">Resubscribe</a>\n      </div>\n      \n      <p style=\"margin-top: 30px; font-size: 14px; color: #6c757d;\">\n        If you have any questions, please contact us at <a href=\"mailto:support@ignitehealthsystems.com\">support@ignitehealthsystems.com</a>\n      </p>\n    </div>\n  </div>\n</body>\n</html>"
+      },
+      "id": "unsubscribe-success-response",
+      "name": "Unsubscribe Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Email Preferences - Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 40px; background-color: #f8f9fa; }\n    .container { max-width: 700px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }\n    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #667eea; padding-bottom: 20px; }\n    .header h1 { color: #343a40; margin: 0 0 10px 0; }\n    .form-section { margin: 30px 0; padding: 25px; background-color: #f8f9fa; border-radius: 8px; }\n    .form-group { margin: 20px 0; }\n    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #495057; }\n    .checkbox-group { display: flex; align-items: center; margin: 10px 0; }\n    .checkbox-group input { margin-right: 10px; }\n    .btn { display: inline-block; padding: 12px 24px; background-color: #667eea; color: white; text-decoration: none; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }\n    .btn:hover { background-color: #5a6fd8; }\n    .btn-secondary { background-color: #6c757d; }\n    .btn-secondary:hover { background-color: #5a6268; }\n    .user-info { background-color: #d1ecf1; padding: 15px; border-radius: 6px; margin-bottom: 20px; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Ignite Health Systems</h1>\n      <p>Manage Your Email Preferences</p>\n    </div>\n    \n    <div class=\"user-info\">\n      <strong>Account:</strong> {{$('Get User for Preferences').first().json[0].name}} ({{$('Get User for Preferences').first().json[0].email}})\n    </div>\n    \n    <form action=\"/api/update-preferences\" method=\"POST\">\n      <input type=\"hidden\" name=\"userId\" value=\"{{$('Parse Preferences Token').first().json.userId}}\">\n      <input type=\"hidden\" name=\"token\" value=\"{{$('Parse Preferences Token').first().json.userId}}-{{$('Parse Preferences Token').first().json.timestamp}}\">\n      \n      <div class=\"form-section\">\n        <h3>Email Subscriptions</h3>\n        \n        <div class=\"form-group\">\n          <div class=\"checkbox-group\">\n            <input type=\"checkbox\" id=\"newsletter\" name=\"newsletter_subscribed\" {{$('Get User for Preferences').first().json[0].newsletter_subscribed ? 'checked' : ''}}>\n            <label for=\"newsletter\">Monthly Healthcare Innovation Newsletter</label>\n          </div>\n          <p style=\"font-size: 14px; color: #6c757d; margin: 5px 0 0 30px;\">Receive our monthly insights on healthcare technology, market trends, and innovation opportunities.</p>\n        </div>\n        \n        <div class=\"form-group\">\n          <div class=\"checkbox-group\">\n            <input type=\"checkbox\" id=\"welcome\" name=\"welcome_emails\" checked>\n            <label for=\"welcome\">Welcome & Account Emails</label>\n          </div>\n          <p style=\"font-size: 14px; color: #6c757d; margin: 5px 0 0 30px;\">Essential emails about your account and important updates.</p>\n        </div>\n      </div>\n      \n      <div class=\"form-section\">\n        <h3>Content Preferences</h3>\n        \n        <div class=\"form-group\">\n          <label>I'm primarily interested in: (Current: {{$('Get User for Preferences').first().json[0].role}})</label>\n          <div class=\"checkbox-group\">\n            <input type=\"radio\" id=\"physician\" name=\"role\" value=\"physician\" {{$('Get User for Preferences').first().json[0].role === 'physician' ? 'checked' : ''}}>\n            <label for=\"physician\">Clinical Applications & Medical Research</label>\n          </div>\n          <div class=\"checkbox-group\">\n            <input type=\"radio\" id=\"investor\" name=\"role\" value=\"investor\" {{$('Get User for Preferences').first().json[0].role === 'investor' ? 'checked' : ''}}>\n            <label for=\"investor\">Investment Opportunities & Market Analysis</label>\n          </div>\n        </div>\n      </div>\n      \n      <div style=\"text-align: center; margin-top: 30px;\">\n        <button type=\"submit\" class=\"btn\">Update Preferences</button>\n        <a href=\"/unsubscribe?token={{$('Parse Preferences Token').first().json.userId}}-{{Date.now()}}\" class=\"btn btn-secondary\">Unsubscribe from All</a>\n      </div>\n    </form>\n    \n    <p style=\"text-align: center; margin-top: 30px; font-size: 14px; color: #6c757d;\">\n      Questions? Contact us at <a href=\"mailto:support@ignitehealthsystems.com\">support@ignitehealthsystems.com</a>\n    </p>\n  </div>\n</body>\n</html>"
+      },
+      "id": "preferences-page-response",
+      "name": "Preferences Page Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 500]
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Error - Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 40px; background-color: #f8f9fa; }\n    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }\n    .header { text-align: center; margin-bottom: 30px; }\n    .header h1 { color: #343a40; margin: 0 0 10px 0; }\n    .content { text-align: center; }\n    .error-icon { font-size: 48px; color: #dc3545; margin-bottom: 20px; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Ignite Health Systems</h1>\n    </div>\n    <div class=\"content\">\n      <div class=\"error-icon\">⚠</div>\n      <h2>Invalid or Expired Link</h2>\n      <p>The unsubscribe link you clicked is either invalid or has expired.</p>\n      <p>If you'd like to unsubscribe, please contact us directly at <a href=\"mailto:support@ignitehealthsystems.com\">support@ignitehealthsystems.com</a></p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "error-response-unsubscribe",
+      "name": "Error Response Unsubscribe",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Error - Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 40px; background-color: #f8f9fa; }\n    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }\n    .header { text-align: center; margin-bottom: 30px; }\n    .header h1 { color: #343a40; margin: 0 0 10px 0; }\n    .content { text-align: center; }\n    .error-icon { font-size: 48px; color: #dc3545; margin-bottom: 20px; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Ignite Health Systems</h1>\n    </div>\n    <div class=\"content\">\n      <div class=\"error-icon\">⚠</div>\n      <h2>Invalid or Expired Link</h2>\n      <p>The preferences link you clicked is either invalid or has expired.</p>\n      <p>If you'd like to update your preferences, please contact us directly at <a href=\"mailto:support@ignitehealthsystems.com\">support@ignitehealthsystems.com</a></p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "error-response-preferences",
+      "name": "Error Response Preferences",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 600]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse resubscribe request\nconst body = $input.first().json.body;\nconst queryParams = $input.first().json.query;\n\n// Check for email in body or query params\nconst email = body?.email || queryParams?.email;\nconst token = body?.token || queryParams?.token;\n\nif (!email) {\n  return [{\n    json: {\n      error: 'Email address required',\n      status: 400\n    }\n  }];\n}\n\n// Validate email format\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\nif (!emailRegex.test(email)) {\n  return [{\n    json: {\n      error: 'Invalid email format',\n      status: 400\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    email: email.toLowerCase().trim(),\n    token: token,\n    action: 'resubscribe'\n  }\n}];"
+      },
+      "id": "parse-resubscribe-data",
+      "name": "Parse Resubscribe Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 700]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "SELECT * FROM users WHERE email = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.email]}}"
+        }
+      },
+      "id": "get-user-resubscribe",
+      "name": "Get User for Resubscribe",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [680, 700]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.length}}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "user-exists-resubscribe",
+      "name": "User Exists for Resubscribe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 700]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "UPDATE users SET subscription_status = 'active', newsletter_subscribed = true, updated_at = NOW() WHERE email = $1 RETURNING *",
+        "additionalFields": {
+          "queryParameters": "={{[$('Parse Resubscribe Data').first().json.email]}}"
+        }
+      },
+      "id": "resubscribe-user",
+      "name": "Resubscribe User",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1120, 600]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Successfully resubscribed! Welcome back to Ignite Health Systems.\", \"email\": $('Parse Resubscribe Data').first().json.email } }}"
+      },
+      "id": "resubscribe-success-response",
+      "name": "Resubscribe Success Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 600]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": \"Email address not found in our system. Please sign up again.\", \"email\": $('Parse Resubscribe Data').first().json.email } }}",
+        "options": {
+          "responseCode": 404
+        }
+      },
+      "id": "resubscribe-error-response",
+      "name": "Resubscribe Error Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 800]
+    },
+    {
+      "parameters": {
+        "subject": "Welcome Back to Ignite Health Systems",
+        "emailType": "html",
+        "message": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Welcome Back - Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f8f9fa; }\n    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; }\n    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; }\n    .content { padding: 40px 30px; }\n    .footer { background-color: #f8f9fa; padding: 30px; text-align: center; color: #6c757d; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Welcome Back!</h1>\n      <p>We're thrilled to have you back at Ignite Health Systems</p>\n    </div>\n    \n    <div class=\"content\">\n      <h3>Hello {{$('Get User for Resubscribe').first().json[0].name}},</h3>\n      \n      <p>Thank you for rejoining our community! Your subscription to Healthcare Innovation Insights has been successfully reactivated.</p>\n      \n      <p>You'll continue receiving our monthly newsletter with the latest healthcare technology trends, investment opportunities, and innovation insights tailored to your interests as a {{$('Get User for Resubscribe').first().json[0].role}}.</p>\n      \n      <p>We've missed having you as part of our community, and we're excited to continue sharing valuable insights with you.</p>\n      \n      <p>If you have any questions or would like to update your preferences, please don't hesitate to reach out.</p>\n    </div>\n    \n    <div class=\"footer\">\n      <p><strong>Ignite Health Systems</strong></p>\n      <p><a href=\"mailto:support@ignitehealthsystems.com\">support@ignitehealthsystems.com</a></p>\n    </div>\n  </div>\n</body>\n</html>",
+        "fromEmail": "welcome@ignitehealthsystems.com",
+        "toEmail": "={{$('Get User for Resubscribe').first().json[0].email}}",
+        "fromName": "Ignite Health Systems"
+      },
+      "id": "send-resubscribe-confirmation",
+      "name": "Send Resubscribe Confirmation",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1340, 700],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Unsubscribe Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Unsubscribe Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preferences Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Preferences Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resubscribe Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Resubscribe Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Unsubscribe Token": {
+      "main": [
+        [
+          {
+            "node": "Get User for Unsubscribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Preferences Token": {
+      "main": [
+        [
+          {
+            "node": "Get User for Preferences",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User for Unsubscribe": {
+      "main": [
+        [
+          {
+            "node": "User Exists for Unsubscribe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User for Preferences": {
+      "main": [
+        [
+          {
+            "node": "User Exists for Preferences?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Exists for Unsubscribe?": {
+      "main": [
+        [
+          {
+            "node": "Unsubscribe User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Response Unsubscribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Exists for Preferences?": {
+      "main": [
+        [
+          {
+            "node": "Preferences Page Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Response Preferences",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unsubscribe User": {
+      "main": [
+        [
+          {
+            "node": "Unsubscribe Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Resubscribe Data": {
+      "main": [
+        [
+          {
+            "node": "Get User for Resubscribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User for Resubscribe": {
+      "main": [
+        [
+          {
+            "node": "User Exists for Resubscribe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Exists for Resubscribe?": {
+      "main": [
+        [
+          {
+            "node": "Resubscribe User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resubscribe Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resubscribe User": {
+      "main": [
+        [
+          {
+            "node": "Send Resubscribe Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Resubscribe Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Resubscribe Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "instanceId": "ignite-health-systems"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 1 * *"
+            }
+          ]
+        }
+      },
+      "id": "monthly-trigger",
+      "name": "Monthly Newsletter Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "details": "Triggers first day of every month at 9:00 AM"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "SELECT * FROM users WHERE subscription_status IN ('active', 'newsletter') AND newsletter_subscribed = true",
+        "additionalFields": {}
+      },
+      "id": "get-subscribers",
+      "name": "Get Active Subscribers",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "currentMonth",
+              "value": "={{new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}}"
+            },
+            {
+              "name": "issueNumber",
+              "value": "={{(new Date().getFullYear() - 2023) * 12 + new Date().getMonth() + 1}}"
+            },
+            {
+              "name": "newsletterDate",
+              "value": "={{new Date().toISOString()}}"
+            }
+          ]
+        }
+      },
+      "id": "newsletter-metadata",
+      "name": "Generate Newsletter Metadata",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are a content curator for Ignite Health Systems, a healthcare innovation company. Generate engaging newsletter content about healthcare innovation, medical technology breakthroughs, and industry trends."
+            },
+            {
+              "role": "user",
+              "content": "Create a comprehensive monthly newsletter for {{$json.currentMonth}} (Issue #{{$json.issueNumber}}) for Ignite Health Systems. Include:\n\n1. Featured Article: A significant healthcare innovation or breakthrough (300-400 words)\n2. Podcast Highlights: 2-3 recent healthcare innovation podcast episodes with summaries (150 words each)\n3. Industry Updates: 3-4 brief news items about healthcare technology trends (75 words each)\n4. Investment Spotlight: One promising healthcare startup or technology (200 words)\n5. Clinical Research Highlight: Recent study or trial with clinical implications (200 words)\n\nFormat as JSON with keys: featuredArticle, podcastHighlights (array), industryUpdates (array), investmentSpotlight, clinicalResearch. Each should have title and content fields."
+            }
+          ]
+        }
+      },
+      "id": "generate-newsletter-content",
+      "name": "Generate Newsletter Content",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const content = JSON.parse($input.first().json.choices[0].message.content);\n  const metadata = $('Generate Newsletter Metadata').first().json;\n  \n  return [{\n    json: {\n      ...content,\n      currentMonth: metadata.currentMonth,\n      issueNumber: metadata.issueNumber,\n      newsletterDate: metadata.newsletterDate\n    }\n  }];\n} catch (error) {\n  return [{\n    json: {\n      error: 'Failed to parse newsletter content',\n      rawContent: $input.first().json.choices[0].message.content\n    }\n  }];\n}"
+      },
+      "id": "parse-newsletter-content",
+      "name": "Parse Newsletter Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "INSERT INTO email_campaigns (type, subject, content, sent_at, recipient_count) VALUES ('newsletter', $1, $2, NOW(), $3) RETURNING *",
+        "additionalFields": {
+          "queryParameters": "={{[`Healthcare Innovation Insights - ${$json.currentMonth} (Issue #${$json.issueNumber})`, JSON.stringify($json), $('Get Active Subscribers').all().length]}}"
+        }
+      },
+      "id": "create-campaign-record",
+      "name": "Create Campaign Record",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "id": "split-subscribers",
+      "name": "Split Into Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const subscribers = $('Get Active Subscribers').all();\nconst content = $('Parse Newsletter Content').first().json;\nconst campaign = $('Create Campaign Record').first().json;\n\nconst results = [];\n\nfor (const subscriber of subscribers) {\n  // Generate role-specific content section\n  let roleSpecificContent = '';\n  if (subscriber.json.role === 'physician') {\n    roleSpecificContent = `\n      <div class=\"role-specific physician\">\n        <h3>For Healthcare Professionals</h3>\n        <p><strong>Clinical Implementation Focus:</strong> ${content.clinicalResearch.title}</p>\n        <p>${content.clinicalResearch.content.substring(0, 200)}...</p>\n        <a href=\"https://ignitehealthsystems.com/clinical-research\" style=\"color: #667eea;\">Read Full Clinical Analysis →</a>\n      </div>\n    `;\n  } else if (subscriber.json.role === 'investor') {\n    roleSpecificContent = `\n      <div class=\"role-specific investor\">\n        <h3>For Healthcare Investors</h3>\n        <p><strong>Investment Opportunity:</strong> ${content.investmentSpotlight.title}</p>\n        <p>${content.investmentSpotlight.content.substring(0, 200)}...</p>\n        <a href=\"https://ignitehealthsystems.com/investment-opportunities\" style=\"color: #667eea;\">Explore Investment Details →</a>\n      </div>\n    `;\n  }\n  \n  results.push({\n    json: {\n      ...subscriber.json,\n      ...content,\n      roleSpecificContent,\n      campaignId: campaign.id,\n      unsubscribeToken: `${subscriber.json.id}-${Date.now()}`\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "personalize-for-subscribers",
+      "name": "Personalize For Each Subscriber",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": {
+        "subject": "Healthcare Innovation Insights - {{$json.currentMonth}} (Issue #{{$json.issueNumber}})",
+        "emailType": "html",
+        "message": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Healthcare Innovation Insights - {{$json.currentMonth}}</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f8f9fa; }\n    .container { max-width: 700px; margin: 0 auto; background-color: #ffffff; }\n    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; }\n    .content { padding: 30px; }\n    .section { margin: 30px 0; padding: 25px; border-radius: 8px; }\n    .featured { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #667eea; }\n    .podcast-section { background-color: #fff3cd; border-left: 4px solid #ffc107; }\n    .industry-updates { background-color: #d1ecf1; border-left: 4px solid #17a2b8; }\n    .role-specific { background-color: #d4edda; border-left: 4px solid #28a745; margin: 20px 0; padding: 20px; border-radius: 8px; }\n    .role-specific.physician { background-color: #f8d7da; border-left-color: #dc3545; }\n    .role-specific.investor { background-color: #d1ecf1; border-left-color: #17a2b8; }\n    .update-item { margin: 15px 0; padding: 15px; background-color: white; border-radius: 6px; }\n    .podcast-item { margin: 15px 0; padding: 15px; background-color: white; border-radius: 6px; }\n    .footer { background-color: #f8f9fa; padding: 30px; text-align: center; color: #6c757d; border-top: 1px solid #dee2e6; }\n    .cta-button { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 5px; }\n    .social-links a { color: #667eea; text-decoration: none; margin: 0 10px; }\n    h2 { color: #343a40; border-bottom: 2px solid #667eea; padding-bottom: 10px; }\n    h3 { color: #495057; }\n    .issue-number { font-size: 14px; opacity: 0.8; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <!-- Header -->\n    <div class=\"header\">\n      <h1>Healthcare Innovation Insights</h1>\n      <p class=\"issue-number\">Issue #{{$json.issueNumber}} | {{$json.currentMonth}}</p>\n      <p>Transforming Healthcare Through Innovation</p>\n    </div>\n    \n    <div class=\"content\">\n      <!-- Personal Greeting -->\n      <div style=\"margin-bottom: 30px;\">\n        <h3>Hello {{$json.name}},</h3>\n        <p>Welcome to this month's edition of Healthcare Innovation Insights. We're excited to share the latest breakthroughs, opportunities, and trends shaping the future of healthcare.</p>\n      </div>\n      \n      <!-- Featured Article -->\n      <div class=\"section featured\">\n        <h2>🌟 Featured Innovation</h2>\n        <h3>{{$json.featuredArticle.title}}</h3>\n        <p>{{$json.featuredArticle.content}}</p>\n        <a href=\"https://ignitehealthsystems.com/featured-innovation\" class=\"cta-button\">Read Full Article</a>\n      </div>\n      \n      <!-- Role-Specific Content -->\n      {{$json.roleSpecificContent}}\n      \n      <!-- Podcast Highlights -->\n      <div class=\"section podcast-section\">\n        <h2>🎧 Podcast Highlights</h2>\n        <p>Catch up on the latest healthcare innovation discussions:</p>\n        {{#each $json.podcastHighlights}}\n        <div class=\"podcast-item\">\n          <h4>{{this.title}}</h4>\n          <p>{{this.content}}</p>\n        </div>\n        {{/each}}\n        <a href=\"https://ignitehealthsystems.com/podcasts\" class=\"cta-button\">Browse All Episodes</a>\n      </div>\n      \n      <!-- Industry Updates -->\n      <div class=\"section industry-updates\">\n        <h2>📈 Industry Updates</h2>\n        {{#each $json.industryUpdates}}\n        <div class=\"update-item\">\n          <h4>{{this.title}}</h4>\n          <p>{{this.content}}</p>\n        </div>\n        {{/each}}\n        <a href=\"https://ignitehealthsystems.com/industry-news\" class=\"cta-button\">More Industry News</a>\n      </div>\n      \n      <!-- Community & Engagement -->\n      <div class=\"section\" style=\"background-color: #fff; border: 2px solid #667eea; text-align: center;\">\n        <h2>Join Our Community</h2>\n        <p>Connect with fellow healthcare innovators, investors, and professionals in our growing community.</p>\n        <div>\n          <a href=\"https://ignitehealthsystems.com/events\" class=\"cta-button\">Upcoming Events</a>\n          <a href=\"https://ignitehealthsystems.com/network\" class=\"cta-button\">Join Network</a>\n        </div>\n      </div>\n      \n      <!-- Closing -->\n      <div style=\"margin: 30px 0; text-align: center;\">\n        <p><strong>Thank you for being part of the Ignite Health Systems community!</strong></p>\n        <p>Together, we're building the future of healthcare innovation.</p>\n      </div>\n    </div>\n    \n    <!-- Footer -->\n    <div class=\"footer\">\n      <p><strong>Ignite Health Systems</strong></p>\n      <p>Transforming Healthcare Through Innovation</p>\n      \n      <div class=\"social-links\" style=\"margin: 20px 0;\">\n        <a href=\"https://linkedin.com/company/ignitehealthsystems\">LinkedIn</a>\n        <a href=\"https://twitter.com/ignitehealthsys\">Twitter</a>\n        <a href=\"https://ignitehealthsystems.com/blog\">Blog</a>\n      </div>\n      \n      <p style=\"font-size: 12px; margin-top: 20px;\">\n        You're receiving this because you subscribed to Ignite Health Systems updates.<br>\n        <a href=\"https://ignitehealthsystems.com/preferences?token={{$json.unsubscribeToken}}\">Update Preferences</a> | \n        <a href=\"https://ignitehealthsystems.com/unsubscribe?token={{$json.unsubscribeToken}}\">Unsubscribe</a><br>\n        <a href=\"https://ignitehealthsystems.com/privacy\">Privacy Policy</a> | \n        <a href=\"mailto:contact@ignitehealthsystems.com\">Contact Us</a>\n      </p>\n    </div>\n  </div>\n</body>\n</html>",
+        "fromEmail": "newsletter@ignitehealthsystems.com",
+        "toEmail": "={{$json.email}}",
+        "fromName": "Ignite Health Systems",
+        "options": {}
+      },
+      "id": "send-newsletter-email",
+      "name": "Send Newsletter Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [2000, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "INSERT INTO email_deliveries (user_id, campaign_id, status, timestamp) VALUES ($1, $2, 'sent', NOW())",
+        "additionalFields": {
+          "queryParameters": "={{[$json.id, $json.campaignId]}}"
+        }
+      },
+      "id": "track-email-delivery",
+      "name": "Track Email Delivery",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2220, 300]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "UPDATE users SET last_email_sent = NOW() WHERE id = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.id]}}"
+        }
+      },
+      "id": "update-user-last-email",
+      "name": "Update User Last Email",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2440, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$('Split Into Batches').item.json.$index}}",
+              "operation": "equal",
+              "value2": "={{$('Split Into Batches').item.json.$length - 1}}"
+            }
+          ]
+        }
+      },
+      "id": "check-last-batch",
+      "name": "Is Last Batch?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [2660, 300]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "UPDATE email_campaigns SET open_rate = 0.00, click_rate = 0.00 WHERE id = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$('Create Campaign Record').first().json.id]}}"
+        }
+      },
+      "id": "finalize-campaign",
+      "name": "Finalize Campaign",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2880, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const campaignId = $('Create Campaign Record').first().json.id;\nconst totalSent = $('Get Active Subscribers').all().length;\n\nconsole.log(`Newsletter campaign ${campaignId} completed successfully`);\nconsole.log(`Total emails sent: ${totalSent}`);\nconsole.log(`Campaign date: ${new Date().toISOString()}`);\n\nreturn [{\n  json: {\n    success: true,\n    campaignId: campaignId,\n    totalSent: totalSent,\n    completedAt: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "campaign-completion-log",
+      "name": "Campaign Completion Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3100, 200]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "batch-delay",
+      "name": "Batch Delay",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [2660, 400]
+    }
+  ],
+  "connections": {\n    \"Monthly Newsletter Trigger\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Get Active Subscribers\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Get Active Subscribers\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Generate Newsletter Metadata\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Generate Newsletter Metadata\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Generate Newsletter Content\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Generate Newsletter Content\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Parse Newsletter Content\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Parse Newsletter Content\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Create Campaign Record\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Create Campaign Record\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Split Into Batches\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Split Into Batches\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Personalize For Each Subscriber\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Personalize For Each Subscriber\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Send Newsletter Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Send Newsletter Email\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Track Email Delivery\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Track Email Delivery\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Update User Last Email\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Update User Last Email\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Is Last Batch?\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Is Last Batch?\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Finalize Campaign\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ],\n        [\n          {\n            \"node\": \"Batch Delay\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    },\n    \"Finalize Campaign\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Campaign Completion Log\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"pinData\": {}\n}

@@ -1,0 +1,447 @@
+{
+  "meta": {
+    "instanceId": "ignite-health-systems"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/ignite-contact-form",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Contact Form Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "ignite-contact-form"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.email}}",
+              "operation": "regex",
+              "value2": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+            },
+            {
+              "value1": "={{$json.name}}",
+              "operation": "isNotEmpty"
+            },
+            {
+              "value1": "={{$json.role}}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "data-validation",
+      "name": "Validate Input Data",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "email",
+              "value": "={{$json.email.toLowerCase().trim()}}"
+            },
+            {
+              "name": "name",
+              "value": "={{$json.name.trim()}}"
+            },
+            {
+              "name": "role",
+              "value": "={{$json.role}}"
+            },
+            {
+              "name": "note",
+              "value": "={{$json.note || ''}}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{new Date().toISOString()}}"
+            },
+            {
+              "name": "source",
+              "value": "website_signup"
+            }
+          ]
+        }
+      },
+      "id": "data-enrichment",
+      "name": "Enrich User Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "SELECT * FROM users WHERE email = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.email]}}"
+        }
+      },
+      "id": "check-existing-user",
+      "name": "Check Existing User",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.length}}",
+              "operation": "equal",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "new-user-check",
+      "name": "Is New User?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "INSERT INTO users (email, name, role, note, subscription_status, created_at, source) VALUES ($1, $2, $3, $4, 'active', NOW(), $5) RETURNING *",
+        "additionalFields": {
+          "queryParameters": "={{[$json.email, $json.name, $json.role, $json.note, $json.source]}}"
+        }
+      },
+      "id": "create-user",
+      "name": "Create New User",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1340, 100]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "messages": [
+            {
+              "role": "system",
+              "content": "You are an AI assistant for Ignite Health Systems, a healthcare innovation company. Generate personalized welcome messages based on user role."
+            },
+            {
+              "role": "user",
+              "content": "={{$json.role === 'physician' ? `Generate a personalized welcome message for Dr. ${$json.name}, a healthcare professional interested in medical innovation. Focus on clinical applications, evidence-based research, and professional development. Keep it professional and scientific. Maximum 2 paragraphs.` : `Generate a personalized welcome message for ${$json.name}, an investor interested in healthcare innovation. Focus on market opportunities, ROI considerations, and business potential. Keep it professional and business-focused. Maximum 2 paragraphs.`}}"
+            }
+          ]
+        }
+      },
+      "id": "ai-personalization",
+      "name": "Generate AI Personalized Content",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [1560, 100],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "personalizedIntro",
+              "value": "={{$json.choices[0].message.content}}"
+            },
+            {
+              "name": "userName",
+              "value": "={{$('Create New User').first().$json.name}}"
+            },
+            {
+              "name": "userEmail",
+              "value": "={{$('Create New User').first().$json.email}}"
+            },
+            {
+              "name": "userRole",
+              "value": "={{$('Create New User').first().$json.role}}"
+            }
+          ]
+        }
+      },
+      "id": "prepare-email-data",
+      "name": "Prepare Email Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1780, 100]
+    },
+    {
+      "parameters": {
+        "subject": "Welcome to Ignite Health Systems - {{$json.userName}}",
+        "emailType": "html",
+        "message": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Welcome to Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f8f9fa; }\n    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }\n    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; }\n    .content { padding: 40px 30px; }\n    .personalized { background-color: #f8f9fa; padding: 25px; border-left: 4px solid #667eea; margin: 20px 0; border-radius: 0 8px 8px 0; }\n    .cta-section { margin: 30px 0; }\n    .cta-button { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; }\n    .footer { background-color: #f8f9fa; padding: 30px; text-align: center; color: #6c757d; border-top: 1px solid #dee2e6; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Welcome to Ignite Health Systems</h1>\n      <p>Transforming Healthcare Through Innovation</p>\n    </div>\n    \n    <div class=\"content\">\n      <div class=\"personalized\">\n        <h3>Personal Message for {{$json.userName}}</h3>\n        <div>{{$json.personalizedIntro}}</div>\n      </div>\n      \n      <h3>About Ignite Health Systems</h3>\n      <p>We're pioneering the future of healthcare through cutting-edge technology, data-driven insights, and innovative solutions that bridge the gap between clinical excellence and business sustainability.</p>\n      \n      <p>Our mission is to accelerate healthcare innovation by connecting visionary healthcare professionals with forward-thinking investors, creating a ecosystem where breakthrough medical technologies can flourish.</p>\n      \n      <div class=\"cta-section\">\n        {{$json.userRole === 'physician' ? \n          '<h4>Next Steps for Healthcare Professionals:</h4>\n          <ul>\n            <li>Access our clinical research database</li>\n            <li>Join our physician advisory network</li>\n            <li>Explore implementation case studies</li>\n            <li>Connect with innovation partners</li>\n          </ul>\n          <a href=\"https://ignitehealthsystems.com/physician-portal\" class=\"cta-button\">Access Physician Portal</a>' :\n          '<h4>Next Steps for Investors:</h4>\n          <ul>\n            <li>Review our investment opportunities</li>\n            <li>Access market analysis reports</li>\n            <li>Schedule strategy consultations</li>\n            <li>Join our investor network</li>\n          </ul>\n          <a href=\"https://ignitehealthsystems.com/investor-portal\" class=\"cta-button\">Access Investor Portal</a>'\n        }}\n      </div>\n      \n      <p>We're excited to have you join our community of healthcare innovators. Stay tuned for our monthly newsletter featuring the latest insights in healthcare technology and investment opportunities.</p>\n    </div>\n    \n    <div class=\"footer\">\n      <p><strong>Ignite Health Systems</strong></p>\n      <p>Transforming Healthcare Through Innovation</p>\n      <p><a href=\"mailto:contact@ignitehealthsystems.com\">contact@ignitehealthsystems.com</a></p>\n      <p><a href=\"%unsubscribe_url%\">Unsubscribe</a> | <a href=\"https://ignitehealthsystems.com/privacy\">Privacy Policy</a></p>\n    </div>\n  </div>\n</body>\n</html>",
+        "fromEmail": "welcome@ignitehealthsystems.com",
+        "toEmail": "={{$json.userEmail}}",
+        "fromName": "Ignite Health Systems",
+        "options": {}
+      },
+      "id": "send-welcome-email",
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [2000, 100],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "UPDATE users SET welcome_email_sent = true, last_email_sent = NOW() WHERE email = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.userEmail]}}"
+        }
+      },
+      "id": "update-user-status",
+      "name": "Update User Email Status",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2220, 100]
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "executeQuery",
+        "query": "UPDATE users SET subscription_status = 'active', updated_at = NOW() WHERE email = $1",
+        "additionalFields": {
+          "queryParameters": "={{[$json.email]}}"
+        }
+      },
+      "id": "reactivate-user",
+      "name": "Reactivate Existing User",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "subject": "Welcome Back to Ignite Health Systems",
+        "emailType": "html",
+        "message": "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Welcome Back to Ignite Health Systems</title>\n  <style>\n    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f8f9fa; }\n    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }\n    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; text-align: center; }\n    .content { padding: 40px 30px; }\n    .footer { background-color: #f8f9fa; padding: 30px; text-align: center; color: #6c757d; border-top: 1px solid #dee2e6; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Welcome Back!</h1>\n      <p>We're glad to have you back at Ignite Health Systems</p>\n    </div>\n    \n    <div class=\"content\">\n      <h3>Hello {{$('Check Existing User').first().$json[0].name}},</h3>\n      \n      <p>Thank you for your continued interest in Ignite Health Systems. Your subscription has been reactivated and you'll continue receiving our latest healthcare innovation insights.</p>\n      \n      <p>If you have any questions or would like to update your preferences, please don't hesitate to reach out.</p>\n    </div>\n    \n    <div class=\"footer\">\n      <p><strong>Ignite Health Systems</strong></p>\n      <p><a href=\"%unsubscribe_url%\">Unsubscribe</a> | <a href=\"https://ignitehealthsystems.com/privacy\">Privacy Policy</a></p>\n    </div>\n  </div>\n</body>\n</html>",
+        "fromEmail": "welcome@ignitehealthsystems.com",
+        "toEmail": "={{$('Check Existing User').first().$json[0].email}}",
+        "fromName": "Ignite Health Systems"
+      },
+      "id": "send-reactivation-email",
+      "name": "Send Reactivation Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1560, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Thank you for your interest! Welcome email sent.\", \"email\": $json.userEmail } }}"
+      },
+      "id": "success-response-new",
+      "name": "Success Response - New User",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2440, 100]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Welcome back! Your subscription has been reactivated.\", \"email\": $('Check Existing User').first().$json[0].email } }}"
+      },
+      "id": "success-response-existing",
+      "name": "Success Response - Existing User",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": \"Invalid input data. Please check your email and required fields.\", \"received\": $json } }}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "error-response",
+      "name": "Error Response - Invalid Data",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 400]
+    }
+  ],
+  "connections": {
+    "Contact Form Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Input Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input Data": {
+      "main": [
+        [
+          {
+            "node": "Enrich User Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Response - Invalid Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich User Data": {
+      "main": [
+        [
+          {
+            "node": "Check Existing User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing User": {
+      "main": [
+        [
+          {
+            "node": "Is New User?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is New User?": {
+      "main": [
+        [
+          {
+            "node": "Create New User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reactivate Existing User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create New User": {
+      "main": [
+        [
+          {
+            "node": "Generate AI Personalized Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate AI Personalized Content": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email Data": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Update User Email Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update User Email Status": {
+      "main": [
+        [
+          {
+            "node": "Success Response - New User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reactivate Existing User": {
+      "main": [
+        [
+          {
+            "node": "Send Reactivation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reactivation Email": {
+      "main": [
+        [
+          {
+            "node": "Success Response - Existing User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

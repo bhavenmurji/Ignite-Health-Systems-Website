@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Welcome to Ignite Health Systems</title>
+  <!--[if mso]>
+  <style type="text/css">
+    table, td { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    .email-container { width: 600px !important; }
+  </style>
+  <![endif]-->
+  <style>
+    /* Reset styles */
+    body, table, td, p, a, li, blockquote { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+
+    /* Base styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333333;
+    }
+
+    /* Container */
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    /* Main content */
+    .content {
+      padding: 40px 30px;
+    }
+
+    /* Personalized section */
+    .personalized-intro {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 25px;
+      border-left: 4px solid #667eea;
+      margin: 20px 0 30px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .personalized-intro h3 {
+      margin: 0 0 15px 0;
+      color: #495057;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .personalized-intro .ai-content {
+      font-style: italic;
+      color: #495057;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Standard content sections */
+    .about-section {
+      margin: 30px 0;
+    }
+
+    .about-section h3 {
+      color: #343a40;
+      font-size: 22px;
+      margin: 0 0 15px 0;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .about-section p {
+      margin: 0 0 15px 0;
+      color: #495057;
+      line-height: 1.7;
+    }
+
+    /* CTA Section for Investors */
+    .cta-section {
+      background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+      padding: 30px 25px;
+      border-radius: 8px;
+      margin: 30px 0;
+      border-left: 4px solid #17a2b8;
+    }
+
+    .cta-section h4 {
+      margin: 0 0 20px 0;
+      color: #0c5460;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .cta-section ul {
+      margin: 0 0 25px 0;
+      padding-left: 20px;
+      color: #0c5460;
+    }
+
+    .cta-section li {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    /* Button styles */
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+      color: white !important;
+      padding: 14px 28px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(135deg, #138496 0%, #1abc9c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+    }
+
+    /* Market opportunity section */
+    .market-opportunity {
+      background-color: #fff3cd;
+      padding: 25px;
+      border-left: 4px solid #ffc107;
+      border-radius: 0 8px 8px 0;
+      margin: 30px 0;
+    }
+
+    .market-opportunity h4 {
+      margin: 0 0 15px 0;
+      color: #856404;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .market-opportunity p {
+      margin: 0;
+      color: #856404;
+      line-height: 1.7;
+    }
+
+    /* Investment metrics */
+    .investment-metrics {
+      background-color: #f8d7da;
+      padding: 25px;
+      border-left: 4px solid #dc3545;
+      border-radius: 0 8px 8px 0;
+      margin: 30px 0;
+    }
+
+    .investment-metrics h4 {
+      margin: 0 0 15px 0;
+      color: #721c24;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .metrics-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 15px 0 0 0;
+    }
+
+    .metric-item {
+      flex: 1;
+      min-width: 120px;
+      text-align: center;
+      padding: 15px;
+      background-color: white;
+      border-radius: 6px;
+      border: 1px solid #f5c6cb;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #721c24;
+      display: block;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #721c24;
+      margin-top: 5px;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+      color: #6c757d;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .footer p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer .company-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: #343a40;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive styles */
+    @media only screen and (max-width: 600px) {
+      .email-container {
+        width: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .header, .content, .footer {
+        padding: 25px 20px !important;
+      }
+
+      .header h1 {
+        font-size: 24px !important;
+      }
+
+      .personalized-intro, .cta-section, .market-opportunity, .investment-metrics {
+        padding: 20px !important;
+        margin: 20px 0 !important;
+      }
+
+      .cta-button {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding: 16px 20px !important;
+        box-sizing: border-box;
+      }
+
+      .metrics-grid {
+        flex-direction: column;
+      }
+
+      .metric-item {
+        min-width: auto;
+      }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .email-container {
+        background-color: #2d3748 !important;
+        color: #e2e8f0 !important;
+      }
+
+      .content {
+        background-color: #2d3748 !important;
+      }
+
+      .about-section p, .personalized-intro .ai-content {
+        color: #cbd5e0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Welcome to Ignite Health Systems</h1>
+      <p>Transforming Healthcare Through Innovation</p>
+    </div>
+
+    <div class="content">
+      <!-- Personalized AI-Generated Section -->
+      <div class="personalized-intro">
+        <h3>Personal Message for {{userName}}</h3>
+        <p class="ai-content">{{personalizedIntro}}</p>
+      </div>
+
+      <!-- About Ignite Health Systems -->
+      <div class="about-section">
+        <h3>About Ignite Health Systems</h3>
+        <p>We're pioneering the future of healthcare through strategic investments in cutting-edge technology, data-driven insights, and innovative solutions that deliver measurable returns while transforming patient care.</p>
+
+        <p>Our mission is to accelerate healthcare innovation by connecting forward-thinking investors with breakthrough medical technologies, creating sustainable value in the rapidly expanding digital health market.</p>
+      </div>
+
+      <!-- Market Opportunity -->
+      <div class="market-opportunity">
+        <h4>Healthcare Technology Market Opportunity</h4>
+        <p>The global digital health market is projected to reach <strong>$659.8 billion by 2025</strong>, with AI-driven healthcare solutions leading growth at 48.1% CAGR. We position investors at the forefront of this transformation.</p>
+      </div>
+
+      <!-- Investment Metrics -->
+      <div class="investment-metrics">
+        <h4>Our Investment Track Record</h4>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <span class="metric-value">24%</span>
+            <div class="metric-label">Average IRR</div>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">3.2x</span>
+            <div class="metric-label">Portfolio Multiple</div>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">18</span>
+            <div class="metric-label">Months Avg. Exit</div>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">89%</span>
+            <div class="metric-label">Success Rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section for Investors -->
+      <div class="cta-section">
+        <h4>Next Steps for Healthcare Investors:</h4>
+        <ul>
+          <li><strong>Investment Opportunities:</strong> Access our curated deal flow and portfolio companies</li>
+          <li><strong>Market Analysis Reports:</strong> In-depth sector analysis and competitive intelligence</li>
+          <li><strong>Due Diligence Support:</strong> Technical and clinical evaluation of investment targets</li>
+          <li><strong>Portfolio Optimization:</strong> Strategic guidance for healthcare technology investments</li>
+          <li><strong>Investor Network:</strong> Connect with fellow healthcare technology investors</li>
+          <li><strong>Regulatory Insights:</strong> Navigate FDA approvals and compliance requirements</li>
+        </ul>
+        <a href="https://ignitehealthsystems.com/investor-portal" class="cta-button">Access Investor Portal</a>
+      </div>
+
+      <!-- About Our Investment Focus -->
+      <div class="about-section">
+        <h3>Our Investment Focus Areas</h3>
+        <p><strong>AI & Machine Learning:</strong> Clinical decision support, predictive analytics, and diagnostic AI with proven clinical validation and clear monetization pathways.</p>
+
+        <p><strong>Digital Therapeutics:</strong> Software-based interventions with FDA clearance potential and evidence-based outcomes that reduce healthcare costs.</p>
+
+        <p><strong>Health Data Analytics:</strong> Platforms that unlock value from healthcare data while ensuring compliance with privacy regulations and delivering actionable insights.</p>
+
+        <p><strong>Telemedicine & Remote Care:</strong> Scalable solutions addressing healthcare access challenges with sustainable business models and proven patient engagement.</p>
+      </div>
+
+      <!-- Risk & Regulatory Considerations -->
+      <div style="background-color: #e2e3e5; padding: 20px; border-left: 4px solid #6c757d; border-radius: 0 8px 8px 0; margin: 30px 0;">
+        <h4 style="margin: 0 0 15px 0; color: #495057;">Investment Considerations</h4>
+        <p style="margin: 0; color: #495057; font-size: 14px;"><strong>Risk Management:</strong> We conduct thorough due diligence including clinical validation, regulatory pathway analysis, and market competition assessment. Healthcare investments carry inherent risks including regulatory changes, clinical trial outcomes, and market adoption challenges.</p>
+      </div>
+
+      <!-- Newsletter Signup Confirmation -->
+      <div style="background-color: #e7f3ff; padding: 20px; border-left: 4px solid #0066cc; border-radius: 0 8px 8px 0; margin: 30px 0;">
+        <p style="margin: 0; color: #003d82;"><strong>You're now subscribed to our monthly Healthcare Innovation Insights newsletter.</strong> You'll receive market analysis, investment opportunities, regulatory updates, and portfolio company highlights specifically curated for healthcare investors.</p>
+      </div>
+
+      <!-- Closing -->
+      <p>We're excited to have you join our community of healthcare innovation investors. Together, we're building the future of healthcare while generating sustainable returns.</p>
+
+      <p>Our team is available for confidential discussions about specific investment opportunities, market trends, or portfolio strategy. We look forward to exploring how we can support your healthcare investment objectives.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p class="company-name">Ignite Health Systems</p>
+      <p>Transforming Healthcare Through Innovation</p>
+      <p>
+        <a href="mailto:investors@ignitehealthsystems.com">investors@ignitehealthsystems.com</a> |
+        <a href="tel:+1-555-INVEST">(555) INVEST-1</a>
+      </p>
+      <p style="margin-top: 20px;">
+        <a href="https://ignitehealthsystems.com/investment-opportunities">Investment Opportunities</a> |
+        <a href="https://ignitehealthsystems.com/market-analysis">Market Analysis</a> |
+        <a href="https://ignitehealthsystems.com/portfolio">Portfolio</a>
+      </p>
+      <p style="margin-top: 15px; font-size: 12px;">
+        <a href="{{unsubscribeUrl}}">Unsubscribe</a> |
+        <a href="https://ignitehealthsystems.com/privacy">Privacy Policy</a> |
+        <a href="https://ignitehealthsystems.com/preferences">Email Preferences</a>
+      </p>
+      <p style="margin-top: 10px; font-size: 11px; color: #868e96;">
+        <strong>Investment Disclaimer:</strong> Past performance does not guarantee future results. All investments carry risk of loss. This communication is for informational purposes only and does not constitute investment advice or an offer to sell securities.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Welcome to Ignite Health Systems</title>
+  <!--[if mso]>
+  <style type="text/css">
+    table, td { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    .email-container { width: 600px !important; }
+  </style>
+  <![endif]-->
+  <style>
+    /* Reset styles */
+    body, table, td, p, a, li, blockquote { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+
+    /* Base styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333333;
+    }
+
+    /* Container */
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    /* Main content */
+    .content {
+      padding: 40px 30px;
+    }
+
+    /* Personalized section */
+    .personalized-intro {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 25px;
+      border-left: 4px solid #667eea;
+      margin: 20px 0 30px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .personalized-intro h3 {
+      margin: 0 0 15px 0;
+      color: #495057;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .personalized-intro .ai-content {
+      font-style: italic;
+      color: #495057;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Standard content sections */
+    .about-section {
+      margin: 30px 0;
+    }
+
+    .about-section h3 {
+      color: #343a40;
+      font-size: 22px;
+      margin: 0 0 15px 0;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .about-section p {
+      margin: 0 0 15px 0;
+      color: #495057;
+      line-height: 1.7;
+    }
+
+    /* CTA Section for Physicians */
+    .cta-section {
+      background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+      padding: 30px 25px;
+      border-radius: 8px;
+      margin: 30px 0;
+      border-left: 4px solid #28a745;
+    }
+
+    .cta-section h4 {
+      margin: 0 0 20px 0;
+      color: #155724;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .cta-section ul {
+      margin: 0 0 25px 0;
+      padding-left: 20px;
+      color: #155724;
+    }
+
+    .cta-section li {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    /* Button styles */
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white !important;
+      padding: 14px 28px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(135deg, #218838 0%, #1abc9c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    }
+
+    /* Value proposition */
+    .value-proposition {
+      background-color: #fff3cd;
+      padding: 25px;
+      border-left: 4px solid #ffc107;
+      border-radius: 0 8px 8px 0;
+      margin: 30px 0;
+    }
+
+    .value-proposition h4 {
+      margin: 0 0 15px 0;
+      color: #856404;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .value-proposition p {
+      margin: 0;
+      color: #856404;
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+      color: #6c757d;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .footer p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer .company-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: #343a40;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive styles */
+    @media only screen and (max-width: 600px) {
+      .email-container {
+        width: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .header, .content, .footer {
+        padding: 25px 20px !important;
+      }
+
+      .header h1 {
+        font-size: 24px !important;
+      }
+
+      .personalized-intro, .cta-section, .value-proposition {
+        padding: 20px !important;
+        margin: 20px 0 !important;
+      }
+
+      .cta-button {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding: 16px 20px !important;
+        box-sizing: border-box;
+      }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .email-container {
+        background-color: #2d3748 !important;
+        color: #e2e8f0 !important;
+      }
+
+      .content {
+        background-color: #2d3748 !important;
+      }
+
+      .about-section p, .personalized-intro .ai-content {
+        color: #cbd5e0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Welcome to Ignite Health Systems</h1>
+      <p>Transforming Healthcare Through Innovation</p>
+    </div>
+
+    <div class="content">
+      <!-- Personalized AI-Generated Section -->
+      <div class="personalized-intro">
+        <h3>Personal Message for Dr. {{userName}}</h3>
+        <p class="ai-content">{{personalizedIntro}}</p>
+      </div>
+
+      <!-- About Ignite Health Systems -->
+      <div class="about-section">
+        <h3>About Ignite Health Systems</h3>
+        <p>We're pioneering the future of healthcare through cutting-edge technology, evidence-based research, and innovative solutions that enhance patient outcomes while supporting clinical excellence.</p>
+
+        <p>Our mission is to accelerate healthcare innovation by connecting visionary healthcare professionals with breakthrough medical technologies, creating an ecosystem where clinical excellence meets technological advancement.</p>
+      </div>
+
+      <!-- Value Proposition for Physicians -->
+      <div class="value-proposition">
+        <h4>Why Healthcare Professionals Choose Ignite</h4>
+        <p>We understand the unique challenges you face in delivering exceptional patient care while staying current with rapidly evolving medical technologies. Our platform bridges the gap between innovation and practical clinical application.</p>
+      </div>
+
+      <!-- CTA Section for Physicians -->
+      <div class="cta-section">
+        <h4>Next Steps for Healthcare Professionals:</h4>
+        <ul>
+          <li><strong>Clinical Research Database:</strong> Access peer-reviewed studies and implementation guides</li>
+          <li><strong>Physician Advisory Network:</strong> Connect with colleagues pioneering medical innovation</li>
+          <li><strong>Implementation Case Studies:</strong> Real-world examples of successful technology adoption</li>
+          <li><strong>Continuing Education:</strong> Stay updated with the latest medical technology advances</li>
+          <li><strong>Innovation Partnerships:</strong> Collaborate with technology developers and researchers</li>
+        </ul>
+        <a href="https://ignitehealthsystems.com/physician-portal" class="cta-button">Access Physician Portal</a>
+      </div>
+
+      <!-- About Our Clinical Focus -->
+      <div class="about-section">
+        <h3>Our Clinical Focus Areas</h3>
+        <p><strong>Digital Health Integration:</strong> EMR optimization, clinical decision support systems, and workflow enhancement tools that improve efficiency without compromising patient care.</p>
+
+        <p><strong>Evidence-Based Innovation:</strong> We prioritize technologies backed by rigorous clinical trials and peer-reviewed research, ensuring you have access to validated solutions.</p>
+
+        <p><strong>Patient Outcome Optimization:</strong> Tools and technologies specifically designed to improve patient outcomes, reduce readmissions, and enhance care quality metrics.</p>
+      </div>
+
+      <!-- Newsletter Signup Confirmation -->
+      <div style="background-color: #e7f3ff; padding: 20px; border-left: 4px solid #0066cc; border-radius: 0 8px 8px 0; margin: 30px 0;">
+        <p style="margin: 0; color: #003d82;"><strong>You're now subscribed to our monthly Healthcare Innovation Insights newsletter.</strong> You'll receive curated content including clinical research updates, technology implementation guides, and industry analysis specifically relevant to healthcare professionals.</p>
+      </div>
+
+      <!-- Closing -->
+      <p>We're excited to have you join our community of healthcare innovators. Together, we're building solutions that enhance patient care and advance medical practice.</p>
+
+      <p>If you have any questions or would like to schedule a consultation about specific innovation opportunities, please don't hesitate to reach out.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p class="company-name">Ignite Health Systems</p>
+      <p>Transforming Healthcare Through Innovation</p>
+      <p>
+        <a href="mailto:physicians@ignitehealthsystems.com">physicians@ignitehealthsystems.com</a> |
+        <a href="tel:+1-555-IGNITE">(555) IGNITE-1</a>
+      </p>
+      <p style="margin-top: 20px;">
+        <a href="https://ignitehealthsystems.com/physician-resources">Physician Resources</a> |
+        <a href="https://ignitehealthsystems.com/clinical-research">Clinical Research</a> |
+        <a href="https://ignitehealthsystems.com/events">Medical Conferences</a>
+      </p>
+      <p style="margin-top: 15px; font-size: 12px;">
+        <a href="{{unsubscribeUrl}}">Unsubscribe</a> |
+        <a href="https://ignitehealthsystems.com/privacy">Privacy Policy</a> |
+        <a href="https://ignitehealthsystems.com/preferences">Email Preferences</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
